@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+    <title>admin</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- 모바일 -->
+    <script src="../../js/admin/jquery-1.10.2.js"></script><!-- jquery-1.10.2 -->
+    <link rel="stylesheet" href="../../css/admin/admin.css"> <!-- admin.css -->
+    <script src="../../js/admin/admin.js"></script> <!-- admin.js -->
+    
+    <script>
+   $(document).ready(function(){
+    	$(".aside_menu_2").click(function(){     		
+            $(this).parent().find("ul").stop().slideToggle(200);
+            $(this).parent().find("span").stop().toggleClass('plus');
+     	 });// End of side_menu
+    	
+         $(".click_sub").click(function(){
+              $(this).find("ul").stop().slideToggle(200);
+        });// End of sub_menu
+       
+       $(".slide_left").click(function(){
+          $(this).find("span").stop().toggleClass('this_span');
+          $(".aside").toggleClass('aside_left');
+       });// End of aside_menu
+       
+    }); 
+    </script>
+    
+    
+</head><!-- End of head -->
+
+<body>
+<header>
+   <div class="header_cap">
+        <div class="menu_back">
+            <div class="menu_top">
+                <div class="logo"><a href="../admin/admin.html"><img src="../../image/admin/w_logo.png" alt=""></a></div>
+                <div class="menu">
+                   <ul>
+                       <li><a href="#">관리자 님 (mortality384)</a> | </li>
+                       <li><a href="#">주문현황</a> | </li>
+                       <li><a href="#">조합원관리</a> | </li>
+                       <li class="click_sub"><a href="#">자주쓰는메뉴 ▼</a> | 
+                            <ul class="display_none">
+                               <li><a href="#">메뉴_1</a></li>
+                               <li><a href="#">메뉴_2</a></li>
+                               <li><a href="#">메뉴_3</a></li>
+                               <li><a href="#">메뉴_4</a></li>
+                           </ul>
+                        </li>
+                       <li class="click_sub"><a href="#">더보기 ▼</a> | 
+                           <ul class="display_none">
+                               <li><a href="#">메뉴_1</a></li>
+                               <li><a href="#">메뉴_2</a></li>
+                               <li><a href="#">메뉴_3</a></li>
+                               <li><a href="#">메뉴_4</a></li>
+                           </ul>
+                       </li>
+                       <li><a href="#">로그아웃</a> </li>
+                       <li><input type="text" placeholder="메뉴검색" class="margin_l"></li>
+                   </ul>
+                </div>
+            </div>
+        </div>
+        <div class="menu_back_1">
+            <div class="menu_top_1">
+                <a href="../admin/admin.html" class="active_a">기본설정</a>
+                <a href="../admin/admin_list.html">상품</a>
+                <a href="#">주문/배송</a>
+                <a href="#">조합원관리</a>
+                <a href="#">게시판관리</a>
+                <a href="#">통계</a>
+            </div>
+        </div>
+    </div>
+</header><!-- End of header -->   
+
+<article>
+<div class="article_cap">
+    <div class="aside_back">
+            <div class="aside">
+                <div class="aside_position">
+                    <div class="aside_menu_1"><img src="../../image/admin/di.png" alt="">기본설정</div>
+                    <div class="click_on">
+                        <ul>
+                            <li class="aside_menu_2"><h4>기본 정책 <span class="plus_11">-</span><span class="plus_22">+</span></h4></li>
+                            <ul class="click_out aside_menu_2_1" >
+                                    <li class="aside_menu_4 active_color"><a href="#"> > 기본 정보 설정</a></li>
+                                    <li class="aside_menu_4"><a href="#">약관 / 개인정보처리방침</a></li>
+                                    <li class="aside_menu_4"><a href="#">이용/탈퇴안내</a></li>
+                                    <li class="aside_menu_4"><a href="#">금액 / 단위 기준 설정</a></li>
+                                    <li class="aside_menu_4"><a href="#">파일 저장소 관리</a></li>
+                                    <li class="aside_menu_4"><a href="#">코드 관리</a></li>
+                                    <li class="aside_menu_4"><a href="#">외부스크립트 관리</a></li>
+                            </ul>
+                        </ul>                
+                   </div><!-- End of click_on -->
+                    <div class="click_on">
+                        <ul>
+                            <li class="aside_menu_2"><h4>기본 정책 <span class="plus_11">-</span><span class="plus_22">+</span></h4></li>
+                            <ul class="click_out aside_menu_2_1">
+                                    <li class="aside_menu_4 active_color"><a href="#"> > 기본 정보 설정</a></li>
+                                    <li class="aside_menu_4"><a href="#">약관 / 개인정보처리방침</a></li>
+                                    <li class="aside_menu_4"><a href="#">이용/탈퇴안내</a></li>
+                                    <li class="aside_menu_4"><a href="#">금액 / 단위 기준 설정</a></li>
+                                    <li class="aside_menu_4"><a href="#">파일 저장소 관리</a></li>
+                                    <li class="aside_menu_4"><a href="#">코드 관리</a></li>
+                                    <li class="aside_menu_4"><a href="#">외부스크립트 관리</a></li>
+                            </ul>
+                        </ul>             
+                   </div><!-- End of click_on -->
+                   <div class="click_on">
+                        <ul>
+                            <li class="aside_menu_2"><h4>기본 정책 <span class="plus_11">-</span><span class="plus_22">+</span></h4></li>
+                            <ul class="click_out aside_menu_2_1">
+                                    <li class="aside_menu_4 active_color"><a href="#"> > 기본 정보 설정</a></li>
+                                    <li class="aside_menu_4"><a href="#">약관 / 개인정보처리방침</a></li>
+                                    <li class="aside_menu_4"><a href="#">이용/탈퇴안내</a></li>
+                                    <li class="aside_menu_4"><a href="#">금액 / 단위 기준 설정</a></li>
+                                    <li class="aside_menu_4"><a href="#">파일 저장소 관리</a></li>
+                                    <li class="aside_menu_4"><a href="#">코드 관리</a></li>
+                                    <li class="aside_menu_4"><a href="#">외부스크립트 관리</a></li>
+                            </ul>
+                        </ul>               
+                   </div><!-- End of click_on -->
+                   <div class="click_on">
+                        <ul>
+                            <li class="aside_menu_2"><h4>기본 정책 <span class="plus_11">-</span><span class="plus_22">+</span></h4></li>
+                            <ul class="click_out aside_menu_2_1">
+                                    <li class="aside_menu_4 active_color"><a href="#"> > 기본 정보 설정</a></li>
+                                    <li class="aside_menu_4"><a href="#">약관 / 개인정보처리방침</a></li>
+                                    <li class="aside_menu_4"><a href="#">이용/탈퇴안내</a></li>
+                                    <li class="aside_menu_4"><a href="#">금액 / 단위 기준 설정</a></li>
+                                    <li class="aside_menu_4"><a href="#">파일 저장소 관리</a></li>
+                                    <li class="aside_menu_4"><a href="#">코드 관리</a></li>
+                                    <li class="aside_menu_4"><a href="#">외부스크립트 관리</a></li>
+                            </ul>
+                        </ul>              
+                   </div><!-- End of click_on -->
+                </div><!-- End aside_position -->
+                
+                <div class="content">
+                    <div class="aside_menu_back">
+                    기본설정 > 기본정책 > <b>기본 정보 설정</b>
+                    </div>
+                    <div class="slide_left"><span class="this_span_11">＜</span><span class="this_span_22">＞</span></div>
+                    <div class="content_1">
+                        <div class="content_1_top">
+                            <h3>기본 정보 설정 <small>| 쇼핑몰의 기본적인 정보를 변경하실 수 있습니다.</small></h3>
+                        </div>
+                        
+<!--
+                        <div class="pointer_cap">
+                        <div class="pointer pointer_active">탭메뉴1</div><div class="pointer">탭메뉴1</div><div class="pointer">탭메뉴1</div>
+                        </div>
+-->
+                        
+                        <div class="content_1_1">
+                            <div class="tab tab_1 tab_1_active">
+                                    <div class="tab_line tab_1_1">
+                                    
+                                    <div class="resize_box">
+                                           <h3>사업장</h3>
+                                            <ul class="re_first">
+                                                <li class="title_back" style="width:10%;">사업장주소</li>
+                                                <li class="sub_back">사업장</li>
+                                                
+                                                <li class="title_back">사업장주소</li>
+                                                <li class="sub_back"><input type="text"></li>
+                                                
+                                                <li class="title_back">사업장주소</li>
+                                                <li class="sub_back"><input type="text"></li>
+                                                
+                                                <li class="title_back">사업장주소</li>
+                                                <li class="sub_back"><input type="text"></li>
+                                            </ul>
+                                            
+                                            <ul>
+                                                <li class="title_back">사업장주소</li>
+                                                <li class="sub_back"><input type="radio"></li>
+                                                
+                                                <li class="title_back">사업장주소</li>
+                                                <li class="sub_back"><input type="checkbox"></li>
+                                                
+                                                <li class="title_back">사업장주소</li>
+                                                <li class="sub_back"><select name="" id=""><option value="">=안녕하세요=</option></select></li>
+                                                
+                                                <li class="title_back">사업장주소</li>
+                                                <li class="sub_back"><input type="text"></li>
+                                                
+                                                <li class="title_back">사업장주소</li>
+                                                <li class="sub_back"><input type="text"></li>
+                                            </ul>
+                                        </div><!-- resize_box -->
+                                        <div class="suchen"><a href="#" class="suchen_a">검색</a></div>
+                                        
+                                        <div class="resize_box">
+                                           <h3>사업장</h3>
+                                            <ul class="re_first">
+                                                <li class="title_back title_back_p title_back_b" style="width:10%;">사업장주소</li>
+                                                <li class="sub_back_p sub_back_b">
+                                                    <input type="text">
+                                                    <p class="first_text">* 입력시 관리자 화면에 도메인 정보가 노출됩니다.</p>
+                                                </li>
+                                                
+                                                <li class="title_back title_back_p title_back_b" style="width:20%;">사업장주소</li>
+                                                <li class="sub_back_p sub_back_b">
+                                                    <input type="text">
+                                                    <p class="first_text">* 입력시 관리자 화면에 도메인 정보가 노출됩니다.</p>
+                                                </li>
+                                               
+                                            </ul>
+                                            
+                                            <ul>
+                                                <li class="title_back title_back_p title_back_b" style="width:10%;">사업장주소</li>
+                                                <li class="sub_back_p sub_back_b">
+                                                    <input type="text">
+                                                    <p class="first_text">* 입력시 관리자 화면에 도메인 정보가 노출됩니다.</p>
+                                                </li>
+                                                
+                                                <li class="title_back title_back_p title_back_b" style="width:20%;">사업장주소</li>
+                                                <li class="sub_back_p sub_back_b">
+                                                    <input type="text">
+                                                    <p class="first_text">* 입력시 관리자 화면에 도메인 정보가 노출됩니다.</p>
+                                                </li>
+                                               
+                                            </ul>
+                                        </div><!-- resize_box -->
+                                        <div class="save_button"><a href="#">저장</a></div>
+                                        
+                                        <div class="resize_box">
+                                           <h3>사업장</h3>
+                                            <ul class="re_first">
+                                                <li class="title_back title_back_p" style="width:10%;">사업장주소</li>
+                                                <li class="sub_back_p">
+                                                    <input type="text">
+                                                    <p class="first_text">* 입력시 관리자 화면에 도메인 정보가 노출됩니다.</p>
+                                                    <p class="text_in">실제 접속 도메인의 추가 및 변경은 해당 도메인 사이트에서 가능합니다.</p>
+                                                </li>
+                                                
+                                                <li class="title_back title_back_p" style="width:20%;">사업장주소</li>
+                                                <li class="sub_back_p">
+                                                    <input type="text">
+                                                    <p class="first_text">* 입력시 관리자 화면에 도메인 정보가 노출됩니다.</p>
+                                                    <p class="text_in">실제 접속 도메인의 추가 및 변경은 해당 도메인 사이트에서 가능합니다.</p>
+                                                </li>
+                                               
+                                            </ul>
+                                            
+                                            <ul>
+                                                <li class="title_back title_back_p" style="width:10%;">사업장주소</li>
+                                                <li class="sub_back_p">
+                                                    <input type="text">
+                                                    <p class="first_text">* 입력시 관리자 화면에 도메인 정보가 노출됩니다.</p>
+                                                    <p class="text_in">실제 접속 도메인의 추가 및 변경은 해당 도메인 사이트에서 가능합니다.</p>
+                                                </li>
+                                                
+                                                <li class="title_back title_back_p" style="width:20%;">사업장주소</li>
+                                                <li class="sub_back_p">
+                                                    <input type="text">
+                                                    <p class="first_text">* 입력시 관리자 화면에 도메인 정보가 노출됩니다.</p>
+                                                    <p class="text_in">실제 접속 도메인의 추가 및 변경은 해당 도메인 사이트에서 가능합니다.</p>
+                                                </li>
+                                               
+                                            </ul>
+                                        </div><!-- resize_box -->
+                                        <div class="save_button"><a href="#">저장</a></div>
+                                        
+                                        
+                                    
+                                    <div class="line_class"></div>
+                                        
+                                        <div class="suchen_result_cap">
+                                        <div class="suchen_result">검색 <b>2</b>명 / 전체 <b>2</b>명</div>
+                                            <div>
+                                                <div class="flex first_flex">
+                                                    <ul>
+                                                        <li style="width:2%;"><input type="checkbox"></li>
+                                                        <li style="width:8%;">번호</li>
+                                                        <li style="width:6%;">이름</li>
+                                                        <li style="width:14%;">아이디/닉네임</li>
+                                                        <li>포인트</li>
+                                                        <li>예치금</li>
+                                                        <li>기타등등</li>
+                                                        <li>기타등등</li>
+                                                        <li>최종로그인</li>
+                                                        <li>회원가입일</li>
+                                                        <li>가입승인</li>
+                                                        <li>메일/SMS</li>
+                                                        <li>수정</li>
+                                                    </ul>
+                                                </div>
+                                                <div class="flex flex_2 flex_img">
+                                                    <ul>
+                                                        <li style="width:2%;"><input type="checkbox"></li>
+                                                        <li style="width:8%;">010-5682-4444</li>
+                                                        <li style="width:6%;">이민호</li>
+                                                        <li style="width:14%;">mortality384/꽃이피었습니다</li>
+                                                        <li>2만 포인트</li>
+                                                        <li>30,000</li>
+                                                        <li>0</li>
+                                                        <li>0</li>
+                                                        <li>13:00</li>
+                                                        <li>2017-06-13</li>
+                                                        <li>허용</li>
+                                                        <li><a href="#">메일</a> <a href="#">SMS</a></li>
+                                                        <li><a href="#">수정</a></li>
+                                                    </ul>
+                                                </div>
+                                                <div class="flex flex_2 flex_img">
+                                                    <ul>
+                                                        <li style="width:2%;"><input type="checkbox"></li>
+                                                        <li style="width:8%;">010-5682-4444</li>
+                                                        <li style="width:6%;">이민호</li>
+                                                        <li style="width:14%;">mortality384/꽃이피었습니다</li>
+                                                        <li>2만 포인트</li>
+                                                        <li>30,000</li>
+                                                        <li>0</li>
+                                                        <li>0</li>
+                                                        <li>13:00</li>
+                                                        <li>2017-06-13</li>
+                                                        <li>허용</li>
+                                                        <li><a href="#">메일</a> <a href="#">SMS</a></li>
+                                                        <li><a href="#">수정</a></li>
+                                                    </ul>
+                                                </div>
+                                                <div class="flex flex_2 flex_img">
+                                                    <ul>
+                                                        <li style="width:2%;"><input type="checkbox"></li>
+                                                        <li style="width:8%;">010-5682-4444</li>
+                                                        <li style="width:6%;">이민호</li>
+                                                        <li style="width:14%;">mortality384/꽃이피었습니다</li>
+                                                        <li>2만 포인트</li>
+                                                        <li>30,000</li>
+                                                        <li><img src="#" alt=""></li>
+                                                        <li>0</li>
+                                                        <li>13:00</li>
+                                                        <li>2017-06-13</li>
+                                                        <li>허용</li>
+                                                        <li><a href="#">메일</a> <a href="#">SMS</a></li>
+                                                        <li><a href="#">수정</a></li>
+                                                    </ul>
+                                                </div>
+                                                <div class="flex flex_2 flex_img">
+                                                    <ul>
+                                                        <li style="width:2%;"><input type="checkbox"></li>
+                                                        <li style="width:8%;">010-5682-4444</li>
+                                                        <li style="width:6%;">이민호</li>
+                                                        <li style="width:14%;">mortality384/꽃이피었습니다</li>
+                                                        <li>2만 포인트</li>
+                                                        <li>30,000</li>
+                                                        <li>0</li>
+                                                        <li>0</li>
+                                                        <li>13:00</li>
+                                                        <li>2017-06-13</li>
+                                                        <li>허용</li>
+                                                        <li><a href="#">메일</a> <a href="#">SMS</a></li>
+                                                        <li><a href="#">수정</a></li>
+                                                    </ul>
+                                                </div>
+                                                <div class="flex flex_2 flex_img">
+                                                    <ul>
+                                                        <li style="width:2%;"><input type="checkbox"></li>
+                                                        <li style="width:8%;">010-5682-4444</li>
+                                                        <li style="width:6%;">이민호</li>
+                                                        <li style="width:14%;">mortality384/꽃이피었습니다</li>
+                                                        <li>2만 포인트</li>
+                                                        <li>30,000</li>
+                                                        <li>0</li>
+                                                        <li>0</li>
+                                                        <li>13:00</li>
+                                                        <li>2017-06-13</li>
+                                                        <li>허용</li>
+                                                        <li><a href="#">메일</a> <a href="#">SMS</a></li>
+                                                        <li><a href="#">수정</a></li>
+                                                    </ul>
+                                                </div>
+                                                <div class="flex last_flex">
+                                                       <a href="#">선택 가입승인</a>
+                                                       <a href="#">선택 가입탈퇴</a>
+                                                       <a href="#">엑셀 다운로드</a>
+                                                </div>
+
+                                                <div class="next">
+                                                    <ul>
+                                                        <li><a href="#">≪</a></li>
+                                                        <li><a href="#">＜</a></li>
+                                                        <li><a href="#" class="a_active">1</a></li>
+                                                        <li><a href="#">2</a></li>
+                                                        <li><a href="#">3</a></li>
+                                                        <li><a href="#">4</a></li>
+                                                        <li><a href="#">5</a></li>
+                                                        <li><a href="#">＞</a></li>
+                                                        <li><a href="#">≫</a></li>
+                                                    </ul>
+                                                </div>
+
+                                            </div>
+                                        </div><!-- suchen_result_cap -->
+                                        <div class="save_button"><a href="#">저장</a></div>
+                                        
+                                        
+                                    
+<!--
+                                       <div class="content_cap_1">
+                                            <h3>당당 기본설정</h3>
+                                            <div class="input_cap input_first">
+                                                <div class="input_line input_line_L">
+                                                    <ul class="line_back">
+                                                        <li class="L_input">쇼핑몰명</li>
+                                                    </ul>
+                                                    <ul>
+                                                        <li class="R_input"><input type="text"></li>
+                                                    </ul>
+                                                </div>
+                                                <div class="input_line input_line_R">
+                                                    <ul class="line_back">
+                                                        <li class="L_input">쇼핑몰영문명</li>
+                                                    </ul>
+                                                    <ul>
+                                                        <li class="R_input"><input type="text"></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+
+                                            <div class="input_cap input_cap_top">
+                                                <div class="input_line input_line_L">
+                                                    <ul class="line_back line_padding">
+                                                        <li class="L_input">상단타이틀</li>
+                                                    </ul>
+                                                    <ul class="line_padding">
+                                                        <li class="R_input"><input type="text"></li>
+                                                    </ul>
+                                                </div>
+                                                <div class="input_line input_line_R">
+                                                    <ul class="line_back line_padding" style="width:30%">
+                                                        <li class="L_input line_R">파비콘</li>
+                                                    </ul>
+                                                     <ul>
+                                                        <li class="R_input"><a href="#">찾기보기</a> <input type="text"> <input type="checkbox"><small><sup> 삭제</sup></small></li>
+                                                        <li class="R_input R_input_clear font-weight">* 이미지사이즈 16x16 pixel, 파일혁식 ico로 등록해야 합니다.</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <div class="input_cap input_cap_top">
+                                                <div class="input_line input_line_L inpu_line_M">
+                                                    <ul class="line_back line_padding">
+                                                        <li class="L_input"><b>*</b> 도메인</li>
+                                                    </ul>
+                                                    <ul>
+                                                        <li class="R_input R_input_padding">http:// <input type="text" class="width_input"></li>
+                                                        <li class="R_input R_input_clear font-weight p_margin_top">
+                                                         <p>* 입력시 관리자 화면에 도메인 정보가 노출됩니다.</p>
+                                                         <p class="text-in">실제 접속 도메인의 추가 및 변경은 해당 도메인 사이트에서 가능합니다.</p>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div> End of content_cap_1 
+                                        <div class="save_button"><a href="#" class="save_button_1">저장</a> <a href="#">저장</a></div>
+-->
+
+                                        
+<!--
+                                         <div class="content_cap_1">
+                                            <h3>회사정보</h3>
+                                            <div class="input_cap input_first">
+                                                <div class="input_line input_line_L">
+                                                    <ul class="line_back line_padding">
+                                                        <li class="L_input ">상호(회사명)</li>
+                                                    </ul>
+                                                    <ul class="line_padding">
+                                                        <li class="R_input"><input type="text"></li>
+                                                    </ul>
+                                                </div>
+                                                <div class="input_line input_line_R">
+                                                    <ul class="line_back line_padding">
+                                                        <li class="L_input">사업자등록번호</li>
+                                                    </ul>
+                                                    <ul>
+                                                        <li class="R_input"><input type="text" class="in_1"> - <input type="text" class="in_1"> - <input type="text" class="in_1"></li>
+                                                        <li class="R_input R_input_clear font-weight p_margin_top p_leter">
+                                                         <p>* 인터넷 쇼핑몰 운영자는 전자상거래법에 의해 사업자정보 공개페이지를 쇼핑몰 홈페이지 초기 화면에 연결해야 합니다.</p>
+                                                         <p>* 사업자번호를 입력하면 쇼핑몰 하단 푸터에 자동으로 사업자정보 공개페이지가 연결됩니다. 통신판매사업자 정보 공개페이지</p>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <div class="input_cap input_cap_top">
+                                                <div class="input_line input_line_L inpu_line_M">
+                                                    <ul class="line_back">
+                                                        <li class="L_input">대표자명</li>
+                                                    </ul>
+                                                    <ul>
+                                                        <li class="R_input"><input type="text"></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                           <div class="input_cap input_cap_top">
+                                                <div class="input_line input_line_L">
+                                                    <ul class="line_back">
+                                                        <li class="L_input">업태</li>
+                                                    </ul>
+                                                    <ul>
+                                                        <li class="R_input"><input type="text"></li>
+                                                    </ul>
+                                                </div>
+                                                <div class="input_line input_line_R">
+                                                    <ul class="line_back">
+                                                        <li class="L_input">종목</li>
+                                                    </ul>
+                                                    <ul>
+                                                        <li class="R_input"><input type="text"></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <div class="input_cap input_cap_top">
+                                                <div class="input_line input_line_L inpu_line_M">
+                                                    <ul class="line_back line_padding">
+                                                        <li class="L_input"><b>*</b> 대표이메일</li>
+                                                    </ul>
+                                                    <ul>
+                                                        <li class="R_input R_input_padding"><input type="text" class="width_input"> @ <input type="text">
+                                                            <select name="" id="">
+                                                                <option value="">직접입력</option>
+                                                            </select>    
+                                                        </li>
+                                                        <li class="R_input R_input_clear font-weight p_margin_top">
+                                                         <p>* 입력시 관리자 화면에 도메인 정보가 노출됩니다.</p>
+                                                         <p class="text-in">실제 접속 도메인의 추가 및 변경은 해당 도메인 사이트에서 가능합니다.</p>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <div class="input_cap input_cap_top">
+                                                <div class="input_line input_line_L inpu_line_M">
+                                                    <ul class="line_back line_padding">
+                                                        <li class="L_input">사업장 주소</li>
+                                                    </ul>
+                                                    <ul>
+                                                        <li class="R_input R_input_padding"><input type="text"> <a href="#">우편번호찾기</a></li>
+                                                        <li class="R_input R_input_clear font-weight p_margin_top">
+                                                        <input type="text" class="width_input"> <input type="text" class="width_input">
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <div class="input_cap input_cap_top">
+                                                <div class="input_line input_line_L inpu_line_M">
+                                                    <ul class="line_back line_padding line_0_padding">
+                                                        <li class="L_input">출고지 주소</li>
+                                                    </ul>
+                                                    <ul class="line_0">
+                                                        <li class="line_1"><input type="radio"> 사업장 주소와 동일 <input type="radio" class="margin_left_5" checked> 주소등록</li>
+                                                        <li class="R_input line_2"><input type="text"> <a href="#">우편번호찾기</a></li>
+                                                        <li class="line_3"><input type="text" class="width_input"> <input type="text" class="width_input"></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <div class="input_cap input_cap_top">
+                                                <div class="input_line input_line_L inpu_line_M">
+                                                    <ul class="line_back">
+                                                        <li class="L_input">반품/교환지 주소</li>
+                                                    </ul>
+                                                    <ul class="line_0">
+                                                        <li class="line_1 line_1_1"><input type="radio" checked> 사업장 주소와 동일 <input type="radio" class="margin_left_5"> 출고지 주소와 동일 <input type="radio" class="margin_left_5"> 주소등록</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <div class="input_cap input_cap_top">
+                                                <div class="input_line input_line_L">
+                                                    <ul class="line_back">
+                                                        <li class="L_input">대표전화</li>
+                                                    </ul>
+                                                    <ul>
+                                                        <li class="R_input"><input type="text"></li>
+                                                    </ul>
+                                                </div>
+                                                <div class="input_line input_line_R">
+                                                    <ul class="line_back">
+                                                        <li class="L_input">팩스번호</li>
+                                                    </ul>
+                                                    <ul>
+                                                        <li class="R_input"><input type="text"></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <div class="input_cap input_cap_top">
+                                                <div class="input_line input_line_L inpu_line_M">
+                                                    <ul class="line_back line_padding_1">
+                                                        <li class="L_input">통신판매신고번호</li>
+                                                    </ul>
+                                                    <ul class="line_0">
+                                                        <li class="line_1 line_1_1"><input type="text"></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                              
+                                        </div> End of content_cap_1 
+                                        <div class="save_button"><a href="#" class="save_button_1">저장</a> <a href="#">저장</a></div>
+-->
+                                        
+<!--
+                                        <div class="content_cap_1">
+                                           <h3>내용수정</h3>
+                                            <div class="input_cap input_cap_top input_first">
+                                                <div class="input_line input_line_L inpu_line_M">
+                                                    <ul class="line_back">
+                                                        <li class="L_input">내용수정</li>
+                                                    </ul>
+                                                    <ul>
+                                                        <li class="R_input R_board">
+                                                            게시판
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                       </div> End of content_cap_1 
+                                       <div class="save_button"><a href="#">저장</a> <a href="#">저장</a></div>
+-->
+                                        
+<!--
+                                       <div class="content_cap_1">
+                                            <div class="content_1_top content_1_border">
+                                                <h3>회원리스트 <small>| 회원정보 검색 및 추가</small></h3>
+                                            </div>
+                                            <div class="input_cap input_cap_top input_first">
+                                                <div class="input_line input_line_L inpu_line_M">
+                                                   <ul class="line_back">
+                                                        <li class="L_input">회원선택</li>
+                                                    </ul>
+                                                    <ul class="line_0">
+                                                        <li class="line_1 line_1_1"><input type="radio" checked> 사업장 주소와 동일 <input type="radio" class="margin_left_5"> 출고지 주소와 동일 <input type="radio" class="margin_left_5"> 주소등록</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <div class="input_cap input_cap_top">
+                                                <div class="input_line input_line_L inpu_line_M">
+                                                       <ul class="line_back">
+                                                            <li class="L_input line_back_padding">검색어</li>
+                                                        </ul>
+                                                        <ul class="line_0">
+                                                            <li class="line_1 line_1_1 line_1_1_1"><select name="" id=""><option value="">=통합검색=</option></select> <input type="text"></li>
+                                                        </ul>
+                                                </div>
+                                            </div>
+                                            <div class="input_cap input_cap_top">
+                                                <div class="input_line input_line_L">
+                                                    <ul class="line_back">
+                                                        <li class="L_input">회원등급</li>
+                                                    </ul>
+                                                    <ul>
+                                                        <li class="R_input"><input type="text"></li>
+                                                    </ul>
+                                                </div>
+                                                <div class="input_line input_line_R">
+                                                    <ul class="line_back">
+                                                        <li class="L_input">회원구분</li>
+                                                    </ul>
+                                                    <ul class="line_0">
+                                                        <li class="line_1 line_1_1"><input type="radio" checked> 전체 <input type="radio" class="margin_left_5"> 개인회원 <input type="radio" class="margin_left_5"> 쇼핑몰전용회원</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                             <div class="input_cap input_cap_top">
+                                                <div class="input_line input_line_L">
+                                                    <ul class="line_back">
+                                                        <li class="L_input">가입승인</li>
+                                                    </ul>
+                                                    <ul>
+                                                        <li class="R_input"><input type="text"></li>
+                                                    </ul>
+                                                </div>
+                                                <div class="input_line input_line_R">
+                                                    <ul class="line_back">
+                                                        <li class="L_input">회원가입일</li>
+                                                    </ul>
+                                                    <ul>
+                                                        <li class="R_input"><input type="text"> ~ <input type="text"></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                       </div>  End of content_cap_1 
+                                        <div class="suchen"><a href="#" class="suchen_a">검색</a></div>
+-->
+                                        
+                                  </div><!-- End of tab_1_1 -->
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- End of content -->
+            </div>
+    </div>
+</div>
+</article><!-- End of article -->
+
+<footer>
+   <div class="footer">© DangDang :  Corp All Rights Reserved.</div>
+</footer><!-- End of footer -->
+</body><!-- End of body -->
+
+</html>

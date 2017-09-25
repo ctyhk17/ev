@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="utf-8">
+    <title>MC_Mall</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- 모바일 -->
+    <link rel="stylesheet" href="../../css/main/main.css"><!-- main.css -->
+    <link rel="stylesheet" href="../../css/main/slider/swiper.css"><!-- new_Swiper.css -->
+    
+    <script src="../../js/main/slider/swiper.js"></script><!-- new_Swiper JS -->
+    <script src="../../js/main/jquery-1.10.2.js"></script><!-- jquery-1.10.2 -->    
+    <script>
+        $(document).ready(function(){
+             $(".M_top_menu").click(function(){
+                  $('.M_top_menu_1,.M_top_menu_1_back').slideToggle(100).toggleClass('dis');
+             });// End of sub_menu
+            $(".M_top_menu_1_back").click(function(){
+                $('.M_top_menu_1,.M_top_menu_1_back').slideToggle(100).toggleClass('dis');
+             });// End of M_top_menu_1_back //메뉴 제외 클릭시
+            $(".close").click(function(){
+                $('.M_top_menu_1,.M_top_menu_1_back').slideToggle(100).toggleClass('dis');
+             });// End of M_top_menu_1_back //메뉴 제외 클릭시
+            
+            $(".M_top_menu_1 ul li").click(function(){     		
+                $(this).parent().find("ul").stop().slideToggle(200);
+             });// End of M_top_menu_1
+            
+            $(".active_on").click(function(){     		
+               $('.kategorie_tab').slideToggle(0).toggleClass('dis_1');
+             });// End of M_top_menu_1
+        }); 
+    </script>
+</head>
+<body>
+   <header>
+        <div class="heard_border">
+             <div class="heard_cap">
+                  <div class="top_left">
+                      <a href="#;">FAVORITE</a>
+                  </div> 
+                  <div class="top_menu">
+                      <a href="#;">HOME</a>
+                      <a href="#;">LOGIN</a>
+                      <a href="#;">JOIN</a>
+                      <a href="#;">MYPAGE</a>
+                      <a href="#;">CART</a>
+                      <a href="#;">CONTACT US</a>
+                  </div>
+            </div>
+        </div><!-- End of pc top_menu -->
+         
+        <div class="logo_box">
+           <div class="M_top_menu" id="btn">
+               <div class="M_t"></div>
+               <div class="M_m"></div>
+               <div class="M_b"></div>
+           </div>
+              
+               <div class="M_top_menu_1">
+                  <div class="M_top_menu_1_back"></div>
+                  <div class="close">X</div>
+                   <ul>
+                       <li><a href="#;">HOME</a></li>
+                   </ul>
+                   <ul><li><a href="#;">LOGIN</a></li></ul>
+                   <ul><li><a href="#;">JOIN</a></li></ul>
+                   <ul>
+                       <li><a href="#;">MYPAGE <small>▼</small></a></li>
+                       <ul>
+                           <li><a href="#;">menu1</a></li>
+                           <li><a href="#;">menu2</a></li>
+                       </ul>
+                   </ul>
+                   <ul><li><a href="#;">CART</a></li></ul>
+                   <ul><li><a href="#;">CONTACT US</a></li></ul>
+               </div>
+            <div class="logo"><a href="../main/main.html"><img src="../../image/main/logo.png" alt="" title="home"></a></div>
+            <div class="Search">
+                <select name="" id="">
+                    <option value="">전체</option>
+                </select>
+                <input type="text">
+                <a href="#;">검색</a>
+            </div>
+        </div>
+   </header><!-- End of header -->
+       <div class="Kategorie_cap">
+                <div class="swiper-container-tab">
+                    <ul class="swiper-wrapper tabs">
+                        <li class="swiper-slide active active_on"><a href="#;"><img src="../../image/main/menu.png" alt="" class="menu_ve"> 전체상품</a></li>
+                        <li class="swiper-slide"><a href="#;">쇼핑기획전</a></li>
+                        <li class="swiper-slide"><a href="#;">금주의상품</a></li>
+                        <li class="swiper-slide"><a href="#;">자기계발</a></li>
+                        <li class="swiper-slide"><a href="#;">여행문화</a></li>
+                        <li class="swiper-slide"><a href="#;">가족친화</a></li>
+                        <li class="swiper-slide"><a href="#;">커뮤니티</a></li>
+                    </ul>
+                </div>
+        </div><!-- End of Kategorie_cap -->
+        <div class="PC_Kategorie_cap">
+            <div class="PC_swiper-container-tab">
+                <ul class="PC_swiper-wrapper PC_tabs">
+                    <li class="PC_swiper-slide active"><a href="#;"><img src="../../image/main/menu.png" alt="" class="menu_ve"> 전체카테고리</a></li>
+                    <li class="PC_swiper-slide"><a href="#;">쇼핑기획전</a></li>
+                    <li class="PC_swiper-slide"><a href="#;">금주의상품</a></li>
+                    <li class="PC_swiper-slide"><a href="#;">자기계발</a></li>
+                    <li class="PC_swiper-slide"><a href="#;">여행문화</a></li>
+                    <li class="PC_swiper-slide"><a href="#;">가족친화</a></li>
+                    <li class="PC_swiper-slide"><a href="#;">커뮤니티</a></li>
+                </ul>
+            </div>
+        </div> <!-- End of PC_Kategorie_cap -->
+        <script src="../../js/main/slider/swiper_tab_customizing.js"></script> <!-- Swiper_tab_customizing.Js -->
+
+        
+        <div class="swiper-cap custom_sw">    
+          <div class="kategorie_tab">
+              <ul>
+                  <li><a href="#;">뷰티/쥬얼리/시계</a></li>
+                  <li><a href="#;">잡화/슈즈/명품</a></li>
+                  <li><a href="#;">주방/생활/건강/애완</a></li>
+                  <li><a href="#;">가구/침구/인테리어</a></li>
+                  <li><a href="#;">식품/마트</a></li>
+                  <li><a href="#;">유아/출산/완구</a></li>
+                  <li><a href="#;">의류/아웃도어/속옷</a></li>
+                  <li><a href="#;">스포츠/레저/캠핑</a></li>
+                  <li><a href="#;">가전/컴퓨터/휴대폰</a></li>
+                  <li><a href="#;">교육/도서/악기/종교</a></li>
+                  <li><a href="#;">기업/물류/문구/꽃</a></li>
+                  <li><a href="#;">숙박/특판/명절</a></li>
+                  <li><a href="#;">생활복지관</a></li>
+              </ul>
+          </div>
+           <div class="swiper-container">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <img src="../../image/main/slider/slider_1.jpg" alt=""><!-- 960 * 382px 최적size-->
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="../../image/main/slider/slider_2.jpg" alt=""><!-- 960 * 382px 최적size-->
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="../../image/main/slider/slider_3.jpg" alt=""><!-- 960 * 382px 최적size-->
+                    </div>
+                </div>
+                <!-- Add Pagination -->
+                <div class="swiper-pagination"></div>
+                <!-- Add Pagination -->
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
+            </div>
+            <script src="../../js/main/slider/swiper_customizing.js"></script><!-- Swiper_customizing JS -->
+        </div><!-- End of swiper-cap -->
+    <div class="content_cap">
+        <div class="content_list">
+           
+            <div class="item_index">
+                <b>PRODUCT LIST</b> 
+                <span class="option">
+                    <a href="#;">베스트상품</a>|
+                    <a href="#;">최신상품</a>|
+                    <a href="#;">세일상품</a>
+                </span>
+                <select name="" id="" class="option_m">
+                    <option value="">베스트상품</option>
+                    <option value="">최신상품</option>
+                    <option value="">세일상품</option>
+                </select>
+            </div>
+            
+            <div class="item item_not_search" style="display:none">
+                <img src="../../image/main/Search.png" alt="">
+                <h2>상품을 찾을수 없습니다.</h2>
+                <p>주소가 잘못 입력되었거나, 판매종료 또는 중지되어 해당 상품을 찾을 수 없습니다.</p>
+                <p>이용에 불편을 드려 대단히 죄송합니다.</p>
+            </div><!-- End of 검색결과 실패시 -->
+            
+            <div class="item">
+                <a href="../brochure/brochure.html"><img src="../../image/main/item_1.jpg" alt="">
+                <p>
+                    바나듐 꾸지뽕<br>
+                    <span class="text_de">50,000<small>원</small></span>
+                    <span><b><big>30,000</big><small>원</small></b></span> 
+                    <span><big>47</big><small>%</small></span>
+                </p>
+                <div class="purchase"><span><b>1111111111개</b> <small>구매</small></span></div>
+                </a>
+            </div>
+            <div class="item">
+                <a href="#;"><img src="../../image/main/noimage.jpg" alt="">
+                <p>
+                    바나듐 꾸지뽕<br>
+                    <span class="text_de">50,000<small>원</small></span>
+                    <span><b><big>30,000</big><small>원</small></b></span> 
+                    <span><big>47</big><small>%</small></span>
+                </p>
+                <div class="purchase"><span><b>11개</b><small>구매</small></span></div>
+                </a>
+            </div>
+            <div class="item">
+                <a href="#;"><img src="../../image/main/noimage.jpg" alt="">
+                <p>
+                    바나듐 꾸지뽕<br>
+                    <span class="text_de">50,000<small>원</small></span>
+                    <span><b><big>30,000</big><small>원</small></b></span> 
+                    <span><big>47</big><small>%</small></span>
+                </p>
+                <div class="purchase"><span><b>11개</b><small>구매</small></span></div>
+                </a>
+            </div>
+            <div class="item">
+                <a href="#;"><img src="../../image/main/noimage.jpg" alt="">
+                <p>
+                    바나듐 꾸지뽕<br>
+                    <span class="text_de">50,000<small>원</small></span>
+                    <span><b><big>30,000</big><small>원</small></b></span> 
+                    <span><big>47</big><small>%</small></span>
+                </p>
+                <div class="purchase"><span><b>11개</b><small>구매</small></span></div>
+                </a>
+            </div>
+            <div class="item">
+                <a href="#;"><img src="../../image/main/noimage.jpg" alt="">
+                <p>
+                    바나듐 꾸지뽕<br>
+                    <span class="text_de">50,000<small>원</small></span>
+                    <span><b><big>30,000</big><small>원</small></b></span> 
+                    <span><big>47</big><small>%</small></span>
+                </p>
+                <div class="purchase"><span><b>11개</b><small>구매</small></span></div>
+                </a>
+            </div>
+            <div class="item">
+                <a href="#;"><img src="../../image/main/noimage.jpg" alt="">
+                <p>
+                    바나듐 꾸지뽕<br>
+                    <span class="text_de">50,000<small>원</small></span>
+                    <span><b><big>30,000</big><small>원</small></b></span> 
+                    <span><big>47</big><small>%</small></span>
+                </p>
+                <div class="purchase"><span><b>11개</b><small>구매</small></span></div>
+                </a>
+            </div>
+            <!-- paging -->
+            <div class="paging">
+                <div id="button">
+                    <a href="#" onclick="fncLinkPage(1); return false;">◀◀</a> 
+                    <a href="#" onclick="fncLinkPage(1); return false;">◀</a> 
+                    <span><strong class="button_active">1</strong></span> 
+                    <span><a href="#" onclick="fncLinkPage(2); return false;">2</a></span> 
+                    <span><a href="#" onclick="fncLinkPage(3); return false;">3</a></span> 
+                    <span><a href="#" onclick="fncLinkPage(4); return false;">4</a></span> 
+                    <span><a href="#" onclick="fncLinkPage(5); return false;">5</a></span> 
+                    <a href="#" onclick="fncLinkPage(11); return false;">▶</a> 
+                    <a href="#" onclick="fncLinkPage(12); return false;">▶▶</a> 
+                    <input id="pageIndex" name="pageIndex" type="hidden" value="1"/>
+                </div>
+            </div>
+            <!-- End of paging -->
+            
+        </div>
+    </div><!-- End of content_cap -->
+    
+    <div class="guide_cap">
+        <div class="guide">
+           <div class="guide_item">
+                <div class="guide_1">
+                    <dl>
+                        <dt><h3>이용가이드</h3></dt>
+                        <dd>
+                          <a href="../main/main_company.html">
+                            <img src="../../image/main/guide_item_1.png" alt="">
+                            <p><b>회사소개</b><br>조합복지몰을소개 합니다.<span>＞</span></p>
+                          </a>
+                        </dd>
+                        <dd class="middle">
+                            <a href="#;">
+                            <img src="../../image/main/guide_item_2.png" alt="">
+                            <p><b>자주하는 질문</b><br>FAQ를 확인해 보세요!!<span>＞</span></p>
+                          </a>
+                        </dd>
+                        <dd>
+                            <a href="#;">
+                            <img src="../../image/main/guide_item_3.png" alt="">
+                            <p><b>1:1 문의</b><br>궁금하신 점이 있으세요?<span>＞</span></p>
+                          </a>
+                        </dd>
+                    </dl>
+                </div>
+                <div class="guide_2">
+                    <dl>
+                        <dt><h3>고객센터</h3></dt>
+                        <dd class="img"><img src="../../image/main/guide_item_4.png" alt=""></dd>
+                        <dd><p><b>조합복지몰 대표번호</b><br><big>00-000-0000</big></p></dd>
+                        <dd class="ve"><p><img src="../../image/main/guide_item_5.png" alt=""> help@dangdangcity.co.kr</p></dd>
+                        <dd class="ve"><p><img src="../../image/main/guide_item_6.png" alt=""> fax : 000-000-0000</p></dd>
+                        <dd class="left"><p class="left_size">신한은행협동조합원</p><p>조합복지몰<br><b>00-000-0000</b></p></dd>
+                    </dl>
+                </div>
+                <div class="guide_3">
+                   <div class="guide_3_1">
+                     <dl>
+                       <dt><h3>공지사항</h3></dt>
+                        <dd>- 클립 비즈니스에서 새로운 소식을 알려..<span>2017.06.21</span></dd>
+                        <dd>- 홈페이지 리뉴얼 오픈 관련 변동사항립니다..<span>2017.06.21</span></dd>
+                        <dd>- 클립 비즈니스 홈페이지 방문을 환영합니다..<span>2017.06.21</span></dd>
+                        <dd>- 클립 비즈니스에서 새로운 소식을 알려..<span>2017.06.21</span></dd>
+                     </dl>
+                   </div>
+                   <div class="guide_3_2">
+                     <dl>
+                       <dt><h3>고객후기</h3></dt>
+                       <dd>- 클립 비즈니스에서 새로운 소식을 알려..<span>2017.06.21</span></dd>
+                        <dd>- 홈페이지 리뉴얼 오픈 관련 변동사항립니다..<span>2017.06.21</span></dd>
+                        <dd>- 클립 비즈니스 홈페이지 방문을 환영합니다..<span>2017.06.21</span></dd>
+                        <dd>- 클립 비즈니스에서 새로운 소식을 알려..<span>2017.06.21</span></dd>
+                   </dl>
+                   </div>
+                </div>
+           </div>
+        </div>
+    </div><!-- End of guide_cap -->
+    
+    <footer>
+        <div class="footer_cap">
+            <div class="left"><img src="../../image/main/f_logo.png" alt=""></div>
+            <div class="right">
+                <dl>
+                    <dd>
+                    <p>[개인정보보호정책] [이메일무단수집거부] [이용약관]</p><br>
+                    <p>대전광역시 유성구 왕가봉로 24번길 10. 5층　전화번호 : 1522-4422 </p>
+                    <p>Copyright ⓒ 2017 Macthing Chance BIZ. All rights reserved.</p>
+                    </dd>
+                </dl>
+            </div>
+        </div>
+    </footer><!-- End of footer -->
+   
+</body>
+</html>

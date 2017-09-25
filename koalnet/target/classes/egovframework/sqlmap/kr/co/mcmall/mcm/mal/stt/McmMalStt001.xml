@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+
+<sqlMap namespace="kr.co.mcmall.mcm.mal.stt.McmMalStt001">
+   
+   <!-- ddCmt001VO -->
+   <typeAlias  alias="mcmMalStt001VO" type="kr.co.mcmall.mcm.mal.stt.service.McmMalStt001VO"/>
+   <typeAlias alias="int" type="java.lang.Integer" />
+   
+   <select id="kr.co.mcmall.mcm.mal.stt.McmMalStt001.selectMcmMalStt001M01L" resultClass="egovMap" parameterClass="mcmMalStt001VO">
+SELECT a.gds_nm,
+        ifnull(format(a.ordTotAmtNo,0),0) as ordTotAmtNo,
+        ifnull(format(a.cntNo ,0),0) as cntNo,
+        ifnull(format(b.ordTotAmtOk ,0),0) as ordTotAmtOk,
+        ifnull(format(b.cntOk ,0),0) as cntOk,
+        ifnull(format(c.ordTotAmtall ,0),0) as ordTotAmtall,
+        ifnull(format(c.cntAll ,0),0) as cntAll
+FROM  (SELECT a.gds_nm,
+              b.ord_cnt             AS cntNo,
+              sum(b.ord_amt * b.ord_cnt) ordTotAmtNo
+       FROM   (SELECT c.gds_nm,
+                      a.ord_no,
+                      Ifnull(b.pay_yn, 'N') AS pay_yn
+               FROM   tb_shpord002 a
+                      LEFT OUTER JOIN tb_shppay001 b
+                                   ON a.str_id = b.str_id
+                      LEFT JOIN tb_malgds001 c
+                             ON a.gds_id = c.gds_id
+               WHERE  pay_yn IS NULL
+               )a,
+              tb_shpord002 b
+       WHERE  a.ord_no = b.ord_no
+               				<isNotEmpty property="searchGdsId">
+					      		and b.gds_id=#searchGdsId#
+					      	</isNotEmpty>		
+       GROUP  BY gds_nm)a
+      LEFT JOIN (SELECT a.gds_nm,
+                        b.ord_cnt             cntOk,
+                        sum(b.ord_amt * b.ord_cnt) ordTotAmtOk
+                 FROM   (SELECT c.gds_nm,
+                                a.ord_no,
+                                Ifnull(b.pay_yn, 'N') AS pay_yn
+                         FROM   tb_shpord002 a
+                                LEFT OUTER JOIN tb_shppay001 b
+                                             ON a.str_id = b.str_id
+                                LEFT JOIN tb_malgds001 c
+                                       ON a.gds_id = c.gds_id
+                         WHERE  pay_yn = 'Y')a,
+                        tb_shpord002 b
+                 WHERE  a.ord_no = b.ord_no
+                            <isNotEmpty property="searchGdsId">
+					      		and b.gds_id=#searchGdsId#
+					      	</isNotEmpty>		
+                 GROUP  BY gds_nm)b
+             ON a.gds_nm = b.gds_nm
+      LEFT JOIN (SELECT a.gds_nm,
+                        b.ord_cnt             cntAll,
+                        sum(b.ord_amt * b.ord_cnt) ordTotAmtAll
+                 FROM   (SELECT c.gds_nm,
+                                a.ord_no,
+                                Ifnull(b.pay_yn, 'N') AS pay_yn
+                         FROM   tb_shpord002 a
+                                LEFT OUTER JOIN tb_shppay001 b
+                                             ON a.str_id = b.str_id
+                                LEFT JOIN tb_malgds001 c
+                                       ON a.gds_id = c.gds_id
+                         WHERE  pay_yn IS NULL
+                                 OR pay_yn = 'Y')a,
+                        tb_shpord002 b
+                 WHERE  a.ord_no = b.ord_no
+                 				and str_id='ST00002'
+                            <isNotEmpty property="searchGdsId">
+					      		and b.gds_id=#searchGdsId#
+					      	</isNotEmpty>		
+                 GROUP  BY gds_nm)c
+             ON a.gds_nm = c.gds_nm
+   </select>
+  
+     <select id="kr.co.mcmall.mcm.mal.stt.McmMalStt001.selectMcmMalGds002M01List" parameterClass="mcmMalStt001VO" resultClass="egovMap">
+		select 
+		 		  a.gds_id
+		 		, a.lcs_id
+		 		, a.gds_nm
+		from 
+			    tb_malgds001 a, tb_malstr003 b
+		where 
+				1=1 and a.gds_id = b.gds_id and b.str_id='ST00002'
+   </select>
+   <select id="kr.co.mcmall.mcm.mal.stt.McmMalStt001.selectMcmMalStt002M01L" resultClass="egovMap" parameterClass="mcmMalStt001VO">
+  	 select
+        a.ordDt
+       ,ifnull(format(a.ordTotAmtall,0),'') ordTotAmtall
+       ,format(a.cntAll,0) cntAll
+       ,ifnull(format(b.ordTotAmtOk,0),'') ordTotAmtOk
+       ,format(b.cntOk,0) cntOk
+       ,ifnull(format(c.ordTotAmtNo,0),'') ordTotAmtNo
+       ,format(c.cntNo,0)cntNo
+        from
+        (select 
+            date_format(ord_dt,'%y/%m/%d')as orddt
+            ,ifnull((select sum(b.ord_cnt * b.ord_amt) from tb_shpord002 b where a.ord_no=b.ord_no),0) as ordtotamtall
+             ,ifnull((select sum(b.ord_cnt) from tb_shpord002 b where a.ord_no=b.ord_no ),0) as cntall
+         from tb_shpord001 a left outer join tb_shppay001 b on a.str_id=b.str_id
+         where 1=1
+         and a.str_id='ST00002'
+                 <isNotEmpty property="searchOrdDt">
+        		<isNotEmpty property="searchOrdDtTo">
+									and date_format(ORD_DT, '%Y-%m-%d')  between #searchOrdDt# and #searchOrdDtTo#	
+				</isNotEmpty>
+					<isEmpty property="searchOrdDtTo">
+										and date_format(ORD_DT, '%Y-%m-%d') <![CDATA[>=]]>   #searchOrdDt#
+					</isEmpty>
+			</isNotEmpty>
+			<isEmpty property="searchOrdDt">
+								<isNotEmpty property="searchOrdDtTo">
+										and date_format(ORD_DT, '%Y-%m-%d') <![CDATA[<=]]>   #searchOrdDtTo#
+								</isNotEmpty>
+			</isEmpty>
+		 group by ordDt
+         order by ordDt desc)a 
+         left join
+         (select date_format(ord_dt,'%y/%m/%d') as ordDt
+               ,ifnull((select sum(b.ord_cnt * b.ord_amt) from tb_shpord002 b where a.ord_no=b.ord_no),0) as ordtotamtok
+                ,ifnull((select sum(b.ord_cnt) from tb_shpord002 b where a.ord_no=b.ord_no),0) as cntok    
+         from tb_shpord001 a left outer join tb_shppay001 b on a.str_id=b.str_id
+         where pay_yn='y'
+        	         <isNotEmpty property="searchOrdDt">
+        		<isNotEmpty property="searchOrdDtTo">
+									and date_format(ORD_DT, '%Y-%m-%d')  between #searchOrdDt# and #searchOrdDtTo#	
+				</isNotEmpty>
+					<isEmpty property="searchOrdDtTo">
+										and date_format(ORD_DT, '%Y-%m-%d') <![CDATA[>=]]>   #searchOrdDt#
+					</isEmpty>
+			</isNotEmpty>
+			<isEmpty property="searchOrdDt">
+								<isNotEmpty property="searchOrdDtTo">
+										and date_format(ORD_DT, '%Y-%m-%d') <![CDATA[<=]]>   #searchOrdDtTo#
+								</isNotEmpty>
+			</isEmpty>
+         group by ordDt
+         order by ordDt desc)b 
+         on a.ordDt = b.ordDt
+         left join
+         (select date_format(ord_dt,'%y/%m/%d') as ordDt
+                ,ifnull((select sum(b.ord_cnt * b.ord_amt) from tb_shpord002 b where a.ord_no=b.ord_no),0) as ordtotamtno       
+                ,ifnull((select sum(b.ord_cnt) from tb_shpord002 b where a.ord_no=b.ord_no),0) as cntno    
+         from tb_shpord001 a left outer join tb_shppay001 b on a.str_id=b.str_id
+         where pay_yn is null or  pay_yn='n'
+                  <isNotEmpty property="searchOrdDt">
+        		<isNotEmpty property="searchOrdDtTo">
+									and date_format(ORD_DT, '%Y-%m-%d')  between #searchOrdDt# and #searchOrdDtTo#	
+				</isNotEmpty>
+					<isEmpty property="searchOrdDtTo">
+										and date_format(ORD_DT, '%Y-%m-%d') <![CDATA[>=]]>   #searchOrdDt#
+					</isEmpty>
+			</isNotEmpty>
+			<isEmpty property="searchOrdDt">
+								<isNotEmpty property="searchOrdDtTo">
+										and date_format(ORD_DT, '%Y-%m-%d') <![CDATA[<=]]>   #searchOrdDtTo#
+								</isNotEmpty>
+			</isEmpty>
+         group by ordDt
+         order by ordDt desc)c 
+         on a.ordDt = c.ordDt 
+          
+         group by ordDt
+         order by ordDt desc
+         
+   
+   </select>
+   
+   <select id="kr.co.mcmall.mcm.mal.stt.McmMalStt001.selectMcmMalStt003M01L" resultClass="egovMap" parameterClass="mcmMalStt001VO">
+   
+   
+select
+        a.lcs_id
+       ,ifnull(format(a.ordTotAmtAll,0),'') ordTotAmtAll
+       ,format(a.cntAll,0) cntAll
+       ,a.usr_Id
+       ,ifnull(format(c.ordTotAmtOk,0),'') ordTotAmtOk
+       ,format(c.cntOk,0) cntOk
+       ,ifnull(format(b.ordTotAmtNo,0),'') ordTotAmtNo
+       ,format(b.cntNo,0) cntNo
+        from
+        (select 
+            lcs_id
+            ,a.usr_Id
+           ,ifnull((select sum(b.ord_cnt * b.ord_amt) from tb_shpord002 b where a.ord_no=b.ord_no),0) as ordtotamtall
+           ,ifnull((select sum(b.ord_cnt) from tb_shpord002 b where a.ord_no=b.ord_no ),0) as cntall
+         from tb_shpord001 a left outer join tb_shppay001 b on a.str_id=b.str_id
+         where 1=1 and a.str_id='st00002'
+                             <isNotEmpty property="searchUsrId">
+					      		and a.usr_id=#searchUsrId#
+					      	</isNotEmpty>	
+		 group by lcs_id
+         order by lcs_id desc)a 
+         left join
+         (select 
+            lcs_id
+            ,a.usr_Id
+           ,ifnull((select sum(b.ord_cnt * b.ord_amt) from tb_shpord002 b where a.ord_no=b.ord_no),0) as ordtotamtno
+           ,ifnull((select sum(b.ord_cnt) from tb_shpord002 b where a.ord_no=b.ord_no ),0) as cntno
+         from tb_shpord001 a left outer join tb_shppay001 b on a.str_id=b.str_id
+         where 1=1 and pay_yn is null
+                             <isNotEmpty property="searchUsrId">
+					      		and a.usr_id=#searchUsrId#
+					      	</isNotEmpty>		
+		 group by lcs_id
+         order by lcs_id desc)b 
+         on a.lcs_id = b.lcs_id
+         left join
+         (select 
+            lcs_id
+            ,a.usr_Id
+           ,ifnull((select sum(b.ord_cnt * b.ord_amt) from tb_shpord002 b where a.ord_no=b.ord_no),0) as ordtotamtok
+            ,ifnull((select sum(b.ord_cnt) from tb_shpord002 b where a.ord_no=b.ord_no ),0) as cntok
+         from tb_shpord001 a left outer join tb_shppay001 b on a.str_id=b.str_id
+         where 1=1 and pay_yn ='Y'
+                             <isNotEmpty property="searchUsrId">
+					      		and a.usr_id=#searchUsrId#
+					      	</isNotEmpty>	
+		 group by lcs_id
+         order by lcs_id desc)c 
+         on a.lcs_id = c.lcs_id 
+          
+         group by lcs_id
+         order by lcs_id desc
+   </select>
+   
+   <select id="kr.co.mcmall.mcm.mal.stt.McmMalStt001.selectMcmMalStt001P03RP" resultClass="egovMap" parameterClass="mcmMalStt001VO">
+       select
+		    a.usr_id
+		   ,a.usr_nm
+		   ,a.tel_no
+		   ,a.email_addr
+		from
+		    tb_cmnusr001 a, tb_cmnath002 b
+		where
+		    1=1 and a.usr_id=b.usr_id and b.ath_cd='CMN001003'
+		    	<isNotEmpty property="telNo">
+					and tel_no = #telNo#
+		         </isNotEmpty>
+		         <isNotEmpty property="usrNm">
+					and usr_nm = #usrNm#
+		         </isNotEmpty>
+		    
+   </select>
+   
+   <select id="kr.co.mcmall.mcm.mal.stt.McmMalStt001.selectMcmMalStt001M01LtotCnt" resultClass="int" parameterClass="mcmMalStt001VO">
+  		 select count(1) as totcnt from
+         tb_shpord001 a, tb_shpord002 b where 1=1 and a.ord_no=b.ord_no and a.usr_id=#searchUsrId#
+                            <isNotEmpty property="searchGdsId">
+					      		and b.gds_id=#searchGdsId#
+					      	</isNotEmpty>	
+   </select>
+   
+   <select id="kr.co.mcmall.mcm.mal.stt.McmMalStt001.selectMcmMalStt002M01LtotCnt" resultClass="int" parameterClass="mcmMalStt001VO">
+     		 select count(1) as totcnt from
+       		  tb_shpord001 a where 1=1 and a.usr_id=#searchUsrId#
+   </select>
+   
+   <select id="kr.co.mcmall.mcm.mal.stt.McmMalStt001.selectMcmMalStt003M01LtotCnt" resultClass="int" parameterClass="mcmMalStt001VO">
+     		 select count(1) as totcnt from
+         		tb_shpord001 a where 1=1 and a.usr_id=#searchUsrId#
+   </select>
+</sqlMap>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

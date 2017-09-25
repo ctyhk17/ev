@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+
+<sqlMap namespace="kr.co.mcmall.mcm.cmn.usr.McmCmnUsr001">
+
+	<typeAlias  alias="mcmCmnUsr001VO" type="kr.co.mcmall.mcm.cmn.usr.service.McmCmnUsr001VO"/>
+	
+	
+	<!-- ID 중복확인 -->
+	<select id="kr.co.mcmall.mcm.cmn.usr.McmCmnUsr001.selectExistsId" resultClass="String" parameterClass="String">
+		select 
+		  case
+		    when count(1) <![CDATA[>]]> 0 then 'Y'
+		    else 'N'
+		  end as is_valid
+		from 
+		  tb_cmnusr001
+		where
+		  usr_id = #value#		  
+	</select>
+	
+	
+	<!--  사용자 등록 -->
+	<insert id="kr.co.mcmall.mcm.cmn.usr.McmCmnUsr001.insertUsrInfo" parameterClass="mcmCmnUsr001VO">
+		insert into tb_cmnusr001(
+		      usr_id
+		    , usr_pwd
+		    , usr_nm
+		    , tel_no
+		    , email_addr
+		    , join_dt
+		    , use_yn
+		    , fee_pay_yn
+		    , lst_udt_id
+		    , lst_udt_dt
+		    , lst_udt_ip    
+		    , pst_no
+		    , rd_addr
+		    , rd_addr_dtl
+		    , dong_nm
+		) values (
+		      nullif(#usrId#, '')
+		    , password(nullif(#usrPwd#, ''))
+		    , nullif(#usrNm#, '')
+		    , nullif(#telNo#, '')
+		    , nullif(#emailAddr#, '')
+		    , current_timestamp()
+		    , 'N'
+		    , 'N'
+		    , nullif(#lstUdtId#, '')
+		    , current_timestamp()
+		    , nullif(#lstUdtIp#, '')
+		    , nullif(#pstNo#, '')
+		    , nullif(#rdAddr#, '')
+		    , nullif(#rdAddrDtl#, '')
+		    , nullif(#dongNm#, '')    
+		)
+	</insert>
+	
+	<insert id="kr.co.mcmall.mcm.cmn.usr.McmCmnUsr001.insertUsrStrInfo" parameterClass="mcmCmnUsr001VO">
+		insert into tb_malstr004 (
+		       str_id
+		      ,usr_id
+		      ,lst_udt_id
+		      ,lst_udt_dt
+		      ,lst_udt_ip
+	    ) values (
+		       nullif(#strId#,'')
+		      ,nullif(#usrId#,'')
+		      ,nullif(#lstUdtId#,'')
+		      ,current_timestamp()
+		      ,nullif(#lstUdtIp#,'')
+	    )
+	</insert>
+	
+	
+	<!--  회원정보 조회 -->
+	<select id="kr.co.mcmall.mcm.cmn.usr.McmCmnUsr001.selectUsrInfo" resultClass="egovMap" parameterClass="mcmCmnUsr001VO">
+		select 
+			  usr_id
+			, usr_nm
+			, tel_no
+			, email_addr					 
+			, date_format(join_dt,'%Y-%m-%d') as join_dt
+			, pst_no 
+			, rd_addr
+            , rd_addr_dtl
+		from
+			tb_cmnusr001
+		where
+			    usr_id  = #usrId#
+			<!-- and ifnull(use_yn, 'N') = 'Y' --> 
+	</select>
+	
+	
+	<select id="kr.co.mcmall.mcm.cmn.usr.McmCmnUsr001.selectUsrInfoWithPassword" resultClass="egovMap" parameterClass="mcmCmnUsr001VO">
+		select 
+			  usr_id
+			, usr_nm
+			, tel_no
+			, email_addr		  
+		from
+			tb_cmnusr001
+		where
+			    usr_id  = #usrId#
+			and usr_pwd = password(#usrPwd#)
+			and ifnull(use_yn, 'N') = 'Y' 
+	</select>
+	
+	
+	
+	
+	<!--  회원정보 수정 -->
+	<update id="kr.co.mcmall.mcm.cmn.usr.McmCmnUsr001.updateUsrInfo" parameterClass="mcmCmnUsr001VO">
+		update tb_cmnusr001
+		set
+			  usr_nm      = nullif(#usrNm#, '')
+			, tel_no      = nullif(#telNo#, '')
+			, email_addr  = nullif(#emailAddr#, '')
+			, rd_addr     = nullif(#rdAddr#,'')
+			, rd_addr_dtl = nullif(#rdAddrDtl#,'')
+			, pst_no      = nullif(#pstNo#,'')
+		where
+			usr_id = #usrId#			
+	</update>
+	
+	
+	<update id="kr.co.mcmall.mcm.cmn.usr.McmCmnUsr001.stopUsrInfo" parameterClass="mcmCmnUsr001VO">
+		update tb_cmnusr001
+		set
+			  use_yn     = 'N'			
+		where
+				usr_id = #usrId#	
+			and usr_pwd = password(#usrPwd#)		
+	</update>
+	
+	<!-- 주소정보 가져오기 -->
+	<select id="kr.co.mcmall.mcm.cmn.usr.McmCmnUsr001.getAddrInfo" resultClass="egovMap" parameterClass="string">
+		select
+		   a.pst_no
+		  ,a.rd_addr
+		  ,a.rd_addr_dtl
+		  ,a.dong_nm
+		  ,a.tel_no
+		from
+		(
+		  select
+		     ifnull(pst_no,'') pst_no
+		    ,ifnull(rd_addr,'') rd_addr
+		    ,ifnull(rd_addr_dtl,'') rd_addr_dtl
+		    ,ifnull(dong_nm,'') dong_nm
+		    ,ifnull(tel_no,'') tel_no
+		  from 
+		      tb_cmnusr001
+		  where 
+		      usr_id = #usrId#
+		)a
+	</select>
+	
+	<select id="kr.co.mcmall.mcm.cmn.usr.McmCmnUsr001.updateUsrPwd" resultClass="egovMap" parameterClass="mcmCmnUsr001VO">
+		select 
+			 usr_id
+			,usr_pwd 
+		from 
+			tb_cmnusr001 
+		where 
+			usr_id=#usrId# 
+		and usr_pwd=password(#usrPwd#)
+	</select>
+	<update id="kr.co.mcmall.mcm.cmn.usr.McmCmnUsr001.updateUsrPwdProc" parameterClass="mcmCmnUsr001VO">
+		update
+			tb_cmnusr001
+		set
+			usr_pwd = password(#newPwdCheck#)
+		where
+			usr_id = #usrId#		
+	
+	</update>
+	
+	
+
+		
+</sqlMap>

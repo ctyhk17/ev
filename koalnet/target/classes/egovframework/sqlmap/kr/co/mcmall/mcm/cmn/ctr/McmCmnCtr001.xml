@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+
+<sqlMap namespace="kr.co.mcmall.mcm.cmn.ctr.McmCmnCtr001">
+   
+   <typeAlias  alias="McmCmnCtr001VO" type="kr.co.mcmall.mcm.cmn.ctr.service.McmCmnCtr001VO"/>
+   <typeAlias alias="int" type="java.lang.Integer" />
+   
+   
+   <select id="kr.co.mcmall.mcm.cmn.ctr.McmCmnCtr001.selectCtrList" resultClass="egovMap" parameterClass="McmCmnCtr001VO">
+		select 
+			    A.rn
+			   ,A.cd_grp_id
+			   ,A.cd
+			   ,A.cd_nm
+	  		   ,A.cnt
+			   ,date_format(A.lst_udt_dt, '%Y-%m-%d') as lst_udt_dt
+			   ,A.cd_etc
+           ,A.str_id
+			   
+			from
+			(
+			select
+						  		 cast(A.RN as char) as rn   
+								,A.cd_grp_id
+								,A.cd
+								,A.cd_nm
+								,A.cnt
+							  	,A.lst_udt_dt
+							  	,A.cd_etc
+                    ,A.str_id
+                  
+			from
+			(         
+			  select
+			   @RNUM := @RNUM + 1 AS RN
+			    ,A.cd_grp_id
+			    ,A.cd
+			    ,A.cd_nm
+			    ,A.cnt
+			    ,A.lst_udt_dt
+			    ,A.cd_etc
+          ,A.str_id
+			  from
+			  (         
+			    select
+			         a.cd_grp_id
+			        ,a.cd
+			        ,a.cd_nm
+			        ,count(a.gds_id) cnt
+			        ,a.lst_udt_dt
+			        ,a.cd_etc
+              ,a.str_id
+			    from
+			    (
+			      select 
+			          a.cd_grp_id
+			         ,a.cd
+			         ,a.cd_nm
+			         ,a.lst_udt_dt
+			         ,b.gds_id
+			         ,a.cd_etc
+               		,c.str_id
+			      from 
+				      tc_symccd002 a inner join tb_malgds005 b
+				      on a.cd = b.gds_ctgr_id
+		              inner join tb_malstr003 c
+			          on b.gds_id = c.gds_id
+	            where a.cd_grp_id = 'CTR001'
+				      and a.use_yn = 'Y'
+			          and c.str_id='st00002'
+			           <isNotEmpty property="ctrSearch">
+			           	and cd like '%$ctrSearch$%'
+			           </isNotEmpty>
+			           <isNotEmpty property="cdNmSearch">
+			           	and cd_nm like '%$cdNmSearch$%'
+			           </isNotEmpty>
+			           <isNotEmpty property="stDtSearch">
+			           	and date_format(a.lst_udt_dt,'%Y-%m-%d') between #stDtSearch# and #endDtSearch#
+			           </isNotEmpty>	
+			           )a group by a.cd_grp_id ,a.cd ,a.cd_nm ,a.lst_udt_dt,a.str_id
+			  )A,
+			  (
+			    select @RNUM := 0
+			  ) b
+			   order by a.lst_udt_dt desc
+			)A
+			)A
+			where 1=1
+       	 limit #firstIndex#, #recordCountPerPage#
+   </select>
+   
+   <select id="kr.co.mcmall.mcm.cmn.ctr.McmCmnCtr001.selectCtrListCnt" resultClass="int" parameterClass="McmCmnCtr001VO">
+   		select
+   			count(1)
+      from 
+	      tc_symccd002 a inner join tb_malgds005 b
+	      on a.cd = b.gds_ctgr_id
+             inner join tb_malstr003 c
+          on b.gds_id = c.gds_id
+          where a.cd_grp_id = 'CTR001'
+	      and a.use_yn = 'Y'
+          and c.str_id='st00002'
+           <isNotEmpty property="ctrSearch">
+           	and cd like '%$ctrSearch$%'
+           </isNotEmpty>
+           <isNotEmpty property="cdNmSearch">
+           	and cd_nm like '%$cdNmSearch$%'
+           </isNotEmpty>
+           <isNotEmpty property="stDtSearch">
+           	and date_format(a.lst_udt_dt,'%Y-%m-%d') between #stDtSearch# and #endDtSearch#
+           </isNotEmpty>	
+   </select>
+   
+   <select id="kr.co.mcmall.mcm.cmn.ctr.McmCmnCtr001.selectCtrInfo" resultClass="egovMap" parameterClass="McmCmnCtr001VO" >
+   		select 
+         	  cd_grp_id
+         	 ,cd_grp_nm
+         	 ,cd_grp_cnts
+        from
+           tc_symccd001
+        where
+           1=1
+        and cd_grp_id = 'CTR001'
+      and	use_yn='Y'	
+   </select>
+   
+   <insert id="kr.co.mcmall.cmn.ctr.McmCmnCtr001.insertCtrInfo" parameterClass="McmCmnCtr001VO">
+   		insert into tc_symccd002
+   			(
+	   			 cd_grp_id
+	   			,cd
+	   			,cd_nm
+	   			,lst_udt_id
+	   			,lst_udt_dt
+	   			,lst_udt_ip
+	   			,cd_etc
+   			)
+   		values
+   			(
+   				 #cdGrpId#
+   				,#cd#
+   				,#cdNm# 
+	   			,ifnull(#lstUdtId#,'')
+	   			,current_timestamp
+	   			,ifnull(#lstUdtIp#,'')
+	   			,#cdEtc#
+   			)
+   </insert>
+   
+      <select id="kr.co.mcmall.cmn.ctr.McmCmnCtr001.selectCtrInfoExists" resultClass="int" parameterClass="McmCmnCtr001VO">
+   		select
+			count(1) cnt   			 
+   		from
+   			tc_symccd002
+   		where
+   			cd=#cd#
+   </select>
+
+	<update id = "kr.co.mcmall.cmn.ctr.McmCmnCtr001.updateCtrInfo" parameterClass="McmCmnCtr001VO">
+		update
+			tc_symccd002
+		set
+			use_yn='N'
+		<iterate prepend="where cd in" property="checkCtr" open="(" close=")" conjunction=",">
+			#checkCtr[]#
+		</iterate>
+			
+	</update>
+   
+   <update id="kr.co.mcmall.cmn.ctr.McmCmnCtr001.updateCtr" parameterClass="McmCmnCtr001VO">
+   		update
+   			 tc_symccd002
+   		set
+   			 cd_nm = #cdNm#
+   			,cd_etc = #cdEtc#
+   		where
+   			 cd=#cd#
+   </update>
+   
+</sqlMap>

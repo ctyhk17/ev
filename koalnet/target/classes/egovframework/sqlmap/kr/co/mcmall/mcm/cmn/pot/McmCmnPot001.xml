@@ -1,0 +1,452 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+
+<sqlMap namespace="kr.co.mcmall.mcm.cmn.pot.McmCmnPot001">
+   
+   <!-- McmCmnPot001VO -->
+   <typeAlias  alias="mcmCmnPot001VO" type="kr.co.mcmall.mcm.cmn.pot.service.McmCmnPot001VO"/>
+   
+   <typeAlias alias="int" type="java.lang.Integer" />
+   
+   <!-- 포인트 -->
+   <select id="kr.co.mcmall.mcm.cmn.pot.McmCmnPot001.selectMcmCmnPotList" resultClass="egovMap" parameterClass="mcmCmnPot001VO">
+		select
+		   a.rn
+		  ,a.str_id
+		  ,a.str_nm
+		  ,a.usr_id
+		  ,a.usr_nm
+		  ,a.pot_tot_sum
+		from  
+		(
+		  select
+		     cast(a.rn AS CHAR) as rn
+		    ,a.str_id
+		    ,a.str_nm
+		    ,a.usr_id
+		    ,a.usr_nm
+		    ,a.pot_tot_sum
+		  from  
+		  (
+		    select
+		      @RNUM := @RNUM + 1 as rn
+		      ,a.str_id
+		      ,a.str_nm
+		      ,a.usr_id
+		      ,a.usr_nm
+		      ,a.pot_tot_sum
+		    from
+		    (
+		        select
+		               a.str_id
+		              ,b.str_nm
+		              ,a.usr_id
+		              ,a.usr_nm
+		              ,format(a.pot_tot_sum,0) pot_tot_sum
+		        from
+		        (
+		            select
+		               b.str_id
+		              ,b.usr_id
+		              ,ifnull(b.usr_nm,'') usr_nm
+		              ,ifnull(a.pot_tot_sum,0) pot_tot_sum
+		            from
+		            tb_cmnpot001 a right outer join  
+		            (
+		                select
+		                  b.str_id
+		                 ,b.usr_id
+		                 ,a.usr_nm
+		                  from tb_cmnusr001 a, tb_malstr004 b
+		                where a.usr_id = b.usr_id
+		                  and a.use_yn = 'Y'
+		            ) b    
+		             on a.usr_id = b.usr_id
+		            and a.str_id = b.str_id
+		        )a, tb_malstr001 b
+		        where a.str_id = b.str_id
+		      )a, 
+		      (
+		        SELECT @RNUM := 0
+		      ) b
+		  )a
+		  where 1=1
+		  <isNotEmpty property="scStrId" prepend="AND">
+			 a.str_id = #scStrId#
+		 </isNotEmpty>
+		 <isNotEmpty property="scUsrId" prepend="AND">
+		 	a.usr_id = #scUsrId#
+		 </isNotEmpty>					
+		  <isNotEmpty property="scUsrNm" prepend="AND">
+			 a.usr_nm = #scUsrNm#
+		 </isNotEmpty>
+		)a 
+		 limit #firstIndex#, #recordCountPerPage#
+
+
+   </select>
+   <select id="kr.co.mcmall.mcm.cmn.pot.McmCmnPot001.selectMcmCmnPotCnt" resultClass="int" parameterClass="mcmCmnPot001VO">
+   		select
+			  count(1)
+			from  
+			(
+			  select
+			     cast(a.rn AS CHAR) as rn
+			    ,a.str_id
+			    ,a.str_nm
+			    ,a.usr_id
+			    ,a.usr_nm
+			    ,a.pot_tot_sum
+			  from  
+			  (
+			    select
+			      @RNUM := @RNUM + 1 as rn
+			      ,a.str_id
+			      ,a.str_nm
+			      ,a.usr_id
+			      ,a.usr_nm
+			      ,a.pot_tot_sum
+			    from
+			    (
+			        select
+			               a.str_id
+			              ,b.str_nm
+			              ,a.usr_id
+			              ,a.usr_nm
+			              ,format(a.pot_tot_sum,0) pot_tot_sum
+			        from
+			        (
+			            select
+			               b.str_id
+			              ,b.usr_id
+			              ,ifnull(b.usr_nm,'') usr_nm
+			              ,ifnull(a.pot_tot_sum,0) pot_tot_sum
+			            from
+			            tb_cmnpot001 a right outer join  
+			            (
+			                select
+			                  b.str_id
+			                 ,b.usr_id
+			                 ,a.usr_nm
+			                  from tb_cmnusr001 a, tb_malstr004 b
+			                where a.usr_id = b.usr_id
+			                  and a.use_yn = 'Y'
+			            ) b    
+			             on a.usr_id = b.usr_id
+			            and a.str_id = b.str_id
+			        )a, tb_malstr001 b
+			        where a.str_id = b.str_id
+			      )a, 
+			      (
+			        SELECT @RNUM := 0
+			      ) b
+			  )a
+			  where 1=1
+			   <isNotEmpty property="scStrId" prepend="AND">
+				 a.str_id = #scStrId#
+			 </isNotEmpty>
+			 <isNotEmpty property="scUsrId" prepend="AND">
+			 	a.usr_id = #scUsrId#
+			 </isNotEmpty>					
+			  <isNotEmpty property="scUsrNm" prepend="AND">
+				 a.usr_nm = #scUsrNm#
+			 </isNotEmpty>			
+			)a 
+   
+   </select>
+  <select id="kr.co.mcmall.mcm.cmn.pot.McmCmnPot001.selectMcmCmnPotRetrieve" resultClass="egovMap" parameterClass="mcmCmnPot001VO">
+	 	select
+		    a.rn
+		    ,a.pot_no
+		    ,a.str_id
+		    ,a.str_nm
+		    ,a.usr_id
+		    ,a.usr_nm
+		    ,a.ord_no
+		    ,a.pot_cd
+		    ,a.pot_nm
+		    ,a.pot_sv
+		    ,a.lst_udt_dt
+		    ,a.pot_yn
+				from
+				(
+				  select
+				    cast(a.rn AS CHAR) as rn
+				    ,a.pot_no
+				    ,a.str_id
+				    ,a.str_nm
+				    ,a.usr_id
+				    ,a.usr_nm
+				    ,a.ord_no
+				    ,a.pot_cd
+				    ,a.pot_nm
+				    ,a.pot_sv
+				    ,a.lst_udt_dt
+				    ,a.pot_yn
+				  from
+				  (
+				      select
+				        @RNUM := @RNUM + 1 as rn
+				        ,a.pot_no
+				        ,a.str_id
+				        ,a.str_nm
+				        ,a.usr_id
+				        ,a.usr_nm
+				        ,a.ord_no
+				        ,a.pot_cd
+				        ,a.pot_nm
+				        ,a.pot_sv
+				        ,a.lst_udt_dt
+				        ,a.pot_yn
+				      from
+				      (
+				          select
+				                a.pot_no
+				                ,a.str_id
+				                ,a.str_nm
+				                ,a.usr_id
+				                ,a.usr_nm
+				                ,a.ord_no
+				                ,a.pot_cd
+				                ,a.pot_nm
+				                ,a.pot_sv
+				                ,a.lst_udt_dt
+				                ,a.pot_yn
+				          from
+				          (
+				            select
+				                a.pot_no
+				                ,a.str_id
+				                ,c.str_nm
+				                ,a.usr_id
+				                ,b.usr_nm
+				                ,a.ord_no
+				                ,a.pot_cd
+				                ,a.pot_nm
+				                ,a.pot_sv
+				                ,a.lst_udt_dt
+				                ,a.pot_yn
+				            from
+				            (
+				              select
+				                 a.pot_no
+				                 ,a.str_id
+				                 ,a.usr_id
+				                 ,a.pot_cd
+				                 ,ifnull(a.ord_no,'') ord_no
+				                ,case when a.pot_cd = 'B' then '구입'
+				                      when a.pot_cd = 'J' then '가입'
+				                      when a.pot_yn = 'N' then '취소'
+				                   else '' end as pot_nm
+				                ,pot_sv
+				                ,ifnull(date_format(a.lst_udt_dt,'%Y-%m-%d %T'),'') as lst_udt_dt
+				                ,a.pot_yn
+				              from
+				              tb_cmnpot002 a left outer join tb_shpord001 b
+				              on a.ord_no = b.ord_no
+				              and a.str_id = b.str_id
+				              and a.usr_id = b.usr_id
+				            )a, tb_cmnusr001 b, tb_malstr001 c
+				            where a.usr_id = b.usr_id
+				            and a.str_id = c.str_id
+			              	and a.str_id = #strId#
+			              	and a.usr_id = #usrId#
+				          )a,
+				          (
+				            SELECT @RNUM := 0
+				          ) b
+				      )a
+				  )a 
+				  where 1=1
+				   <isNotEmpty property="scStLstUdtDt" prepend="AND">
+					 date_format(a.lst_udt_dt,'%Y-%m-%d') between  #scStLstUdtDt# and #scEdLstUdtDt#
+				 </isNotEmpty>
+				)a
+				 limit #firstIndex#, #recordCountPerPage#
+  	
+  </select>
+   <select id="kr.co.mcmall.mcm.cmn.pot.McmCmnPot001.selectMcmCmnPotRetrieveCnt" resultClass="int" parameterClass="mcmCmnPot001VO">
+   		select
+		    count(1) totCnt
+				from
+				(
+				  select
+				    cast(a.rn AS CHAR) as rn
+				    ,a.pot_no
+				    ,a.str_id
+				    ,a.str_nm
+				    ,a.usr_id
+				    ,a.usr_nm
+				    ,a.ord_no
+				    ,a.pot_cd
+				    ,a.pot_nm
+				    ,a.pot_sv
+				    ,a.lst_udt_dt
+				    ,a.pot_yn
+				  from
+				  (
+				      select
+				        @RNUM := @RNUM + 1 as rn
+				        ,a.pot_no
+				        ,a.str_id
+				        ,a.str_nm
+				        ,a.usr_id
+				        ,a.usr_nm
+				        ,a.ord_no
+				        ,a.pot_cd
+				        ,a.pot_nm
+				        ,a.pot_sv
+				        ,a.lst_udt_dt
+				        ,a.pot_yn
+				      from
+				      (
+				          select
+				                a.pot_no
+				                ,a.str_id
+				                ,a.str_nm
+				                ,a.usr_id
+				                ,a.usr_nm
+				                ,a.ord_no
+				                ,a.pot_cd
+				                ,a.pot_nm
+				                ,a.pot_sv
+				                ,a.lst_udt_dt
+				                ,a.pot_yn
+				          from
+				          (
+				            select
+				                a.pot_no
+				                ,a.str_id
+				                ,c.str_nm
+				                ,a.usr_id
+				                ,b.usr_nm
+				                ,a.ord_no
+				                ,a.pot_cd
+				                ,a.pot_nm
+				                ,a.pot_sv
+				                ,a.lst_udt_dt
+				                ,a.pot_yn
+				            from
+				            (
+				              select
+				                 a.pot_no
+				                 ,a.str_id
+				                 ,a.usr_id
+				                 ,a.pot_cd
+				                 ,ifnull(a.ord_no,'') ord_no
+				                ,case when a.pot_cd = 'B' then '구입'
+				                      when a.pot_cd = 'J' then '가입'
+				                      when a.pot_yn = 'N' then '취소'
+				                   else '' end as pot_nm
+				                ,pot_sv
+				                ,ifnull(date_format(a.lst_udt_dt,'%Y-%m-%d %T'),'') as lst_udt_dt
+				                ,a.pot_yn
+				              from
+				              tb_cmnpot002 a left outer join tb_shpord001 b
+				              on a.ord_no = b.ord_no
+				              and a.str_id = b.str_id
+				              and a.usr_id = b.usr_id
+				            )a, tb_cmnusr001 b, tb_malstr001 c
+				            where a.usr_id = b.usr_id
+				            and a.str_id = c.str_id
+			              	and a.str_id = #strId#
+			              	and a.usr_id = #usrId#
+				          )a,
+				          (
+				            SELECT @RNUM := 0
+				          ) b
+				      )a
+				  )a 
+				  where 1=1
+			   	<isNotEmpty property="scStLstUdtDt" prepend="AND">
+					 date_format(a.lst_udt_dt,'%Y-%m-%d') between  #scStLstUdtDt# and #scEdLstUdtDt#
+			 	</isNotEmpty>
+				)a
+   	
+   </select>
+   <select id="kr.co.mcmall.mcm.cmn.pot.McmCmnPot001.selectMcmCmnPotRetrievePointSum" resultClass="int" parameterClass="mcmCmnPot001VO">
+   	        select 
+   	        	ifnull(sum(pot_sv),0) pointSum
+	        from tb_cmnpot002
+	        where str_id = #strId#
+		      and usr_id = #usrId#
+	          and pot_yn = 'Y' 
+	         <isNotEmpty property="scStLstUdtDt" prepend="AND">
+					 date_format(lst_udt_dt,'%Y-%m-%d') between  #scStLstUdtDt# and #scEdLstUdtDt#
+			 </isNotEmpty>
+   </select>
+   <update id = "kr.co.mcmall.mcm.cmn.pot.McmCmnPot001.deleteMcmCmnPot" parameterClass="mcmCmnPot001VO">
+   		   
+   		update
+			tb_cmnpot002
+		set pot_yn = 'N'
+	<iterate prepend="where pot_no in" property="checkPotNo" open="(" close=")" conjunction=",">
+		#checkPotNo[]#
+	</iterate>
+   </update>
+	<select id="kr.co.mcmall.mcm.cmn.pot.McmCmnPot001.selectMcmCmnCurPot" resultClass="int" parameterClass="mcmCmnPot001VO" >
+		select 
+			ifnull(sum(pot_sv),0) totPot
+		from tb_cmnpot002
+		where pot_yn = 'Y'
+		  and usr_id = #usrId#
+		  and str_id = #strId#
+	</select>
+	
+	<update id="kr.co.mcmall.mcm.cmn.pot.McmCmnPot001.updateMcmCmnCurPot" parameterClass="mcmCmnPot001VO" >
+		update 
+			tb_cmnpot001 
+		set pot_tot_sum = #potTotSum#
+		where usr_id = #usrId#
+		  and str_id = #strId#
+	</update>
+	<insert id="kr.co.mcmall.mcm.cmn.pot.McmCmnPot001.insertMcmCmnPotSv" parameterClass="mcmCmnPot001VO">
+		insert into tb_cmnpot001
+		(
+			 str_id
+			,usr_id
+			,pot_tot_sum
+			,lst_udt_id
+			,lst_udt_dt
+			,lst_udt_ip
+		) values
+		(
+			 #strId#
+			,#usrId#
+			,0
+			,nullif(#lstUdtId#,'')
+			,current_timestamp()
+			,nullif(#lstUdtIp#,'')
+		)
+	</insert>
+	<insert id="kr.co.mcmall.mcm.cmn.pot.McmCmnPot001.insertMcmCmnCurPot" parameterClass="mcmCmnPot001VO">
+		insert into tb_cmnpot002
+		(
+			 str_id
+			,usr_id
+			,pot_no
+			,ord_no
+			,pot_cd
+			,pot_sv
+			,pot_yn
+			,lst_udt_id
+			,lst_udt_dt
+			,lst_udt_ip
+		) values
+		(
+			 #strId#
+			,#usrId#
+			,nextval('seq_pot_no')
+			,nullif(#ordNo#,'')
+			,#potCd#
+			,#potSv#
+			,'Y'
+			,nullif(#lstUdtId#,'')
+			,current_timestamp()
+			,nullif(#lstUdtIp#,'')
+		)
+	</insert>
+	
+  
+</sqlMap>

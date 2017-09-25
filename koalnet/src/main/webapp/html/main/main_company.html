@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="utf-8">
+    <title>MC_Mall</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- 모바일 -->
+    <link rel="stylesheet" href="../../css/main/main.css"><!-- main.css -->
+    <link rel="stylesheet" href="../../css/main/slider/swiper.css"><!-- new_Swiper.css -->
+    <script src="../../js/main/slider/swiper.js"></script><!-- new_Swiper JS -->
+    <script src="../../js/main/jquery-1.10.2.js"></script><!-- jquery-1.10.2 -->     
+    <script>
+        $(document).ready(function(){
+             $(".M_top_menu").click(function(){
+                  $('.M_top_menu_1,.M_top_menu_1_back').slideToggle(100).toggleClass('dis');
+             });// End of sub_menu
+            $(".M_top_menu_1_back").click(function(){
+                $('.M_top_menu_1,.M_top_menu_1_back').slideToggle(100).toggleClass('dis');
+             });// End of M_top_menu_1_back //메뉴 제외 클릭시
+            $(".close").click(function(){
+                $('.M_top_menu_1,.M_top_menu_1_back').slideToggle(100).toggleClass('dis');
+             });// End of M_top_menu_1_back //메뉴 제외 클릭시
+            
+            $(".M_top_menu_1 ul li").click(function(){     		
+                $(this).parent().find("ul").stop().slideToggle(200);
+             });// End of M_top_menu_1
+            
+            $(".active_on").click(function(){     		
+               $('.kategorie_tab').slideToggle(0).toggleClass('dis_1');
+             });// End of M_top_menu_1
+        }); 
+    </script>
+</head>
+<body>
+   <header>
+        <div class="heard_border">
+             <div class="heard_cap">
+                  <div class="top_left">
+                      <a href="#;">FAVORITE</a>
+                  </div> 
+                  <div class="top_menu">
+                      <a href="#;">HOME</a>
+                      <a href="#;">LOGIN</a>
+                      <a href="#;">JOIN</a>
+                      <a href="#;">MYPAGE</a>
+                      <a href="#;">CART</a>
+                      <a href="#;">CONTACT US</a>
+                  </div>
+            </div>
+        </div><!-- End of pc top_menu -->
+         
+        <div class="logo_box logo_box_sub">
+           <div class="M_top_menu">
+               <div class="M_t"></div>
+               <div class="M_m"></div>
+               <div class="M_b"></div>
+           </div>
+            <div class="M_top_menu_1">
+                  <div class="M_top_menu_1_back"></div>
+                  <div class="close">X</div>
+                   <ul>
+                       <li><a href="#;">HOME</a></li>
+                   </ul>
+                   <ul><li><a href="#;">LOGIN</a></li></ul>
+                   <ul><li><a href="#;">JOIN</a></li></ul>
+                   <ul>
+                       <li><a href="#;">MYPAGE <small>▼</small></a></li>
+                       <ul>
+                           <li><a href="#;">menu1</a></li>
+                           <li><a href="#;">menu2</a></li>
+                       </ul>
+                   </ul>
+                   <ul><li><a href="#;">CART</a></li></ul>
+                   <ul><li><a href="#;">CONTACT US</a></li></ul>
+               </div>
+            <div class="logo logo_sub"><a href="../main/main.html"><img src="../../image/main/logo.png" alt="" title="home"></a> <h1>회사소개</h1></div>
+<!--
+            <div class="Search">
+                <select name="" id="">
+                    <option value="">전체</option>
+                </select>
+                <input type="text">
+                <a href="#;">검색</a>
+            </div>
+-->
+        </div>
+   </header><!-- End of header -->
+   
+   <div class="sub_company_cap">
+       <div class="sub_company">
+          <div class="com_le">
+           <h2>MC mall <small><sup>Shopping Mall</sup></small></h2>
+           <div class="line"></div>
+           <p>
+              <b>안녕하십니까!!
+              엠씨몰에 오신 것을 환영합니다. </b><br><br>
+
+
+              <small>엠씨몰은 최고의 제품을 최저의 가격으로 고객 여러분께 공급하는 것을 원칙으로 최선을 다하고 있으며 
+              쇼핑중 제품에 관하여 궁금하신 점이 있으시면 언제나 성심 성의껏 답변하여 드리겠습니다. <br><br>
+
+              엠씨몰은 소비자들에게 차별화된 고품질의 제품을 보다 저렴하게 공급하며 양질의 정보를 제공함으로써
+              믿음과 기쁨을 드리는 쇼핑몰이 될 수 있도록 항상 노력하겠습니다.<br> 
+              또한 개인의 고객정보와 신용정보는 완벽하게 보호하는 것을 원칙으로 안전하고 든든하게 지켜드릴 것이며 
+              소비자에게 상품의 주문과 결제에 따른 안전과 신용을 보장합니다.<br><br>
+
+              항상 고객의 소리에 귀를 기울일 것이며, 서비스 이용중 불편한 사항이나 건의사항이 있으면 
+              언제든지 운영자에게 메일이나 홈페이지 게시판에 글을 남겨 주세요.</small>
+                
+                
+           </p>
+           
+           </div>
+           <div class="com_ri">
+               <img src="../../image/main/company_1.png" alt="">
+           </div>
+       </div>
+   </div>
+   
+    <div class="sub_company_cap_1">
+       <div class="sub_company">
+            <div class="title_sub"><h2>CI <small><sup>Corporate Identity</sup></small></h2></div>
+            <div class="line_1"></div>
+            <div class="title_sub_1"><h4>브랜드 LOGO</h4></div>
+            <div class="com_le_r">
+                <img src="../../image/main/company_2.png" alt="">
+            </div>    
+            <div class="com_ri_r">
+                <img src="../../image/main/company_3.png" alt="">
+           </div>
+       </div>
+   </div>
+   
+   <div class="sub_company_cap_2">
+       <div class="sub_company">
+            <div class="title_sub"><h2>찾아오시는길 <small><sup> Location</sup></small></h2></div>
+            <div class="line_1"></div>
+            
+                <div class="tab_1" style="padding: 0;">
+					<div id="map" style="height: 428px; width: 100%"></div>
+					<script>
+					function initMap() {
+					var uluru = {lat: 36.365356, lng: 127.316009};
+					var map = new google.maps.Map(document.getElementById('map'), {
+					zoom: 17,
+					center: uluru,
+					});
+					var contentString = '<div id="content">'+
+				      '<div id="siteNotice">'+
+				      '</div>'+
+				      '<h4 id="firstHeading" class="firstHeading">대전광역시 유성구 왕가봉로 24번길 10. 5층　</h4>'+
+				      '<div id="bodyContent">'+
+				      '<br><p>전화번호 : 1522-4422</p>'+
+				      '</div>'+
+				      '</div>';
+				      
+					var infowindow = new google.maps.InfoWindow({
+						content: contentString
+					});
+					var marker = new google.maps.Marker({
+					position: uluru,
+					map: map
+					});
+					marker.addListener('click', function() {
+					    infowindow.open(map, marker);
+					  });
+					}
+					</script>
+					<script async defer
+					src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiVK3yaDyQ1gBq7sr_O2maUiocTye_7PI&callback=initMap">
+					</script>						    
+				</div>
+            
+       </div>
+   </div>
+   
+    <footer>
+        <div class="footer_cap">
+            <div class="left"><img src="../../image/main/f_logo.png" alt=""></div>
+            <div class="right">
+                <dl>
+                    <dd>
+                    <p>[개인정보보호정책] [이메일무단수집거부] [이용약관]</p><br>
+                    <p>대전광역시 유성구 왕가봉로 24번길 10. 5층　전화번호 : 1522-4422 </p>
+                    <p>Copyright ⓒ 2017 Macthing Chance BIZ. All rights reserved.</p>
+                    </dd>
+                </dl>
+            </div>
+        </div>
+    </footer><!-- End of footer -->
+   
+</body>
+</html>

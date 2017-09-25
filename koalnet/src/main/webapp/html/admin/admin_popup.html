@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+    <title>admin</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- 모바일 -->
+    <script src="../../js/admin/jquery-1.10.2.js"></script><!-- jquery-1.10.2 -->
+    <link rel="stylesheet" href="../../css/admin/admin.css"> <!-- admin.css -->
+    <script src="../../js/admin/admin.js"></script> <!-- admin.js -->
+    
+    <style>
+    .popup {width: 100%;margin: 0% auto;max-width: 700px;}
+    .popup > div > h2{text-align: center;background: #313c4a;color: white;padding: 5px 0;}
+    .popup_input {padding: 15px 0;position: relative;}
+    .popup_input > span{margin-left: 10px;display: inline-block;width: 40%;margin-top: 5px;}
+    .popup_button {position: absolute;right: 10px;padding: 18px 10px;top: 15px;background: #f29d06;color: white;display: inline-block;}
+    .popup_input{background: #ebebeb;}
+
+    .result > table{ width: 100%;}
+    .result > table th{background: #727272;color: white;padding: 5px 0;font-size: 16px;}
+    .result > table td{padding: 4px 0;color: black;background: #f4f4f4;font-size: 14px;}
+
+    .close {margin-top: 15px;display: inline-block;width: 100%;text-align: center;}
+    .close > a{text-decoration: none; color: white; background: #313c4a;padding: 5px 20px;}
+
+    .s_button{display: inline-block;width: 100%;margin: 15px 0 0 0;position: relative;height: 31px;}
+    .s_button > a {padding: 5px;display: inline-block;background: #313c4a;color: white;text-decoration: none;position: absolute;right: 2px;}
+    /* =================================================================== End of admin_popup =================================================================== */
+        
+    @media all and (max-width: 500px){
+
+    .popup {width: 100%;margin: 0% auto;max-width: 700px;}
+    .popup > div > h2{text-align: center;background: #313c4a;color: white;padding: 5px 0;}
+    .popup_input {padding: 15px 0;position: relative;text-align: left;padding-top: 10px;}
+    .popup_input > span{margin-left: 15px;display: inline-block;width: 40%;margin-top: 5px;}
+    .popup_button_box {margin-top: 20px;position: relative;width: 100%;}
+    .popup_button_box > a{position: absolute;top: 0;left: 0;text-align: center;width: 100%;padding: 5px 0;margin: auto;}
+
+    .result {border-top: 2px dashed white;margin-top: 25px;}
+
+    .close {margin-top: 15px;display: inline-block;width: 100%;text-align: right;}
+    .close > a{text-decoration: none; color: white; background: #313c4a;padding: 5px 0;width: 100%;display: inline-block;text-align: center;}
+
+    .s_button{display: inline-block;width: 100%;margin: 30px 0 -30px 0;position: relative;height: 32px;}
+    .s_button > a {padding: 2px 0;display: inline-block;background: #313c4a;color: white;text-decoration: none;position: absolute;right: 0;width: 100%;text-align: center;bottom: 0;}
+    /* =================================================================== End of admin_popup =================================================================== */
+
+    }
+    </style>
+    
+</head><!-- End of head -->
+
+<body>
+
+    <div class="popup">
+        <div>
+            <h2 class="title">Title</h2>
+        </div>
+        <div class="popup_input">
+            <span>이름: <input type="text"></span> <span>이름: <input type="text"></span>
+            <span>이름: <input type="text"></span> <span>이름: <input type="text"></span>
+            <div class="popup_button_box"><a href="#" class="popup_button">제출</a></div>
+        </div>
+        <div class="s_button">
+            <a href="#">버튼1</a>
+        </div>
+        <div class="result">
+            <table>
+                <tr>
+                    <th>111</th>
+                    <th>222</th>
+                    <th>333</th>
+                    <th>444</th>
+                </tr>
+                <tr>
+                    <td>111</td>
+                    <td>222</td>
+                    <td>333</td>
+                    <td>444</td>
+                </tr>
+                <tr>
+                    <td>111</td>
+                    <td>222</td>
+                    <td>333</td>
+                    <td>444</td>
+                </tr>
+            </table>
+        </div>
+        <div class="close">
+            <a href="#">닫기</a>
+        </div>
+    </div>
+    
+
+
+
+</body><!-- End of body -->
+
+</html>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+
+<sqlMap namespace="kr.co.mcmall.mcm.cmn.ath.McmCmnAth001">
+   
+   <!-- ddCmt001VO -->
+   <typeAlias  alias="mcmCmnAth002VO" type="kr.co.mcmall.mcm.cmn.ath.service.McmCmnAth002VO"/>
+   <typeAlias alias="int" type="java.lang.Integer" />
+   
+   <select id = "kr.co.mcmall.mcm.cmn.ath.McmCmnAth001.selectMcmCmnAth002M01List" resultClass="egovMap" parameterClass="mcmCmnAth002VO">
+		select 
+				ath_cd
+			  , ath_cnts
+			  , lst_udt_id
+			  , lst_udt_dt
+			  , lst_udt_ip 
+		from 
+				tb_cmnath001
+   
+   </select>
+   
+</sqlMap>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

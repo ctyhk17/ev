@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="utf-8">
+    <title>MC_Mall</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- 모바일 -->
+    <link rel="stylesheet" href="../../css/main/main.css"><!-- main.css -->
+    <link rel="stylesheet" href="../../css/main/slider/swiper.css"><!-- new_Swiper.css -->
+    <script src="../../js/main/slider/swiper.js"></script><!-- new_Swiper JS -->
+    <script src="../../js/main/jquery-1.10.2.js"></script><!-- jquery-1.10.2 --> 
+    
+    <script>
+        $(document).ready(function(){
+            $(".M_top_menu").click(function(){
+                  $('.M_top_menu_1,.M_top_menu_1_back').slideToggle(100).toggleClass('dis');
+             });// End of sub_menu
+            $(".M_top_menu_1_back").click(function(){
+                $('.M_top_menu_1,.M_top_menu_1_back').slideToggle(100).toggleClass('dis');
+             });// End of M_top_menu_1_back //메뉴 제외 클릭시
+            $(".close").click(function(){
+                $('.M_top_menu_1,.M_top_menu_1_back').slideToggle(100).toggleClass('dis');
+             });// End of M_top_menu_1_back //메뉴 제외 클릭시
+            $(".M_top_menu_1 ul li").click(function(){     		
+                $(this).parent().find("ul").stop().slideToggle(200);
+             });// End of M_top_menu_1
+            $(".active_on").click(function(){     		
+               $('.kategorie_tab').slideToggle(0).toggleClass('dis_1');
+             });// End of M_top_menu_1
+            
+            $(".click_q").click(function(){     		
+                $(this).parent().find("dl").stop().slideToggle(200);
+             });// End of faq_menu
+        }); 
+    </script>
+</head>
+<body>
+   <header>
+        <div class="heard_border">
+             <div class="heard_cap">
+                  <div class="top_left">
+                      <a href="#;">FAVORITE</a>
+                  </div> 
+                  <div class="top_menu">
+                      <a href="#;">HOME</a>
+                      <a href="#;">LOGIN</a>
+                      <a href="#;">JOIN</a>
+                      <a href="#;">MYPAGE</a>
+                      <a href="#;">CART</a>
+                      <a href="#;">CONTACT US</a>
+                  </div>
+            </div>
+        </div><!-- End of pc top_menu -->
+         
+        <div class="logo_box logo_box_sub">
+           <div class="M_top_menu">
+               <div class="M_t"></div>
+               <div class="M_m"></div>
+               <div class="M_b"></div>
+           </div>
+            <div class="M_top_menu_1">
+                  <div class="M_top_menu_1_back"></div>
+                  <div class="close">X</div>
+                   <ul>
+                       <li><a href="#;">HOME</a></li>
+                   </ul>
+                   <ul><li><a href="#;">LOGIN</a></li></ul>
+                   <ul><li><a href="#;">JOIN</a></li></ul>
+                   <ul>
+                       <li><a href="#;">MYPAGE <small>▼</small></a></li>
+                       <ul>
+                           <li><a href="#;">menu1</a></li>
+                           <li><a href="#;">menu2</a></li>
+                       </ul>
+                   </ul>
+                   <ul><li><a href="#;">CART</a></li></ul>
+                   <ul><li><a href="#;">CONTACT US</a></li></ul>
+               </div>
+            <div class="logo logo_sub"><a href="#;"><img src="../../image/main/logo.png" alt="" title="home"></a> <h1>자주하는 질문</h1></div>
+<!--
+            <div class="Search">
+                <select name="" id="">
+                    <option value="">전체</option>
+                </select>
+                <input type="text">
+                <a href="#;">검색</a>
+            </div>
+-->
+        </div>
+   </header><!-- End of header -->
+   
+   <div class="sub_faq_cap">
+       <div class="sub_faq">
+           <div class="search"><span><input type="text" placeholder="자주 묻는 질문을 검색해보세요!!"><a href="#;">검색</a> <small>- 고객님께서 원하시는 답변을 좀 더 빠르게 확인 하실 수 있습니다</small></span></div>
+       </div>
+   </div>
+   <div class="faq_cap_1">
+       <div class="faq">
+           <div class="faq_tab active_a"> <span>전체보기</span> </div>
+           <div class="faq_tab"> <span>배송관련</span> </div>
+           <div class="faq_tab"> <span>교환/환불</span> </div>
+           <div class="faq_tab"> <span>AS관련</span> </div>
+           <div class="faq_tab"> <span>회원/적립</span> </div>
+           <div class="faq_tab"> <span>기타</span> </div>
+       </div>
+       <div class="faq_tab_cap">
+           <div class="faq_tab_list">
+              <dl>
+                  <dt class="click_q"><span>Q 로그인 아이디가 생각나지 않아요.</span></dt>
+                      <dl>
+                          <dd class="click_a">A 로그인 창에서 <b>“아이디찾기”</b>를 클릭합니다.
+                                <b>휴대폰 본인인증으로 인증을 진행합니다.</b>
+                                [휴대폰 본인인증] 으로 아이디를 확인하실 수 있습니다.
+                         </dd>
+                     </dl>
+                 
+              </dl>
+              <dl>
+                  <dt class="click_q"><span>Q 개인정보수정은 어디에서 가능한가요?</span></dt>
+                      <dl style="display:none">
+                          <dd class="click_a">A 로그인 창에서 <b>“아이디찾기”</b>를 클릭합니다.
+                                <b>휴대폰 본인인증으로 인증을 진행합니다.</b>
+                                [휴대폰 본인인증] 으로 아이디를 확인하실 수 있습니다.
+                         </dd>
+                     </dl>
+              </dl>
+               <dl>
+                  <dt class="click_q"><span>Q 동일한 상품을 여러 개 구매하였을 경우, 상품평도 여러 번 작성이 가능한가요? </span></dt>
+                      <dl style="display:none">
+                          <dd class="click_a">A 로그인 창에서 <b>“아이디찾기”</b>를 클릭합니다.
+                                <b>휴대폰 본인인증으로 인증을 진행합니다.</b>
+                                [휴대폰 본인인증] 으로 아이디를 확인하실 수 있습니다.
+                         </dd>
+                     </dl>
+              </dl>
+              <dl>
+                  <dt class="click_q"><span>Q A/S는 어떻게 받나요? </span></dt>
+                      <dl style="display:none">
+                          <dd class="click_a">A 로그인 창에서 <b>“아이디찾기”</b>를 클릭합니다.
+                                <b>휴대폰 본인인증으로 인증을 진행합니다.</b>
+                                [휴대폰 본인인증] 으로 아이디를 확인하실 수 있습니다.
+                         </dd>
+                     </dl>
+              </dl>
+              <dl>
+                  <dt class="click_q"><span>Q 상품 하자로 교환(반품)하고 싶어요. </span></dt>
+                      <dl style="display:none">
+                          <dd class="click_a">A 로그인 창에서 <b>“아이디찾기”</b>를 클릭합니다.
+                                <b>휴대폰 본인인증으로 인증을 진행합니다.</b>
+                                [휴대폰 본인인증] 으로 아이디를 확인하실 수 있습니다.
+                         </dd>
+                     </dl>
+              </dl>
+              <dl>
+                  <dt class="click_q"><span>Q 상품을 반품했는데 신용카드 승인취소가 안되어 있어요. </span></dt>
+                      <dl style="display:none">
+                          <dd class="click_a">A 로그인 창에서 <b>“아이디찾기”</b>를 클릭합니다.
+                                <b>휴대폰 본인인증으로 인증을 진행합니다.</b>
+                                [휴대폰 본인인증] 으로 아이디를 확인하실 수 있습니다.
+                         </dd>
+                     </dl>
+              </dl>
+              <dl>
+                  <dt class="click_q"><span>Q 부재중으로 상품이 반송된 경우, 배송비는 누가 부담하나요? </span></dt>
+                      <dl style="display:none">
+                          <dd class="click_a">A 로그인 창에서 <b>“아이디찾기”</b>를 클릭합니다.
+                                <b>휴대폰 본인인증으로 인증을 진행합니다.</b>
+                                [휴대폰 본인인증] 으로 아이디를 확인하실 수 있습니다.
+                         </dd>
+                     </dl>
+              </dl>
+              <dl>
+                  <dt class="click_q"><span>Q  택배사 연락처가 궁금해요. </span></dt>
+                      <dl style="display:none">
+                          <dd class="click_a">A 로그인 창에서 <b>“아이디찾기”</b>를 클릭합니다.
+                                <b>휴대폰 본인인증으로 인증을 진행합니다.</b>
+                                [휴대폰 본인인증] 으로 아이디를 확인하실 수 있습니다.
+                         </dd>
+                     </dl>
+              </dl>
+              <dl>
+                  <dt class="click_q"><span>Q  파손된 상품이 배송 되었어요. </span></dt>
+                      <dl style="display:none">
+                          <dd class="click_a">A 로그인 창에서 <b>“아이디찾기”</b>를 클릭합니다.
+                                <b>휴대폰 본인인증으로 인증을 진행합니다.</b>
+                                [휴대폰 본인인증] 으로 아이디를 확인하실 수 있습니다.
+                         </dd>
+                     </dl>
+              </dl>
+              <dl>
+                  <dt class="click_q"><span>Q  묶음배송이 가능한가요? </span></dt>
+                      <dl style="display:none">
+                          <dd class="click_a">A 로그인 창에서 <b>“아이디찾기”</b>를 클릭합니다.
+                                <b>휴대폰 본인인증으로 인증을 진행합니다.</b>
+                                [휴대폰 본인인증] 으로 아이디를 확인하실 수 있습니다.
+                         </dd>
+                     </dl>
+              </dl>
+           </div>
+       </div>
+       
+   </div>
+   
+    <footer>
+        <div class="footer_cap">
+            <div class="left"><img src="../../image/main/f_logo.png" alt=""></div>
+            <div class="right">
+                <dl>
+                    <dd>
+                    <p>[개인정보보호정책] [이메일무단수집거부] [이용약관]</p><br>
+                    <p>(27339) 충청북도 충주시 으뜸로 21(금릉동)　전화번호 : 043-850-0760~3 </p>
+                    <p>Copyright ⓒ 2017 당뇨건강생활사회적협동조합. All rights reserved.</p>
+                    </dd>
+                </dl>
+            </div>
+        </div>
+    </footer><!-- End of footer -->
+   
+</body>
+</html>

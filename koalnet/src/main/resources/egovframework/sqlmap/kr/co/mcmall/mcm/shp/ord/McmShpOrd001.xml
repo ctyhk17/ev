@@ -1,0 +1,437 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+
+<sqlMap namespace="kr.co.mcmall.mcm.shp.ord.McmShpOrd001">
+
+	
+
+	<typeAlias  alias="mcmShpOrd001VO" type="kr.co.mcmall.mcm.shp.ord.service.McmShpOrd001VO"/>
+	
+	
+	
+	
+	
+	<!--  상품주문현황 조회 -->
+	<select id="kr.co.mcmall.mcm.shp.ord.McmShpOrd001.selectGdsInfo" resultClass="egovMap" parameterClass="mcmShpOrd001VO">
+	
+			select
+			  a.gds_id
+			, a.gds_nm
+			, a.sel_cnt
+		    , a.gds_gnr_amt
+			, a.gds_mb_amt
+			, a.gds_cnt
+			, a.gds_sale_yn
+			, a.gds_sale_amt
+			, a.pusr_id
+			, case
+		        when a.gds_sale_yn = 'N' then a.gds_mb_amt
+		        else a.gds_sale_amt
+		      end  as gds_amt
+		    , cast(round(a.sel_cnt/a.gds_cnt*100, 0) as char) as sel_rt
+		    , case
+		        when a.gds_sale_yn = 'N' then cast(round((a.gds_gnr_amt -a.gds_mb_amt)/a.gds_gnr_amt*100, 0) as char)
+		        else cast(round((a.gds_gnr_amt -a.gds_sale_amt)/a.gds_gnr_amt*100, 0) as char)
+		      end  as sal_rt
+		from
+		(
+			select 
+			      a.gds_id
+			    , a.gds_nm
+			    , a.sel_cnt
+			    , ifnull((select usr_id from tb_malbiz001 where lcs_id = a.lcs_id), '') as pusr_id
+			    , ifnull((select gds_env_val from tb_malgds003 where gds_id = a.gds_id and gds_env_div_cd = 'GDS001003'), '0') as gds_gnr_amt
+				, ifnull((select gds_env_val from tb_malgds003 where gds_id = a.gds_id and gds_env_div_cd = 'GDS001001'), '0') as gds_mb_amt
+				, ifnull((select gds_env_val from tb_malgds003 where gds_id = b.gds_id and gds_env_div_cd = 'GDS001002'), '0') as gds_cnt
+				, ifnull((select gds_env_val from tb_malgds003 where gds_id = a.gds_id and gds_env_div_cd = 'GDS001004'), 'N') as gds_sale_yn
+				, ifnull((select gds_env_val from tb_malgds003 where gds_id = a.gds_id and gds_env_div_cd = 'GDS001005'), '0') as gds_sale_amt
+			from 
+			    tb_malgds001 a
+			    inner join tb_malstr003 b
+			    on a.gds_id = b.gds_id
+			where 
+			        b.str_id = #strId#
+			    and b.gds_id = #gdsId#
+		) a
+		    
+	</select>
+	
+	<!-- 상품 설명 목록 조회 -->
+	<select id="kr.co.mcmall.mcm.shp.ord.McmShpOrd001.selectGdsCntsList" resultClass="egovMap" parameterClass="mcmShpOrd001VO">
+		select 
+		      gds_id
+		    , seq_no
+		    , gds_sbj
+		    , gds_cnts    
+		from 
+		    tb_malgds002 a
+		where 
+		    a.gds_id = #gdsId#
+		order by 
+		    seq_no
+	</select>
+	
+	
+	<!-- 키워드 목록 조회 -->
+	<select id="kr.co.mcmall.mcm.shp.ord.McmShpOrd001.selectKeywordList" resultClass="egovMap" parameterClass="mcmShpOrd001VO">
+		<![CDATA[
+		select
+		      gds_id
+		    , seq_no
+		    , kwd_nm
+		    , kwd_stt_cd
+		    , replace(kwd_rss_url,'&amp;','&') kwd_rss_url
+		from 
+		    tb_malgds004 a
+		where 
+		        kwd_stt_cd = 'GDS002002'
+		    and gds_id = #gdsId#
+		    ]]> 
+	</select>
+	
+	
+	<!-- 주문내역 저장 -->
+	<insert id="kr.co.mcmall.mcm.shp.ord.McmShpOrd001.insertOrderInfo" parameterClass="mcmShpOrd001VO">
+		
+			<selectKey keyProperty="ordNo2" resultClass="String" >
+				select nextval('seq_ord_no')
+			</selectKey>
+		
+		
+		insert into tb_shpord001
+		(
+		      str_id
+		    , ord_no
+		    , usr_id
+		    , ord_tot_amt
+		    , ord_dt
+		    , lst_udt_id
+		    , lst_udt_dt
+		    , lst_udt_ip
+		    , rcpt_nm
+		    , tel_no
+		    , dlv_pst_no
+		    , dlv_rd_addr
+		    , dlv_rd_addr_dtl
+		    , dlv_nt
+		    , dlv_dong_nm
+		) values (
+		      nullif(#strId#, '')
+		     <isEmpty property="ordNo">
+		    , nullif(#ordNo2#, '')
+		    </isEmpty>
+		     <isNotEmpty property="ordNo">
+		     , nullif(#ordNo#, '')
+		     </isNotEmpty>
+		    , nullif(#usrId#, '')
+		    , #ordTotAmt#
+		    , current_timestamp()
+		    , nullif(#lstUdtId#, '')
+		    , current_timestamp()
+		    , nullif(#lstUdtIp#, '')
+		    , nullif(#rcptNm#, '')
+		    , nullif(#telNo#, '')
+		    , nullif(#dlvPstNo#, '')
+		    , nullif(#dlvRdAddr#, '')
+		    , nullif(#dlvAddrDtl#, '')
+		    , nullif(#dlvNt#, '')
+		    , nullif(#dlvDongNm#, '')
+		)
+	</insert>
+	
+	
+	<!--  주문별 상품 내역 등록 -->
+	<insert id="kr.co.mcmall.mcm.shp.ord.McmShpOrd001.insertOrderDetailInfo" parameterClass="mcmShpOrd001VO">
+		
+		insert into tb_shpord002
+		(
+		      str_id
+		    , usr_id
+		    , lcs_id
+		    , ord_no
+		    , gds_id
+		    , ord_cnt
+		    , ord_amt
+		    , lst_udt_id
+		    , lst_udt_dt
+		    , lst_udt_ip
+		) values (
+		      nullif(#strId#, '')
+		    , nullif(#usrId#, '')
+		    , nullif(#lcsId#, '')
+		    , nullif(#ordNo#, '')
+		    , nullif(#gdsId#, '')
+		    , nullif(#ordCnt#, '')
+		    , nullif(#ordAmt#, '0')
+		    , #lstUdtId#
+		    , current_timestamp()
+		    , #lstUdtIp#
+		)
+	</insert>
+	
+	<!--  주문별 상품 내역 등록 장바구니용 -->
+	<insert id="kr.co.mcmall.mcm.shp.ord.McmShpOrd001.insertOrderDetailInfos" parameterClass="mcmShpOrd001VO">
+		
+		insert 
+		  into tb_shpord002
+		select 
+		    str_id
+		   ,usr_id
+		   ,'$ordNo$' ord_no
+		   ,gds_id
+		   ,nullif(lcs_id,'') lcs_id
+		   ,nullif(ord_cnt,'') ord_cnt
+		   ,nullif(ord_amt,'') ord_amt
+		   ,'$lstUdtId$' lst_udt_id
+		   ,current_timestamp
+		   ,'$lstUdtIp$' lst_udt_ip
+		from tb_shpcrt001
+		 <isNotEmpty property="crtId">
+      	  <iterate prepend="where crt_id in" property="crtId" open="(" close=")" conjunction=","> 
+	 		  #crtId[]#
+		  </iterate>
+      </isNotEmpty>
+	</insert>
+	
+	<!--  주문총금액 업데이트 -->
+	<update id="kr.co.mcmall.mcm.shp.ord.McmShpOrd001.updatTOrderTotAmt" parameterClass="mcmShpOrd001VO">
+		update tb_shpord001
+		set
+			ord_tot_amt = ifnull(
+				(
+					select 
+						sum(ifnull(ord_amt, 0))
+					from
+						tb_shpord002
+					where
+						ord_no = #ordNo#
+				), '0')
+		where
+			ord_no = #ordNo#
+	</update>
+	
+	
+	<!--  주문정보 조회 -->
+	<select id="kr.co.mcmall.mcm.shp.ord.McmShpOrd001.selectOrderInfo" resultClass="egovMap" parameterClass="mcmShpOrd001VO">
+		select
+			  str_id
+		    , ord_no
+		    , usr_id
+		    , ord_tot_amt
+		    , date_format(ord_dt,'%Y-%m-%d') AS ord_dt
+		    , lst_udt_id
+		    , lst_udt_dt
+		    , lst_udt_ip
+		from		    
+			tb_shpord001
+		where
+				str_id = #strId#
+			and usr_id = #usrId#
+			and ord_no = #ordNo#			
+	</select>
+	
+	
+	<!-- 홍보물 번호 유효성 검증 -->
+	<select id="kr.co.mcmall.mcm.shp.ord.McmShpOrd001.selectIsValidSeqNo" resultClass="String" parameterClass="String">
+		select 
+		  case
+		    when count(1) <![CDATA[>]]> 0 then 'Y'
+		    else 'N'
+		  end as is_valid
+		from 
+		  tb_malbiz002
+		where
+		  seq_no = #value#	
+	</select> 
+	
+	
+	<select id="kr.co.mcmall.mcm.shp.ord.McmShpOrd001.selectPrInfo" resultClass="egovMap" parameterClass="String">
+		select 
+		    lcs_id
+		  , str_id
+		  , gds_id
+		  , seq_no
+		  , itr_cnts		  		  
+		from 
+		  tb_malbiz002
+		where
+		  seq_no = #value#
+	</select>
+	
+	
+	<select id="kr.co.mcmall.mcm.shp.ord.McmShpOrd001.selectForGdsSelCnt" resultClass="egovMap" parameterClass="mcmShpOrd001VO">
+		select 
+		       gds_id
+		     , sel_cnt 
+		  from tb_malgds001
+		 where gds_id = #gdsId#
+		
+			
+	</select>
+	
+	<select id="kr.co.mcmall.mcm.shp.ord.McmShpOrd001.selectForGdsSale" resultClass="egovMap" parameterClass="mcmShpOrd001VO">
+			select
+			      usr_id
+         		, lcs_id
+			    , ord_cnt
+			from
+			tb_shpord002 
+			where ord_no = #ordNo#
+			and gds_id = #gdsId#
+			and usr_id = #usrId#
+	
+	</select>
+	
+	<update id="kr.co.mcmall.mcm.shp.ord.McmShpOrd001.updateGdsSaleCnt" parameterClass="mcmShpOrd001VO">
+			update
+			    tb_malgds001 
+			set
+			    sel_cnt = #selCnt#
+			where gds_id = #gdsId#
+	</update>
+	
+	<select id="kr.co.mcmall.mcm.cmn.pot.McmCmnPot001.selectUsrIdAboutLcsId" resultClass="String" parameterClass="mcmShpOrd001VO">
+			select 
+		       usr_id 
+		  from 
+		       tb_malbiz001
+		 where 
+		       lcs_id = #lcsId#
+	</select>
+	
+	
+	<select id="kr.co.mcmall.mcm.shp.ord.McmShpOrd001.selectOrdInfo" resultClass="egovMap" parameterClass="mcmShpOrd001VO">
+			select
+			    a.str_id
+			   ,a.ord_no
+			   ,a.ord_tot_amt
+			   ,a.rcpt_nm
+			   ,a.tel_no
+			   ,a.dlv_pst_no
+			   ,a.dlv_rd_addr
+			   ,a.dlv_rd_addr_dtl
+			   ,a.dlv_nt
+			   ,a.dlv_dong_nm
+			   ,a.lst_udt_dt
+			   ,a.gds_id
+			   ,a.ord_cnt
+			   ,a.ord_amt
+			   ,b.gds_nm
+			from
+			(
+					select 
+					    a.str_id
+					   ,a.ord_no
+					   ,a.ord_tot_amt
+					   ,a.rcpt_nm
+					   ,a.tel_no
+					   ,a.dlv_pst_no
+					   ,a.dlv_rd_addr
+					   ,a.dlv_rd_addr_dtl
+					   ,a.dlv_nt
+					   ,a.dlv_dong_nm
+					   ,a.lst_udt_dt
+					   ,b.gds_id
+					   ,b.ord_cnt
+					   ,ord_amt
+					from tb_shpord001 a inner join tb_shpord002 b
+					  on 
+					     a.str_id = b.str_id
+					 and a.ord_no = b.ord_no
+					 and a.usr_id = b.usr_id
+					 and a.ord_no = #ordNo#
+			) a inner join tb_malgds001 b
+			on a.gds_id = b.gds_id
+	</select>
+	<select id="kr.co.mcmall.mcm.shp.ord.McmShpOrd001.selectUsrOrdInfo" resultClass="egovMap" parameterClass="mcmShpOrd001VO">
+			select
+			      a.ord_tot_amt 
+			     ,a.tel_no
+			     ,a.dlv_pst_no
+			     ,a.dlv_rd_addr
+			     ,a.dlv_rd_addr_dtl
+			     ,a.dlv_nt
+			     ,a.dlv_dong_nm
+			     ,a.lst_udt_dt
+			     ,a.usr_nm
+			     ,a.usr_id
+			from
+			    (
+			              select 
+			                    ord_tot_amt 
+			                   ,tel_no
+			                   ,dlv_pst_no
+			                   ,dlv_rd_addr
+			                   ,dlv_rd_addr_dtl
+			                   ,dlv_nt
+			                   ,dlv_dong_nm
+			                   ,lst_udt_dt
+			                   ,(select usr_nm from tb_cmnusr001 b where  a.usr_id = b.usr_id) usr_nm
+			                   ,usr_id
+			                from tb_shpord001 a
+			               where ord_no = #ordNo#
+			    ) a
+	</select>
+	
+	<!--  주문별 상품 내역 등록 -->
+	<insert id="kr.co.mcmall.mcm.shp.ord.McmShpOrd001.insertshpPayInfo" parameterClass="mcmShpOrd001VO">
+		
+		insert into tb_shppay001
+		(
+		      str_id
+		    , usr_id
+		    , ord_no
+		    , pay_amt
+		    , pay_dt
+		    , ini_tid
+		    , pay_div_cd
+		    , vact_no
+		    , vact_tm
+		    , vact_nm
+		    , vact_hld
+		    , vact_bnk_cd
+		    , lst_udt_id
+		    , lst_udt_dt
+		    , lst_udt_ip
+		    , pay_yn
+		) values (
+		      nullif(#strId#, '')
+		    , nullif(#usrId#, '')
+		    , nullif(#ordNo#, '')
+		    , nullif(#payAmt#, '')
+		    , current_timestamp()
+		    , nullif(#iniTid#, '')
+		    , nullif(#payDivCd#, '')
+		    , nullif(#vactNo#, '')
+		    , nullif(#vactTm#, '')
+		    , nullif(#vactNm#, '')
+		    , nullif(#vactHld#, '')
+		    , nullif(#vactBnkCd#, '')
+		    , #lstUdtId#
+		    , current_timestamp()
+		    , #lstUdtIp#
+		    , 'Y'
+		)
+	</insert>
+	
+	
+	<update id="kr.co.mcmall.mcm.shp.ord.McmShpOrd001.updateOrdPaySuccess" parameterClass="mcmShpOrd001VO">
+			update
+			    tb_shpord001 
+			set
+			    ord_pay_yn = 'Y',
+			    ord_yn = 'Y'
+			where ord_no = #ordNo#
+	</update>
+	<select id="kr.co.mcmall.mcm.shp.ord.McmShpOrd001.selectOrdCnt" parameterClass="mcmShpOrd001VO" resultClass="int">
+		select
+			count(1) totCnt
+		  from tb_shpord001
+		 where ord_no = #ordNo#
+	</select>
+	
+	
+</sqlMap>
+
+

@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+
+<sqlMap namespace="kr.co.mcmall.mcm.cmn.kwd.McmCmnKwd001">
+   
+   <typeAlias  alias="McmCmnKwd001VO" type="kr.co.mcmall.mcm.cmn.kwd.service.McmCmnKwd001VO"/>
+   <typeAlias alias="int" type="java.lang.Integer" />
+   
+   <!-- 키워드 목록 -->
+   <select id="kr.co.mcmall.mcm.cmn.kwd.McmCmnKwd001.selectKwdList" resultClass="egovMap" parameterClass="McmCmnKwd001VO">
+   select
+             cast(A.RN as char) as rn   
+          	,A.gds_id
+			,A.kwd_nm
+			,A.kwd_stt_cd
+			,A.kwd_rss_url
+			,A.lst_udt_id
+			,date_format(A.lst_udt_dt, '%Y-%m-%d') as lst_udt_dt
+			,A.lst_udt_ip
+			,A.seq_no
+      from 
+         (
+            select
+               @RNUM := @RNUM + 1 AS RN
+                   	,A.gds_id
+					,A.kwd_nm
+					,A.kwd_stt_cd
+					,A.kwd_rss_url
+					,A.lst_udt_id
+					,A.lst_udt_dt
+					,A.lst_udt_ip
+					,A.seq_no
+            from
+            (
+            select
+                   	 A.gds_id
+					,A.kwd_nm
+					,A.kwd_stt_cd
+					,A.kwd_rss_url
+					,A.lst_udt_id
+					,A.lst_udt_dt
+					,A.lst_udt_ip
+					,A.seq_no
+            from 
+               (
+                  select 
+                    	 a.gds_id
+						,a.kwd_nm
+						,a.kwd_stt_cd
+						,a.kwd_rss_url
+						,a.lst_udt_id
+						,a.lst_udt_dt
+						,a.lst_udt_ip
+						,a.seq_no
+                  from
+                     tb_malgds004 a inner join tb_malstr003 b
+                     on a.gds_id = b.gds_id
+                  where
+                     1=1
+                  and a.kwd_stt_cd = 'GDS002001'
+                  and b.str_id='ST00002'
+                      <isNotEmpty property="gdsIdSearch">
+                     	and gds_id like '%$gdsIdSearch$%'
+                     </isNotEmpty>
+                     <isNotEmpty property="kwdNmSearch">
+                     	and kwd_nm like '%$kwdNmSearch$%'
+                     </isNotEmpty>
+                     <isNotEmpty property="stDtSearch">
+                     	and date_format(lst_udt_dt,'%Y-%m-%d') between #stDtSearch# and #endDtSearch#
+                     </isNotEmpty>
+
+               ) A,
+               (
+                  select @RNUM := 0
+               ) B
+            order by
+                  lst_udt_dt desc
+            ) a      
+         ) A
+      where
+         1=1
+         limit #firstIndex#, #recordCountPerPage#
+   
+   </select>
+   
+   <!-- 키워드 개수 목록 -->
+   <select id="kr.co.mcmall.mcm.cmn.kwd.McmCmnKwd001.selectKwdCnt" resultClass="int" parameterClass="McmCmnKwd001VO">
+   		select
+   			 count(1) as totcnt
+   		from
+                     tb_malgds004 a inner join tb_malstr003 b
+                     on a.gds_id = b.gds_id
+                  where
+                     1=1
+                  and a.kwd_stt_cd = 'GDS002001'
+                  and b.str_id='ST00002'
+                      <isNotEmpty property="gdsIdSearch">
+                     	and gds_id like '%$gdsIdSearch$%'
+                     </isNotEmpty>
+                     <isNotEmpty property="kwdNmSearch">
+                     	and kwd_nm like '%$kwdNmSearch$%'
+                     </isNotEmpty>
+                     <isNotEmpty property="stDtSearch">
+                     	and date_format(lst_udt_dt,'%Y-%m-%d') between #stDtSearch# and #endDtSearch#
+                     </isNotEmpty>
+   </select>
+
+	<!-- 키워드 상세정보 -->
+	<select id="kr.co.mcmall.mcm.cmn.kwd.McmCmnKwd001.selectKwdInfo" resultClass="egovMap" parameterClass="McmCmnKwd001VO">
+		select 
+	       	 gds_id
+			,kwd_nm
+			,kwd_stt_cd
+			,kwd_rss_url
+			,lst_udt_id
+			,date_format(lst_udt_dt, '%Y-%m-%d') as lst_udt_dt
+			,lst_udt_ip
+			,seq_no
+        from
+             tb_malgds004
+        where
+         	 1=1
+         and gds_id = #gdsId#
+         and seq_no	= #seqNo#     
+	</select> 
+	
+	<update id="kr.co.mcmall.mcm.cmn.kwd.McmCmnKwd001.updateKwdInfo" parameterClass="McmCmnKwd001VO">
+		update
+			 tb_malgds004
+		set
+			 kwd_stt_cd = 'GDS002002'
+			,kwd_rss_url = ifnull(#kwdRssUrl#,'')
+			,lst_udt_dt = current_timestamp
+			,kwd_stt_cd = #kwdSttCd# 
+		where
+			 gds_id = #gdsId#
+		and seq_No	= #seqNo#	
+	</update>
+	
+	
+	<delete id="kr.co.mcmall.mcm.cmn.kwd.McmCmnKwd001.deleteKwdInfo" parameterClass="McmCmnKwd001VO">
+		delete
+		from
+			tb_malgds004
+		where
+			 gds_id = #gdsId#
+		and seq_No	= #seqNo#
+	</delete> 
+</sqlMap>

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+
+<sqlMap namespace="kr.co.mcmall.mcm.cmn.lgn.McmCmnLgn001">
+
+	
+
+	<typeAlias  alias="mcmCmnLgn001VO" type="kr.co.mcmall.mcm.cmn.lgn.service.McmCmnLgn001VO"/>
+	
+	
+	<!--  회원 정보 조회 -->
+	<select id="kr.co.mcmall.mcm.cmn.lgn.McmCmnLgn001.selectUsrInfo" resultClass="egovMap" parameterClass="mcmCmnLgn001VO">
+	select 
+			  a.usr_id
+			, a.usr_nm
+			, a.tel_no
+			, a.email_addr	
+			, ifnull(a.use_yn, 'N') as use_yn 
+		  from
+			    tb_cmnusr001 a inner join tb_malstr004 b
+             on 
+                a.usr_id = b.usr_id
+	      where
+			    a.usr_id  = #usrId#
+			and usr_pwd = password(#usrPwd#)
+			and str_id = #strId#
+	</select>
+	
+	
+	<!--  권한 목록 조회 -->
+	<select id="kr.co.mcmall.mcm.cmn.lgn.McmCmnLgn001.selectAthCdList" resultClass="egovMap" parameterClass="String">
+		select
+			ath_cd
+		from
+			tb_cmnath002
+		where
+			usr_id = #value#
+	</select>
+	
+	
+	<!-- ID 중복확인 -->
+	<select id="kr.co.mcmall.mcm.cmn.lgn.McmCmnLgn001.selectExistsId" resultClass="String" parameterClass="String">
+		select 
+		  case
+		    when count(1) <![CDATA[>]]> 0 then 'Y'
+		    else 'N'
+		  end as is_valid
+		from 
+		  tb_cmnusr001
+		where
+		  usr_id = #value#		  
+	</select>
+	
+	
+	<select id="kr.co.mcmall.mcm.cmn.lgn.McmCmnLgn001.selectUsrIdList" resultClass="egovMap" parameterClass="mcmCmnLgn001VO">
+		select
+			  usr_id
+			, usr_nm
+		from
+			tb_cmnusr001
+		where
+			1=1
+			and usr_nm = #searchIdByUsrNm#
+			and tel_no = #searchIdByTelNo#
+			and ifnull(use_yn, 'N') = 'Y'
+	</select>
+	
+	
+	<!--  임시비밀번호 업데이트 -->
+	<update id="kr.co.mcmall.mcm.cmn.lgn.McmCmnLgn001.updateTmpUsrPwd" parameterClass="Map">
+		update tb_cmnusr001
+		set
+			usr_pwd = password(#tempPwd#)
+		where
+				usr_id = #usrId#
+			and ifnull(use_yn, 'N') = 'Y'
+	</update>
+	
+	
+	
+	<!--  비밀번호 찾기 -->
+	<select id="kr.co.mcmall.mcm.cmn.lgn.McmCmnLgn001.selectUsrInfoForPwd" resultClass="egovMap" parameterClass="mcmCmnLgn001VO">
+		select 
+			  usr_id
+			, usr_nm
+			, tel_no
+			, email_addr		  
+		from
+			tb_cmnusr001
+		where
+			    usr_id  = #searchPwdByUsrId#
+			and usr_nm  = #searchPwdByUsrNm#
+			and tel_no  = #searchPwdByTelNo#
+			and ifnull(use_yn, 'N') = 'Y' 
+		  
+		  
+	</select>
+	
+	
+	
+	
+	
+	
+	
+	
+
+
+		
+</sqlMap>

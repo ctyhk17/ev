@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+    <title>admin</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- 모바일 -->
+    <script src="../../js/admin/jquery-1.10.2.js"></script><!-- jquery-1.10.2 -->
+    <link rel="stylesheet" href="../../css/admin/admin.css"> <!-- admin.css -->
+    <script src="../../js/admin/admin.js"></script> <!-- admin.js -->
+    <script>
+        $(document).ready(function(){
+          var fileTarget = $('.filebox .upload-hidden');
+
+            fileTarget.on('change', function(){
+                if(window.FileReader){
+                    var filename = $(this)[0].files[0].name;
+                } else {
+                    var filename = $(this).val().split('/').pop().split('\\').pop();
+                }
+
+                $(this).siblings('.upload-name').val(filename);
+            });
+            
+            $(".active_1").click(function(){
+                $(".check_box_1").fadeIn(0);
+                $(".check_box_2").fadeOut(0);
+                 $('.active_2').removeClass('active_text');
+                $('.active_1').addClass('active_text');
+            });
+             $(".active_2").click(function(){
+                $(".check_box_2").fadeIn(0);
+                $(".check_box_1").fadeOut(0);
+                $('.active_1').removeClass('active_text');
+                $('.active_2').addClass('active_text');
+            });
+            
+        }); 
+    </script>
+    <style>
+    .popup_photo b {color: red;}
+    .popup_photo {width: 100%;margin: 0% auto;max-width: 700px;}
+    .popup_photo > div > h1{font-size: 18px;background: #f2f2f2;padding: 5px 0 10px 0;text-align: center;}
+    .check{border-bottom: 1px solid #8b8b8b;padding: 10px 0;}
+    .check > input{vertical-align: -2px;margin-right: 5px;}
+    .check_box_1 {padding: 0 0;padding: 15px 0;}
+    .photo_box {border: 1px solid #c3c3c3; text-align: center;margin: 5px 0 15px 0; padding: 100px; 0;background: #f2f2f2;}
+    .save_btn {display: inline-block;width: 100%;text-align: center;border-top: 1px solid #8b8b8b;}
+    .save_btn a{display: inline-block;padding: 4px 10px;border: 1px solid #d0d0d0;margin: 2% 1%; cursor: pointer;color: black; background: #f0f0f0;font-size: 14px;}
+    .check_box_1 p{font-size: 13px;line-height: 150%;}
+        
+    .check_box_2 {text-align: center;margin: 15px 0;line-height: 290px;}
+    .check_box_1,.check_box_2 {height: 330px;}
+        
+    .display_block {display: block;}
+    .display_none {display: none;}
+    
+    .check:after{content: '';display: block;clear: both;}
+    .check{font-size: 14px;}
+    .active_1 {float: left;padding: 5px 10px;border: 1px solid #8d8d8d;}
+    .active_2 {float: left;padding: 5px 10px;border: 1px solid #8d8d8d;}
+    .active_1 {cursor: pointer;}
+    .active_2 {cursor: pointer;margin: 0 5px;}
+    .active_text {color: red;border: 1px solid red;font-weight: bold;}
+    .where {
+      display: block;
+      margin: 25px 15px;
+      font-size: 11px;
+      color: #000;
+      text-decoration: none;
+      font-family: verdana;
+      font-style: italic;
+    } 
+
+    .filebox input[type="file"] {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip:rect(0,0,0,0);
+        border: 0;
+    }
+
+    .filebox label {
+        display: inline-block;
+        padding: .5em .75em;
+        color: #999;
+        font-size: inherit;
+        line-height: normal;
+        vertical-align: middle;
+        background-color: #fdfdfd;
+        cursor: pointer;
+        border: 1px solid #ebebeb;
+        border-bottom-color: #e2e2e2;
+        border-radius: .25em;
+    }
+
+    /* named upload */
+    .upload-name {width: 250px;}
+    .filebox .upload-name {
+        display: inline-block;
+        padding: .5em .75em;
+        font-size: inherit;
+        font-family: inherit;
+        line-height: normal;
+        vertical-align: middle;
+        background-color: #f5f5f5;
+      border: 1px solid #ebebeb;
+      border-bottom-color: #e2e2e2;
+      border-radius: .25em;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+    }
+
+    .filebox.bs3-primary label {
+      color: #fff;
+        background-color: #989898;
+    }
+        
+    @media all and (max-width: 500px){
+        .upload-name {width: 170px;}
+        .check_box_1,.check_box_2 {height: 370px;}
+    }
+
+    </style>
+    
+</head><!-- End of head -->
+
+<body>
+
+    <div class="popup_photo">
+        <div><h1>사진첨부하기</h1></div>
+        <div class="check">
+            <div class="active_1 active_text">이미지</div>
+            <div class="active_2">파일 이미지</div>
+        </div>
+        <div class="check_box_1">
+            <div><b>0장</b>/10장 | <b>0MB</b>/50MB</div>
+            <div class="photo_box">
+                <div><img src="../../image/admin/photo.png" alt="" style="width:25px;"></div>
+                <div><p>마우스로 드래그해서 이미지를 추가해주세요.</p></div>
+            </div>
+            <div>
+                <p><b>한 잔당 10MB, 1회에 50MB까지, 10개</b>의 이미지 파일을</p>
+                <p>등록할 수 있습니다. (JPG, GIF, PNG BMP)</p>
+            </div>
+            <div class="line">
+
+            </div>
+        </div>
+        <div class="check_box_2" style="display:none">
+            <div class="filebox bs3-primary">
+                <input class="upload-name" value="파일선택" disabled="disabled">
+				<label for="ex_filename">업로드</label> 
+                <input type="file" id="ex_filename" class="upload-hidden"> 
+            </div>
+        </div>
+        <div class="save_btn">
+            <a href="#">확인</a><a href="#">취소</a>
+        </div>
+    </div>
+    
+
+
+
+</body><!-- End of body -->
+
+</html>

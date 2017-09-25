@@ -1,0 +1,547 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+
+<sqlMap namespace="kr.co.mcmall.mcm.cmn.bbs.McmCmnBbs006">
+   
+   <!-- DdCmnt001VO -->
+   <typeAlias  alias="mcmCmnBbs006VO" type="kr.co.mcmall.mcm.cmn.bbs.service.McmCmnBbs006VO"/>
+   
+   <typeAlias alias="int" type="java.lang.Integer" />
+   
+   <!-- 공지사항 리스트 -->
+   <select id="kr.co.mcmall.mcm.cmn.bbs.McmCmnBbs006.selectBbsList" resultClass="egovMap" parameterClass="mcmCmnBbs006VO">
+		select
+			cast(a.rn AS CHAR) as rn   	
+			,a.bbs_id
+		    ,a.str_id
+		    ,a.usr_id
+		    ,a.bbs_cd
+		    ,a.bbs_grp_id
+		    ,a.bbs_grp_dep
+		    ,a.bbs_grp_ord
+		    ,a.lcs_id
+		    ,a.bbs_sbj
+		    ,a.bbs_cnts
+		    ,a.bbs_re_stt
+		    ,a.lst_udt_id
+		    ,a.lst_udt_dt
+		    ,a.bbs_re_yn
+		    ,a.usr_nm
+		    ,a.str_nm
+		    ,a.bbs_opn
+		from
+		(	
+			     select
+					@RNUM := @RNUM + 1 as rn
+				 	,a.bbs_id
+				 	,a.bbs_cd
+				    ,a.str_id
+				    ,a.usr_id
+				    ,a.bbs_grp_id
+				    ,a.bbs_grp_dep
+				    ,a.bbs_grp_ord
+				    ,a.lcs_id
+				    ,a.bbs_sbj
+				    ,a.bbs_cnts
+				    ,a.bbs_re_stt
+				    ,a.lst_udt_id
+				    ,DATE_FORMAT(a.lst_udt_dt, '%Y-%m-%d') AS lst_udt_dt
+				    ,a.bbs_re_yn
+				    ,a.usr_nm
+				    ,a.str_nm
+				    ,a.bbs_opn
+				from
+				(
+						  select
+						     a.bbs_id
+						    ,a.str_id
+						    ,a.bbs_cd
+						    ,a.usr_id
+						    ,a.bbs_grp_id
+						    ,a.bbs_grp_dep
+						    ,a.bbs_grp_ord
+						    ,a.lcs_id
+						    ,a.bbs_sbj
+						    ,a.bbs_cnts
+						    ,a.bbs_re_stt
+						    ,a.lst_udt_id
+						    ,a.lst_udt_dt
+						    ,a.lst_udt_ip
+						    ,a.bbs_re_yn
+						    ,c.usr_nm
+						    ,d.str_nm
+						    ,a.bbs_opn
+						  from
+						  (
+							    select
+								     bbs_id
+								    ,str_id
+								    ,bbs_cd
+								    ,usr_id
+								    ,bbs_grp_id
+								    ,bbs_grp_dep
+								    ,bbs_grp_ord
+								    ,lcs_id
+								    ,bbs_sbj
+								    ,bbs_cnts
+								    ,bbs_re_stt
+								    ,lst_udt_id
+								    ,lst_udt_dt
+								    ,lst_udt_ip
+								    ,bbs_re_yn
+								    ,bbs_opn
+							    from tb_shpbbs001
+							    where bbs_del_yn = 'N'
+							      and bbs_cd = #bbsCd#
+					    )a,
+					    (
+					      SELECT @RNUM := 0
+					    ) b
+					   ,tb_cmnusr001 c
+					   ,tb_malstr001 d
+					   where a.usr_id = c.usr_id
+					     and a.str_id = d.str_id 
+				)a 
+				where 1=1
+					 <isNotEmpty property="scUsrId" prepend="AND">
+					 a.usr_id = #scUsrId#
+					 </isNotEmpty>
+					 <isNotEmpty property="bbsReStt" prepend="AND">
+					 a.bbs_re_stt = #bbsReStt#
+					 </isNotEmpty>					
+					  <isNotEmpty property="usrNm" prepend="AND">
+					 a.usr_nm = #usrNm#
+					 </isNotEmpty>
+					 <isNotEmpty property="bbsSbj" prepend="AND">
+					 a.bbs_sbj = #bbsSbj#
+					 </isNotEmpty>
+					 <isNotEmpty property="bbsOpn" prepend="AND">
+					 	<isNotEqual property="bbsOpn" compareValue="FAQ001001">
+					 		a.bbs_opn = #bbsOpn#
+					 	</isNotEqual>
+					 </isNotEmpty>
+					 <isNotEmpty property="usrId" prepend="AND">
+					 	a.usr_id = #usrId#
+					 </isNotEmpty>
+				order by a.bbs_grp_id asc, a.bbs_grp_ord asc
+			)a 
+			where 1=1 
+			      limit #firstIndex#, #recordCountPerPage#
+		
+
+
+   </select>
+   <select id="kr.co.mcmall.mcm.cmn.bbs.McmCmnBbs006.selectBbsCnt" resultClass="int" parameterClass="mcmCmnBbs006VO">
+   
+			select
+			    count(1)totCnt
+			  from 
+					  (
+						    select
+							     bbs_id
+							    ,str_id
+							    ,usr_id
+							    ,bbs_cd
+							    ,bbs_grp_id
+							    ,bbs_grp_dep
+							    ,bbs_grp_ord
+							    ,lcs_id
+							    ,bbs_sbj
+							    ,bbs_cnts
+							    ,bbs_re_stt
+							    ,lst_udt_id
+							    ,lst_udt_dt
+							    ,lst_udt_ip
+							    ,bbs_re_yn
+						    from tb_shpbbs001
+						    where bbs_del_yn = 'N'
+						    and bbs_cd = #bbsCd#
+				    )a,
+				    (
+				      SELECT @RNUM := 0
+				    ) b
+				   ,tb_cmnusr001 c
+				   ,tb_malstr001 d
+				where 1=1
+				  and a.usr_id = c.usr_id 
+				   and a.str_id = d.str_id
+					 <isNotEmpty property="usrId" prepend="AND">
+					 a.usr_id = #usrId#
+					 </isNotEmpty>
+					 <isNotEmpty property="bbsReStt" prepend="AND">
+					 a.bbs_re_stt = #bbsReStt#
+					 </isNotEmpty>
+					 <isNotEmpty property="bbsSbj" prepend="AND">
+					 a.bbs_sbj = #bbsSbj#
+					 </isNotEmpty>
+					 <isNotEmpty property="bbsSbj" prepend="AND">
+					 c.usr_nm = #usrNm#
+					 </isNotEmpty>
+					  <isNotEmpty property="bbsOpn" prepend="AND">
+					 	<isNotEqual property="bbsOpn" compareValue="FAQ001001">
+					 		a.bbs_opn = #bbsOpn#
+					 	</isNotEqual>
+					 </isNotEmpty>
+					 <isNotEmpty property="athCd">
+					 	<isNotEqual property="athCd" compareValue="CMN001006" prepend="AND"> 
+					 		a.usr_id = #usrId#
+					 	</isNotEqual>
+					 </isNotEmpty>
+				
+   
+   </select>
+  <select id="kr.co.mcmall.mcm.cmn.bbs.McmCmnBbs006.selectBbsRetrive" resultClass="egovMap" parameterClass="mcmCmnBbs006VO">
+		<![CDATA[
+					   select
+					      a.bbs_id
+					     ,a.usr_id
+					     ,a.bbs_cd
+					     ,a.usr_nm
+					     ,a.str_nm
+					     ,a.bbs_sbj
+					     ,a.bbs_cnts
+					     ,a.bbs_re_stt
+					     ,a.bbs_grp_id
+					     ,a.bbs_grp_dep
+					     ,a.bbs_grp_ord
+					     ,a.bbs_re_yn
+					from
+					(
+					  select
+					      a.bbs_id
+					     ,a.usr_id
+					     ,a.bbs_cd
+					     ,b.usr_nm
+					     ,c.str_nm
+					     ,a.bbs_sbj
+					     ,a.bbs_cnts
+					     ,a.bbs_re_stt
+					     ,a.bbs_grp_id
+					     ,a.bbs_grp_dep
+					     ,a.bbs_grp_ord
+					     ,a.bbs_re_yn
+					  from tb_shpbbs001 a, tb_cmnusr001 b, tb_malstr001 c
+					  where 1=1
+					  	and a.bbs_del_yn = 'N'	 
+					    and a.usr_id = b.usr_id
+					    and a.str_id = c.str_id
+					    and a.bbs_id = #bbsId#
+					    and a.bbs_cd = #bbsCd#
+					)a
+		   ]]> 
+   </select>
+   <select id="kr.co.mcmall.mcm.cmn.bbs.McmCmnBbs006.selectBbsGrpId" resultClass="int" parameterClass="mcmCmnBbs006VO">
+  	 select min(bbs_grp_id)-1 bbs_grp_no 
+		  from tb_shpbbs001
+		 where 1=1
+		   and bbs_del_yn = 'N'
+   
+   </select>
+   
+   
+   <insert id="kr.co.mcmall.mcm.cmn.bbs.McmCmnBbs006.insertBbsData"  parameterClass="mcmCmnBbs006VO">
+   		
+       	 <selectKey keyProperty="bbsId" resultClass="String">
+      			select max(bbs_id)+1 from tb_shpbbs001
+	   </selectKey>
+
+         INSERT INTO tb_shpbbs001
+         (	
+         	 bbs_id
+         	,bbs_cd
+			,str_id
+			,usr_id
+			,bbs_grp_id
+			,bbs_grp_dep
+			,bbs_grp_ord
+			,bbs_sbj
+			,bbs_cnts
+			,bbs_re_stt
+			,lst_udt_id
+			,lst_udt_dt
+			,lst_udt_ip
+			,bbs_re_yn
+			,bbs_del_yn
+			,bbs_opn
+         ) values
+         (
+         	 #bbsId#
+         	,#bbsCd#
+         	,#strId#
+         	,#usrId#
+         	,#bbsGrpId#
+         	,#bbsGrpDep#
+         	,#bbsGrpOrd#
+         	,#bbsSbj#
+         	,#bbsCnts#
+         	,#bbsReStt#
+         	,#lstUdtId#
+         	,current_timestamp 
+         	,#lstUdtIp#
+         	,#bbsReYn#
+         	,#bbsDelYn#
+         	,#bbsOpn#
+         )
+   </insert>
+   <update id="kr.co.mcmall.mcm.cmn.bbs.McmCmnBbs006.updateBbsReCheck"  parameterClass="mcmCmnBbs006VO">
+   	update tb_shpbbs001 set
+   	bbs_re_stt = 'Y'
+   	where bbs_id = #bbsId#
+   	and bbs_cd = #bbsCd#
+   
+   </update>
+   <update id="kr.co.mcmall.mcm.cmn.bbs.McmCmnBbs006.updateBbsData"  parameterClass="mcmCmnBbs006VO">
+   	update tb_shpbbs001 set
+	   	bbs_sbj = #bbsSbj#,
+	   	bbs_cnts = #bbsCnts#,
+	   	bbs_re_yn = #bbsReYn#,
+	   	bbs_opn = #bbsOpn#
+   	where bbs_id = #bbsId#
+   	and bbs_cd = #bbsCd#
+   
+   </update>
+   <update id="kr.co.mcmall.mcm.cmn.bbs.McmCmnBbs006.deleteBbsData"  parameterClass="mcmCmnBbs006VO">
+   	update tb_shpbbs001 set
+   		bbs_del_yn = 'Y'
+   	where bbs_id = #bbsId#			
+   	and bbs_cd = #bbsCd#
+
+   </update>
+   
+   
+   
+   
+   <select id="kr.co.mcmall.mcm.cmn.bbs.McmCmnBbs006.selectBbsFaqList" resultClass="egovMap" parameterClass="mcmCmnBbs006VO">
+		select
+			cast(a.rn AS CHAR) as rn   	
+			,a.bbs_id
+		    ,a.str_id
+		    ,a.usr_id
+		    ,a.bbs_cd
+		    ,a.bbs_grp_id
+		    ,a.bbs_grp_dep
+		    ,a.bbs_grp_ord
+		    ,a.lcs_id
+		    ,a.bbs_sbj
+		    ,a.bbs_cnts
+		    ,a.bbs_re_stt
+		    ,a.lst_udt_id
+		    ,a.lst_udt_dt
+		    ,a.bbs_re_yn
+		    ,a.usr_nm
+		    ,a.str_nm
+		    ,a.bbs_opn
+		from
+		(	
+			     select
+					@RNUM := @RNUM + 1 as rn
+				 	,a.bbs_id
+				 	,a.bbs_cd
+				    ,a.str_id
+				    ,a.usr_id
+				    ,a.bbs_grp_id
+				    ,a.bbs_grp_dep
+				    ,a.bbs_grp_ord
+				    ,a.lcs_id
+				    ,a.bbs_sbj
+				    ,a.bbs_cnts
+				    ,a.bbs_re_stt
+				    ,a.lst_udt_id
+				    ,DATE_FORMAT(a.lst_udt_dt, '%Y-%m-%d') AS lst_udt_dt
+				    ,a.bbs_re_yn
+				    ,a.usr_nm
+				    ,a.str_nm
+				    ,a.bbs_opn
+				from
+				(
+						  select
+						     a.bbs_id
+						    ,a.str_id
+						    ,a.bbs_cd
+						    ,a.usr_id
+						    ,a.bbs_grp_id
+						    ,a.bbs_grp_dep
+						    ,a.bbs_grp_ord
+						    ,a.lcs_id
+						    ,a.bbs_sbj
+						    ,a.bbs_cnts
+						    ,a.bbs_re_stt
+						    ,a.lst_udt_id
+						    ,a.lst_udt_dt
+						    ,a.lst_udt_ip
+						    ,a.bbs_re_yn
+						    ,c.usr_nm
+						    ,d.str_nm
+						    ,a.bbs_opn
+						  from
+						  (
+							    select
+								     bbs_id
+								    ,str_id
+								    ,bbs_cd
+								    ,usr_id
+								    ,bbs_grp_id
+								    ,bbs_grp_dep
+								    ,bbs_grp_ord
+								    ,lcs_id
+								    ,bbs_sbj
+								    ,bbs_cnts
+								    ,bbs_re_stt
+								    ,lst_udt_id
+								    ,lst_udt_dt
+								    ,lst_udt_ip
+								    ,bbs_re_yn
+								    ,bbs_opn
+							    from tb_shpbbs001
+							    where bbs_del_yn = 'N'
+							      and bbs_cd = #bbsCd#
+					    )a,
+					    (
+					      SELECT @RNUM := 0
+					    ) b
+					   ,tb_cmnusr001 c
+					   ,tb_malstr001 d
+					   where a.usr_id = c.usr_id
+					     and a.str_id = d.str_id 
+				)a 
+				where 1=1
+					 <isNotEmpty property="bbsOpn">
+					 	<isNotEqual property="bbsOpn" compareValue="FAQ001001" prepend="AND">
+					 		a.bbs_opn = #bbsOpn#
+					 	</isNotEqual>
+					 </isNotEmpty>
+				order by a.bbs_grp_id asc, a.bbs_grp_ord asc
+			)a 
+			where 1=1
+
+   </select>
+    <select id="kr.co.mcmall.mcm.cmn.bbs.McmCmnBbs006.selectBbsFaqCnt" resultClass="int" parameterClass="mcmCmnBbs006VO">
+    	select
+			    count(1)totCnt
+			  from 
+					  (
+						    select
+							     bbs_id
+							    ,str_id
+							    ,usr_id
+							    ,bbs_cd
+							    ,bbs_grp_id
+							    ,bbs_grp_dep
+							    ,bbs_grp_ord
+							    ,lcs_id
+							    ,bbs_sbj
+							    ,bbs_cnts
+							    ,bbs_re_stt
+							    ,lst_udt_id
+							    ,lst_udt_dt
+							    ,lst_udt_ip
+							    ,bbs_re_yn
+							    ,bbs_opn
+						    from tb_shpbbs001
+						    where bbs_del_yn = 'N'
+						    and bbs_cd = #bbsCd#
+				    )a,
+				    (
+				      SELECT @RNUM := 0
+				    ) b
+				   ,tb_cmnusr001 c
+				   ,tb_malstr001 d
+				where 1=1
+				  and a.usr_id = c.usr_id 
+				   and a.str_id = d.str_id		
+					  <isNotEmpty property="bbsOpn" prepend="AND">
+					 	<isNotEqual property="bbsOpn" compareValue="FAQ001001">
+					 		a.bbs_opn = #bbsOpn#
+					 	</isNotEqual>
+					 </isNotEmpty>
+    </select>
+    <select id="kr.co.mcmall.mcm.cmn.bbs.McmCmnBbs006.selectBbsRetriveFaqCntsQ" resultClass="egovMap" parameterClass="mcmCmnBbs006VO">
+    	 select
+		      a.bbs_id
+		     ,a.usr_id
+		     ,a.bbs_cd
+		     ,a.usr_nm
+		     ,a.str_nm
+		     ,a.bbs_sbj
+		     ,a.bbs_cnts
+		     ,a.bbs_re_stt
+		     ,a.bbs_grp_id
+		     ,a.bbs_grp_dep
+		     ,a.bbs_grp_ord
+		     ,a.bbs_re_yn
+		     ,a.bbs_opn
+		from
+		(
+		  select
+		      a.bbs_id
+		     ,a.usr_id
+		     ,a.bbs_cd
+		     ,b.usr_nm
+		     ,c.str_nm
+		     ,a.bbs_sbj
+		     ,a.bbs_cnts
+		     ,a.bbs_re_stt
+		     ,a.bbs_grp_id
+		     ,a.bbs_grp_dep
+		     ,a.bbs_grp_ord
+		     ,a.bbs_re_yn
+		     ,a.bbs_opn
+		  from tb_shpbbs001 a, tb_cmnusr001 b, tb_malstr001 c
+		  where 1=1
+		  	and a.bbs_del_yn = 'N'	 
+		    and a.usr_id = b.usr_id
+		    and a.str_id = c.str_id
+		    and a.bbs_cd = #bbsCd#
+		    and a.bbs_grp_id =#bbsGrpId#
+		    and a.bbs_grp_dep =#bbsGrpDep#
+		)a
+    
+    </select>
+     <select id="kr.co.mcmall.mcm.cmn.bbs.McmCmnBbs006.selectBbsMain" resultClass="egovMap" parameterClass="java.util.HashMap">
+     
+     		select
+			   a.rn
+			  ,a.bbs_id
+			  ,a.bbs_sbj
+			  ,a.bbs_cnts
+			  ,a.lst_udt_dt
+			from
+			(
+			  select
+			     cast(a.rn AS CHAR) as rn
+			    ,a.bbs_id   
+			    ,a.bbs_sbj
+			    ,a.bbs_cnts
+			    ,a.lst_udt_dt
+			  from
+			  (
+			    select
+			       @RNUM := @RNUM + 1 as rn
+			      ,a.bbs_id
+			      ,a.bbs_sbj
+			      ,a.bbs_cnts
+			      ,DATE_FORMAT(a.lst_udt_dt, '%Y.%m.%d') AS lst_udt_dt
+			    from
+			    (
+			    select 
+			       bbs_id
+			      ,bbs_sbj 
+			      ,bbs_cnts
+			      ,lst_udt_dt
+			    FROM tb_shpbbs001
+			    where bbs_cd = #bbsCd#
+			    and bbs_del_yn = 'N'
+			    )a,
+			    (
+			      select @RNUM := 0
+			    )b
+			  )a
+			  order by rn desc
+			)a
+			where 1=1
+			limit 0, 4
+     </select>
+   
+     
+</sqlMap>

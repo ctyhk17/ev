@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+
+<sqlMap namespace="kr.co.mcmall.mcm.mal.biz.McmMalBiz003">
+   
+   <!-- ddCmt003VO -->
+   <typeAlias  alias="mcmMalBiz003VO" type="kr.co.mcmall.mcm.mal.biz.service.McmMalBiz003VO"/>
+   <typeAlias alias="int" type="java.lang.Integer" />
+   
+   <select id="kr.co.mcmall.mcm.mal.biz.McmMalBiz003.selectMcmMalBiz003M01List" resultClass="egovMap" parameterClass="mcmMalBiz003VO">
+	select
+	       cast(a.rn as char) as rn
+      		    ,a.ath_cd
+      		    ,a.str_id
+      		    ,a.usr_id
+      		    ,a.usr_nm
+      		    ,a.tel_no
+              ,a.upLcsId   
+              ,a.lcs_div_cd
+              ,a.str_nm
+			from 
+			(
+      select
+       @rnum := @rnum +1 as rn
+      		    ,a.ath_cd
+      		    ,a.str_id
+      		    ,a.usr_id
+      		    ,a.usr_nm
+      		    ,a.tel_no
+              ,a.upLcsId
+              ,a.lcs_div_cd
+              ,a.str_nm
+      from
+      (      
+          select
+      		     a.ath_cd
+      		    ,a.str_id
+      		    ,a.usr_id
+      		    ,a.usr_nm
+      		    ,a.tel_no
+              ,a.upLcsId
+              ,a.lcs_div_cd
+              ,a.str_nm
+			    from
+			    (
+			      select
+      		     a.ath_cd
+      		    ,a.str_id
+      		    ,a.usr_id
+      		    ,b.usr_nm
+      		    ,b.tel_no
+             	,c.lcs_id as upLcsId
+                ,c.lcs_div_cd
+                ,d.str_nm
+			      from
+			          tb_cmnath002 a, tb_cmnusr001 b, tb_malbiz001 c, tb_malstr001 d
+			      where 
+			      	1=1	and
+              a.usr_id = b.usr_id AND a.usr_id=c.usr_id and a.str_id=d.str_id
+      		     and
+      		     ath_cd='cmn001004' and a.str_id=#strId#
+	             	<isNotEmpty property="searchStrId">
+	             	 			and d.str_id=#searchStrId#
+	             	 </isNotEmpty>
+	             	 <isNotEmpty property="searchUsrNm">
+	             	 			and usr_nm=#searchUsrNm#
+	             	 </isNotEmpty>
+	             	 <isNotEmpty property="searchUsrId">
+	             	 			and a.usr_id=#searchUsrId#
+	             	 </isNotEmpty>
+	             	  <isNotEmpty property="searchLcsId">
+	             	 			and c.lcs_id=#searchLcsId#
+	             	 </isNotEmpty>
+             
+			    ) a,
+			    (
+			    	select @rnum := 0
+			    ) b
+			    
+            order by
+          
+			          upLcsId desc
+                )a
+			 ) a
+		    where 
+		    		1=1
+            limit #firstIndex#, #recordCountPerPage#
+   </select>
+  
+   <select id="kr.co.mcmall.mcm.mal.biz.McmMalBiz003.selectMcmMalBiz003M02Info" resultClass="egovMap" parameterClass="mcmMalBiz003VO">
+   		select
+		     a.ath_cd
+		    ,a.str_id
+		    ,a.usr_id
+		    ,b.usr_nm
+		    ,b.tel_no
+		    ,b.email_addr
+		    ,c.lcs_div_cd
+		    ,c.lcs_id as upLcsId
+		from
+		    tb_cmnath002 a, tb_cmnusr001 b, tb_malbiz001 c
+		where
+		    a.usr_id=b.usr_id and c.usr_id = a.usr_id and a.ath_cd='cmn001004' and c.lcs_id=#upLcsId#
+		    and a.str_id=#strId#
+		
+   			
+   </select>
+   <update id="kr.co.mcmall.mcm.mal.biz.McmMalBiz003.updateMcmMalBiz00302CP" parameterClass="mcmMalBiz003VO">
+ 			update
+ 				tb_malbiz001
+ 			set
+ 				up_lcs_id = #upLcsId#
+ 			<iterate prepend="WHERE LCS_ID IN" property="lcsId" open="(" close=")" conjunction=",">
+          		#lcsId[]#
+          	</iterate>
+   </update>
+   <select id="kr.co.mcmall.mcm.mal.biz.McmMalBiz003.selectMcmMalBiz003P03CP" resultClass="egovMap" parameterClass="mcmMalBiz003VO">
+  	   select
+		    a.usr_id
+		   ,a.usr_nm
+		   ,a.tel_no
+		   ,a.email_addr
+           ,b.lcs_id
+           ,c.ath_cd
+		from 
+		    tb_cmnusr001 a, tb_malbiz001 b, tb_cmnath002 c
+		where 
+			a.usr_id = b.usr_id 
+	 	and c.ath_cd = 'CMN001003' 
+	 	and 1=1 and b.str_id=#strId#
+		   		 
+		         <isNotEmpty property="telNo">
+					and tel_no = #telNo#
+		         </isNotEmpty>
+		         <isNotEmpty property="usrNm">
+					and usr_nm = #usrNm#
+		         </isNotEmpty>
+   </select>
+   <select id="kr.co.mcmall.mcm.mal.biz.McmMalBiz003.selectMcmMalBiz003P04CP" resultClass="egovMap" parameterClass="mcmMalBiz003VO">
+	    select
+		   str_id
+		  ,str_nm
+		  ,str_dm
+		  ,str_cnts
+		from
+		   tb_malstr001
+		where
+		   1=1
+
+   </select>
+   <select id="kr.co.mcmall.mcm.mal.biz.McmMalBiz003.selectMcmMalBiz003P05CP" resultClass="egovMap" parameterClass="mcmMalBiz003VO">
+   	 select
+		    a.usr_id
+		   ,a.usr_nm
+		   ,a.tel_no
+		   ,a.email_addr
+           ,b.ath_cd
+     from
+		    tb_cmnusr001 a, tb_cmnath002 b
+     where
+     	 a.usr_id = b.usr_id 
+     	 and
+     	 1=1 
+     	 and
+         ath_cd='CMN001004'
+
+   </select>
+   
+
+   <select id="kr.co.mcmall.mcm.mal.biz.McmMalBiz003.selectMcmMalBiz003P01Paging" resultClass="int" parameterClass="mcmMalBiz003VO">
+   
+   	select 
+   		count(1) totcnt 
+   	from 
+   		tb_malbiz001 a, tb_cmnath002 b, tb_cmnusr001 c, tb_malstr001 d
+   	where 
+   		1=1 and b.ath_cd='CMN001004' and a.usr_id=b.usr_id and a.usr_id=c.usr_id and a.str_id=d.str_id
+   		and a.str_id=#strId#
+	             	<isNotEmpty property="searchStrId">
+	             	 			and d.str_id=#searchStrId#
+	             	 </isNotEmpty>
+	             	 <isNotEmpty property="searchUsrNm">
+	             	 			and c.usr_nm=#searchUsrNm#
+	             	 </isNotEmpty>
+	             	 <isNotEmpty property="searchUsrId">
+	             	 			and a.usr_id=#searchUsrId#
+	             	 </isNotEmpty>
+	             	 <isNotEmpty property="searchLcsId">
+	             	 			and a.lcs_id=#searchLcsId#
+	             	 </isNotEmpty>
+   
+   </select>
+   <insert id="kr.co.mcmall.mcm.mal.biz.McmMalBiz003.insertMcmMalBiz003M03CP" parameterClass="mcmMalBiz003VO">
+		   		<selectKey keyProperty="lcsId" resultClass="String" >
+					select nextval('seq_lcs_id')
+				</selectKey>
+		   	insert into tb_malbiz001
+		   	(
+				   str_id
+				  ,lcs_id
+				  ,usr_id
+				  ,up_lcs_id
+				  ,lcs_div_cd
+	  		      ,lst_udt_id
+			      ,lst_udt_dt
+			      ,lst_udt_ip
+			) values (
+				   nullif(#strId#,'')
+				  ,nullif(#lcsId#,'')
+				  ,nullif(#usrId#,'')
+				  ,nullif(#upLcsId#,'')
+				  ,'CMN001003'
+				  ,nullif(#lstUdtId#, '')
+		          ,current_timestamp()
+		          ,nullif(#lstUdtIp#, '')
+			)
+   </insert>
+   
+   <select id="kr.co.mcmall.mcm.mal.biz.McmMalBiz003.selectMcmMalBiz003M03RR" resultClass="egovMap" parameterClass="mcmMalBiz003VO">
+		     select
+			       cast(a.rn as char) as rn
+		                 ,a.str_id
+		                 ,a.lcs_id
+		                 ,a.up_lcs_id
+		                 ,a.usr_id
+		                 ,a.usr_nm
+		                 ,a.tel_no
+					from 
+					(
+		      select
+		       @rnum := @rnum +1 as rn
+		                 ,a.str_id
+		                 ,a.lcs_id
+		                 ,a.up_lcs_id
+		                 ,a.usr_id
+		                 ,a.usr_nm
+		                 ,a.tel_no
+		      from
+		      (      
+		          select
+		                  a.str_id
+		                 ,a.lcs_id
+		                 ,a.up_lcs_id
+		                 ,a.usr_id
+		                 ,a.usr_nm
+		                 ,a.tel_no
+					    from
+					    (
+					      select
+		                  a.str_id
+		                 ,a.lcs_id
+		                 ,a.up_lcs_id
+		                 ,a.usr_id
+		                 ,b.usr_nm
+		                 ,b.tel_no
+					      from
+					          tb_malbiz001 a, tb_cmnusr001 b
+					      where 
+					      	1=1	and
+		              a.usr_id=b.usr_id and up_lcs_id=#upLcsId#
+		              and a.str_id=#strId#
+		            
+					    ) a,
+					    (
+					    	select @rnum := 0
+					    ) b
+					    
+		            order by
+		          
+					          lcs_id desc
+		                )a
+					 ) a
+				    where 
+				    		1=1
+   
+   </select>
+     <select id="kr.co.mcmall.mcm.mal.biz.McmMalBiz003.selectMcmMalStr003M01List" parameterClass="mcmMalBiz003VO" resultClass="egovMap">
+   		select 
+		      str_id
+		    , str_cnts
+		    , str_dm
+		    , str_nm
+		    , lst_udt_id
+		    , lst_udt_dt
+		    , lst_udt_ip 
+		from 
+		      tb_malstr001
+		where 
+		      1=1 and str_id=#strId#
+   
+   </select>
+   <delete id="kr.co.mcmall.mcm.mal.biz.McmMalBiz003.deleteMcmMalBiz003M01DP" parameterClass="mcmMalBiz003VO">
+		   delete from 
+		   			tb_malbiz001 
+		   where 
+					up_lcs_id = #upLcsId# and 
+					lcs_id=#lcsId2#
+   </delete>
+</sqlMap>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

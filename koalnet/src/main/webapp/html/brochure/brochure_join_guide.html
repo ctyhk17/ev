@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- 모바일 -->
+    
+    <meta property="og:title" content="MatchingFund_충주라이트월드"><!-- 공유할 글 제목 -->
+    <meta property="og:url" content="http://blog.acronym.co.kr/583"><!-- 1.실제 주소값 2.footer_box li a 안에서 실제 주소값 같이 입력 -->
+    <meta property="og:description" content="MatchingFund_충주라이트월드"><!-- 공유할 글의 내용중 일부.. -->
+    <meta property="og:image" content="../images/f.png"><!-- 공유할 글의 주요 이미지 -->
+    
+    <title>MC_Mall_b</title>
+    <script src="../../js/brochure/jquery-1.10.2.js"></script><!-- jquery-1.10.2.js -->
+    <link rel="stylesheet" href="../../css/brochure/brochure.css"> <!-- brochure.css -->
+    <script src="../../js/brochure/brochure.js"></script> <!-- brochure.js -->
+<!--  <script src="//developers.kakao.com/sdk/js/kakao.min.js"></script> 카카오톡모듈 -->
+    <script>
+        $(document).ready(function(){
+            $(".tab1").click(function() {	
+                $(this).addClass('main_tab_active');
+                $("div:not(.tab1)").removeClass('main_tab_active');
+            });
+            $(".tab2").click(function() {	
+                $(this).addClass('main_tab_active');
+                $("div:not(.tab2)").removeClass('main_tab_active');
+
+            });
+            $(".tab3").click(function() {	
+                $(this).addClass('main_tab_active');
+                $("div:not(.tab3)").removeClass('main_tab_active');
+            });
+            $(".tab4").click(function() {	
+                $(this).addClass('main_tab_active');
+                $("div:not(.tab4)").removeClass('main_tab_active');
+            });
+            $(".tab5").click(function() {	
+                $(this).addClass('main_tab_active');
+                $("div:not(.tab5)").removeClass('main_tab_active');
+            });
+        });
+        
+    function sharefacebook(url){
+        window.open("http://www.facebook.com/sharer/sharer.php?u=" + url);
+    } //End of facebook
+        
+    function sharetwitter(url, text){
+        window.open("http://twitter.com/intent/tweet?text=" + text + "&url=" + url);
+    } //End of twitter
+    
+    //<![CDATA[
+    Kakao.init('5b831b478f53ae5a107271b987ce8dbd');
+    Kakao.Link.createTalkLinkButton({
+        container: '#kakao-link-btn',
+        label: '썸네일 이미지 위에 뜰 텍스트 입니다.',
+        image: {
+            src: '썸네일 이미지 경로',
+            width: '300',
+            height: '200'
+        },
+        webButton: {
+            text: '트라이트라이',
+            url: 'http://www.mcfund.co.kr'
+        }
+    });
+    //]]>   
+    </script>
+</head><!-- End of head -->
+<body>
+   <header>
+  <img src="../images/Web_1280_01_03.jpg" style="display:none;">
+   <div id="header_box">
+         <div class="back1">
+            <div class="story"><a href="../html/main_login.html">My Page</a></div> <!-- 추가 마이페이지버튼 -->
+            <div class="logo"><h2><a href="../main/main.html"><img src="../../image/brochure/w_logo.png"></a></h2></div>
+         </div>
+           <div class="back">
+            <ul class="footer_box">
+<!--            <li><a href=""><img src="../images/m.png" alt="매칭찬스" title="매칭찬스"></a></li>-->
+            <li><a href="javascript:sharetwitter('http://blog.acronym.co.kr/583','공유할 글 제목')"><img src="../../image/brochure/t.png" alt="트위터" title="트위터"></a></li>
+            <li><a href="javascript:sharefacebook('http://blog.acronym.co.kr/583')"><img src="../../image/brochure/f.png" alt="페이스북" title="페이스북"></a></li>
+            </ul>
+        </div>
+    </div>
+</header><!-- End of header -->  
+   
+<article style="background:white;">
+   <div class="join_guide_cap">
+       <div class="join_guide">
+           <div class="join_text_title" style="background:#333333;">
+               <h2>조합복지몰 가입을 환영 합니다.</h2>
+           </div>
+           <div class="join_text">
+               <p class="text_p_f">조합복지몰계정을 사용하는 다양한 서비스들을 아래 ID로 편리하게 사용할 수 있습니다.</p>
+               <div class="id_join">
+                   <p>조합복지몰계정 : <span><b>Mortality384</b></span></p>
+                   <p>( 가입일: <span>2017-06-29</span> )</p>
+               </div>
+<!--
+               <p>추가멘트</p> 
+               <p>추가멘트</p>
+               <p>추가멘트</p>
+-->
+           </div>
+       </div>
+       <div class="home_button">
+           <a href="#" style="background:#d7242b;">메인으로</a>
+       </div>
+   </div>
+</article>
+
+  <footer>
+    <div id="footer_box">
+        <ul class="footer_box">
+<!--            <li><img src="../images/m.png" alt="매칭찬스" title="매칭찬스"></li>-->
+            <li><img src="../../image/brochure/t.png" alt="트위터" title="트위터"></li>
+            <li><img src="../../image/brochure/f.png" title="페이스북"></li>
+        </ul>
+    </div>
+    </footer><!-- End of footer -->
+   
+</body>
+</html>

@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+
+<sqlMap namespace="kr.co.mcmall.mcm.mal.itr.McmMalItr001">
+
+	
+
+	<typeAlias  alias="mcmMalItr001VO" type="kr.co.mcmall.mcm.mal.itr.service.McmMalItr001VO"/>
+	
+	
+	<!-- 상품 목록 조회 -->
+	<select id="kr.co.mcmall.mcm.mal.itr.McmMalItr001.selectGdsList" resultClass="egovMap" parameterClass="mcmMalItr001VO">
+		select
+			  cast(a.rn as char) as rn	
+			, a.gds_id
+			, a.gds_nm
+			, a.sel_cnt
+			, a.gds_gnr_amt
+			, a.gds_mb_amt
+			, a.gds_sale_yn
+			, a.gds_sale_amt
+		    , case
+		        when a.gds_sale_yn = 'N' then cast(round((a.gds_gnr_amt -a.gds_mb_amt)/a.gds_gnr_amt*100, 0) as char)
+		        else cast(round((a.gds_gnr_amt -a.gds_sale_amt)/a.gds_gnr_amt*100, 0) as char)
+		      end  as sal_rt
+		from
+		(
+			select
+				  a.rn	
+				, a.gds_id
+				, a.gds_nm
+				, a.sel_cnt
+				, ifnull((select gds_env_val from tb_malgds003 where gds_id = a.gds_id and gds_env_div_cd = 'GDS001003'), '0') as gds_gnr_amt
+				, ifnull((select gds_env_val from tb_malgds003 where gds_id = a.gds_id and gds_env_div_cd = 'GDS001001'), '0') as gds_mb_amt
+				, ifnull((select gds_env_val from tb_malgds003 where gds_id = a.gds_id and gds_env_div_cd = 'GDS001004'), 'N') as gds_sale_yn
+				, ifnull((select gds_env_val from tb_malgds003 where gds_id = a.gds_id and gds_env_div_cd = 'GDS001005'), '0') as gds_sale_amt
+			from 
+			(
+				select
+					  @rnum := @rnum + 1 as rn
+					, a.gds_id
+					, a.gds_nm
+					, a.sel_cnt
+				from
+				(
+					select
+						  a.gds_id
+						, a.gds_nm
+						, a.sel_cnt
+					from 
+					(
+						select
+						      c.gds_id
+						    , c.gds_nm
+						    , c.sel_cnt
+						from
+						    tb_malstr001 a
+						    inner join tb_malstr003 b
+						    on a.str_id = b.str_id
+						    inner join tb_malgds001 c
+						    on c.gds_id = b.gds_id
+						where    
+						        b.use_yn = 'Y'
+						    and b.str_id = #strId#
+						    and c.gds_use_yn = 'Y'
+						    and c.gds_nm like '%$searchKeyword$%'
+						    
+						    <isNotEmpty property="searchCtgrCd">
+						    	and exists (
+						    		select null from tb_malgds005 x
+						    		where
+						    			 x.gds_id = c.gds_id
+						    			 and x.gds_ctgr_id = #searchCtgrCd#
+						    	)
+						    </isNotEmpty>
+					) a,
+					(
+						select @rnum := 0
+					) b
+					order by
+						a.gds_id asc	
+				) a
+			) a
+			order by rn asc
+		) a			
+	where
+		1=1
+	limit #firstIndex#, #recordCountPerPage#
+		
+		
+		
+
+		    
+	</select>
+	
+	
+	<!-- 상품 목록 건수 조회 -->
+	<select id="kr.co.mcmall.mcm.mal.itr.McmMalItr001.selectGdsListTotCnt" resultClass="int" parameterClass="mcmMalItr001VO">
+		select
+		      count(1) as totcnt
+		from
+		    tb_malstr001 a
+		    inner join tb_malstr003 b
+		    on a.str_id = b.str_id
+		    inner join tb_malgds001 c
+		    on c.gds_id = b.gds_id
+		where    
+		        b.use_yn = 'Y'
+		    and b.str_id = #strId#
+		    and c.gds_use_yn = 'Y'
+		    and c.gds_nm like '%$searchKeyword$%'
+		    <isNotEmpty property="searchCtgrCd">
+		    	and exists (
+		    		select null from tb_malgds005 x
+		    		where
+		    			 x.gds_id = c.gds_id
+		    			 and x.gds_ctgr_id = #searchCtgrCd#
+		    	)
+		    </isNotEmpty>
+		    
+	</select>
+
+
+	<!-- 상점 설정 조회 -->
+	<select id="kr.co.mcmall.mcm.mal.itr.McmMalItr001.selectStrInfo" resultClass="egovMap" parameterClass="mcmMalItr001VO">
+		select     
+		      max((select str_nm from tb_malstr001 where str_id = a.str_id)) as str_nm
+		    , max(case when a.str_env_div_cd = 'STR001001' then str_env_val else null end) as str001001
+		    , max(case when a.str_env_div_cd = 'STR001002' then str_env_val else null end) as str001002
+		    , max(case when a.str_env_div_cd = 'STR001003' then str_env_val else null end) as str001003
+		    , max(case when a.str_env_div_cd = 'STR001004' then str_env_val else null end) as str001004
+		    , max(case when a.str_env_div_cd = 'STR001005' then str_env_val else null end) as str001005
+		    , max(case when a.str_env_div_cd = 'STR001006' then str_env_val else null end) as str001006
+		from 
+		    tb_malstr002 a
+		where 
+		    str_id = #strId#
+	</select>
+	
+	
+	<select id="kr.co.mcmall.mcm.mal.itr.McmMalItr001.selectCtgrList" resultClass="egovMap" parameterClass="mcmMalItr001VO">
+		select 
+		      cd
+		    , cd_nm
+		from 
+		    tc_symccd002 
+		where 
+		    cd_grp_id = 'CTR001' 
+		    and use_yn = 'Y'
+		order by 
+		    cd asc
+	</select>
+	
+		
+	
+	
+		
+</sqlMap>
+
+

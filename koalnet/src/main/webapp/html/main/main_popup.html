@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="utf-8">
+    <title>MC_Mall</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- 모바일 -->
+    <link rel="stylesheet" href="../../css/main/main.css"><!-- main.css -->
+    <link rel="stylesheet" href="../../css/main/slider/swiper.css"><!-- new_Swiper.css -->
+    <script src="../../js/main/slider/swiper.js"></script><!-- new_Swiper JS -->
+    <script src="../../js/main/jquery-1.10.2.js"></script><!-- jquery-1.10.2 -->
+    <style>
+        *{margin: 0; padding: 0;}
+        a{text-decoration: none;}
+        .pop_up {position: relative;display: block;margin: 0 auto;width: 500px;}
+        .pop_up p{position: absolute;background: #1b3576; color: white;width: 100%;padding: 8px 0;height: 19px;margin-top: -4px;}
+        .pop_up p span{position: absolute; left: 15px;}
+        .pop_up p a{color: white;position: absolute; right: 0;padding: 8px 15px;top: 0;}
+        .ve {vertical-align: -2px;width: 15px;height: 15px;}
+        
+        @media all and (max-width: 876px){
+            .pop_up {width: 100%;}
+            .pop_up img{width: 100%;}
+        }
+        
+    </style>
+</head>
+<body>
+  <div class="pop_up">
+      <img src="../../image/main/popup.jpg" alt="">
+      <p><span><input type="checkbox" class="ve"> 오늘하루 그만보기</span><a href="#;">닫기</a></p>
+  </div>
+</body>
+</html>

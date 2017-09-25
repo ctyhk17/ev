@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- 모바일 -->
+    
+    <meta property="og:title" content="MatchingFund_충주라이트월드"><!-- 공유할 글 제목 -->
+    <meta property="og:url" content="http://blog.acronym.co.kr/583"><!-- 1.실제 주소값 2.footer_box li a 안에서 실제 주소값 같이 입력 -->
+    <meta property="og:description" content="MatchingFund_충주라이트월드"><!-- 공유할 글의 내용중 일부.. -->
+    <meta property="og:image" content="../images/f.png"><!-- 공유할 글의 주요 이미지 -->
+    
+    <title>MC_Mall_b</title>
+    <script src="../../js/brochure/jquery-1.10.2.js"></script><!-- jquery-1.10.2.js -->
+    <link rel="stylesheet" href="../../css/brochure/brochure.css"> <!-- brochure.css -->
+    <script src="../../js/brochure/brochure.js"></script> <!-- brochure.js -->
+<!--  <script src="//developers.kakao.com/sdk/js/kakao.min.js"></script> 카카오톡모듈 -->
+    
+    <script>
+        
+        $(document).ready(function(){
+            
+            $(".tab_1").click(function(){
+                $(".tab_1_1").show();
+                $(".tab_2_1").hide();
+
+            });//tba1
+            
+            $(".tab_2").click(function(){
+                $(".tab_1_1").hide();
+                $(".tab_2_1").show();
+            });//tba2
+            
+            $(".button1 > a").click(function(){
+                $(".main_box").show();
+            });//button
+            
+        });
+        
+    </script>
+</head><!-- End of head -->
+
+<body style="background:white;">
+<header>
+<!--
+   <div id="header_box">
+         <div class="back1">
+            <div class="story">Story</div>
+            <div class="logo"><h2><a href="main.html"><img src="../images/logo.png"></a></h2></div>
+         </div>
+           <div class="back">
+            <ul class="footer_box">
+            <li><img src="../images/m.png" alt="매칭찬스" title="매칭찬스"></li>
+            <li><img src="../images/t.png" alt="트위터" title="트위터"></li>
+            <li><img src="../images/f.png" alt="페이스북" title="페이스북"></li>
+            </ul>
+        </div>
+    </div>
+-->
+</header><!-- End of header -->   
+    
+<article>
+    <div id="content_box" style="background:white;">
+   
+        <div class="main_find_s_content_1">
+            
+             <div class="main_find_s_title">
+                 <h1>Title</h1>
+             </div>
+             <div class="main_find_s_tab">
+                 <div class="main_find_s_tabs tab_1 tab_back tab_active">tab1</div>
+                 <div class="main_find_s_tabs tab_2 tab_back">tab2</div>
+                 
+                 <div class="main_find_s_tabs_0 tab_1_1">
+                   
+                    <div class="main_find_s_input_1">
+                        <div><span>이름: <input type="text"></span></div> 
+                        <div><span>이름: <input type="text"></span></div>
+                    </div>
+                    
+                    <div class="main_find_s_input_2">
+                    <a href="#">제출</a>
+                    </div>
+
+
+                 </div>
+                 
+                 <div class="main_find_s_tabs_0 tab_2_1" style="display:none;">
+                     content2
+                 </div>
+             </div>
+             <div class="main_find_s_button button1">
+                 <a href="#;">button1</a>
+             </div>
+             
+            <div class="main_box">
+                   <table>
+                       <tr>
+                           <th>1</th>
+                           <th>2</th>
+                           <th>3</th>
+                       </tr>
+                       <tr>
+                           <td>1</td>
+                           <td>2</td>
+                           <td>3</td>
+                       </tr>
+                          <tr>
+                           <td>1</td>
+                           <td>2</td>
+                           <td>3</td>
+                       </tr>
+                   </table>
+               </div>
+               
+               <div class="close"><a href="#;">닫기</a></div>
+        </div><!-- End of content_1 -->
+
+    </div><!-- End of content_box -->
+</article><!-- End of article -->
+    
+<footer>
+
+</footer><!-- End of footer -->
+</body><!-- End of body -->
+
+</html>

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMapConfig PUBLIC "-//iBATIS.com//DTD SQL Map Config 2.0//EN" "http://www.ibatis.com/dtd/sql-map-config-2.dtd">
+
+<sqlMapConfig>
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	
+	
+	
+	
+	
+	
+	<!--  ======================================= -->
+	<!--  kr.co.mcmall -->
+	<!--  ======================================= -->
+	
+	
+	<!-- 홍보물 관리 -->
+<!-- 	<sqlMap resource="egovframework/sqlmap/kr/co/mcmall/mcm/mal/biz/McmMalBiz002.xml"/> -->
+	
+	
+	<!-- 권한코드 관리 -->
+	<sqlMap resource="egovframework/sqlmap/kr/co/mcmall/mcm/cmn/ath/McmCmnAth001.xml"/>
+	
+	<!-- 사용자별 권한코드 설정 -->
+	<sqlMap resource="egovframework/sqlmap/kr/co/mcmall/mcm/cmn/ath/McmCmnAth002.xml"/>
+		<!-- 공통코드관리 -->
+	<sqlMap resource="egovframework/sqlmap/kr/co/mcmall/mcm/cmn/ccd/McmCmnCcd001.xml"/>
+	
+	
+	<!-- 상품관리 -->
+	<sqlMap resource="egovframework/sqlmap/kr/co/mcmall/mcm/mal/gds/McmMalGds001.xml"/>
+	
+	<!-- 사업자 관리 -->
+	<sqlMap resource="egovframework/sqlmap/kr/co/mcmall/mcm/mal/biz/McmMalBiz001.xml"/>
+	
+	<!-- 홍보물 관리 -->
+	<sqlMap resource="egovframework/sqlmap/kr/co/mcmall/mcm/mal/biz/McmMalBiz002.xml"/>
+	
+	<!-- 통계현황 관리 -->
+	<sqlMap resource="egovframework/sqlmap/kr/co/mcmall/mcm/mal/stt/McmMalStt001.xml"/>
+	
+	<!-- 상위사업자 관리 -->
+	<sqlMap resource="egovframework/sqlmap/kr/co/mcmall/mcm/mal/biz/McmMalBiz003.xml"/>
+	
+	<!-- 로그인/로그아웃 -->
+	<sqlMap resource="egovframework/sqlmap/kr/co/mcmall/mcm/cmn/lgn/McmCmnLgn001.xml"/>
+	
+	<!-- 회원가입 -->
+	<sqlMap resource="egovframework/sqlmap/kr/co/mcmall/mcm/cmn/usr/McmCmnUsr001.xml"/>
+	
+	<!-- 조합원관리 -->
+	<sqlMap resource="egovframework/sqlmap/kr/co/mcmall/mcm/cmn/usr/McmCmnUsr002.xml"/>
+	
+	<!-- 회원관리 -->
+	<sqlMap resource="egovframework/sqlmap/kr/co/mcmall/mcm/cmn/usr/McmCmnUsr003.xml"/>
+	
+	<!-- 고객센터 -->
+	<sqlMap resource="egovframework/sqlmap/kr/co/mcmall/mcm/cmn/bbs/McmCmnBbs006.xml"/>
+	
+	<!-- 쇼핑몰 홈 -->
+	<sqlMap resource="egovframework/sqlmap/kr/co/mcmall/mcm/mal/itr/McmMalItr001.xml"/>
+	
+	<!-- 상품 주문 -->
+	<sqlMap resource="egovframework/sqlmap/kr/co/mcmall/mcm/shp/ord/McmShpOrd001.xml"/>
+	
+	<!-- 주문현황 -->
+	<sqlMap resource="egovframework/sqlmap/kr/co/mcmall/mcm/shp/ord/McmShpOrd002.xml"/>
+	
+	<!-- 장바구니 -->
+	<sqlMap resource="egovframework/sqlmap/kr/co/mcmall/mcm/shp/ord/McmShpOrd003.xml"/>
+	
+	<!-- 주문관리 -->
+	<sqlMap resource="egovframework/sqlmap/kr/co/mcmall/mcm/shp/ord/McmShpOrd004.xml"/>
+	
+	<!-- 포인트조회 -->
+	<sqlMap resource="egovframework/sqlmap/kr/co/mcmall/mcm/cmn/pot/McmCmnPot001.xml"/>
+
+	<!-- 상점설정 -->
+	<sqlMap resource="egovframework/sqlmap/kr/co/mcmall/mcm/mal/str/McmMalStr001.xml"/>
+	
+	<!-- 키워드관리 -->
+	<sqlMap resource="egovframework/sqlmap/kr/co/mcmall/mcm/cmn/kwd/McmCmnKwd001.xml"/>
+	
+	<!-- 카테고리관리 -->
+	<sqlMap resource="egovframework/sqlmap/kr/co/mcmall/mcm/cmn/ctr/McmCmnCtr001.xml"/>
+	
+	
+</sqlMapConfig>

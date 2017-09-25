@@ -1,0 +1,507 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+
+<sqlMap namespace="kr.co.mcmall.mcm.cmn.ccd.McmCmnCcd001">
+   
+   <typeAlias  alias="McmCmnCcd001VO" type="kr.co.mcmall.mcm.cmn.ccd.service.McmCmnCcd001VO"/>
+   <typeAlias alias="int" type="java.lang.Integer" />
+   
+   
+   <!-- 코드그룹관리 목록 -->
+   <select id ="kr.co.mcmall.mcm.cmn.ccd.McmCmnCcd001.selectCdGrpList" resultClass="egovMap" parameterClass="McmCmnCcd001VO">
+   		select
+             		 cast(A.RN as char) as rn   
+	                ,A.cd_grp_id
+                    ,A.cd_grp_nm
+                    ,A.cd_grp_cnts
+                    ,A.lst_udt_id
+                    ,date_format(A.lst_udt_dt, '%Y-%m-%d') as lst_udt_dt
+                    ,A.lst_udt_ip
+                    ,A.use_yn
+      from 
+         (
+            select
+               @RNUM := @RNUM + 1 AS RN
+                    ,A.cd_grp_id
+                    ,A.cd_grp_nm
+                    ,A.cd_grp_cnts
+                    ,A.lst_udt_id
+                    ,A.lst_udt_dt
+                    ,A.lst_udt_ip
+                    ,A.use_yn
+            from
+            (
+            select
+                     A.cd_grp_id
+                    ,A.cd_grp_nm
+                    ,A.cd_grp_cnts
+                    ,A.lst_udt_id
+                    ,A.lst_udt_dt
+                    ,A.lst_udt_ip
+                    ,A.use_yn
+            from 
+               (
+                  select 
+                     cd_grp_id
+                    ,cd_grp_nm
+                    ,cd_grp_cnts
+                    ,lst_udt_id
+                    ,lst_udt_dt
+                    ,lst_udt_ip
+                    ,use_yn
+                  from
+                     tc_symccd001
+                  where
+                     1=1
+                     and use_yn = 'Y'
+                     <isNotEmpty property="cdGrpIdSearch">
+                     	and cd_grp_id like '%$cdGrpIdSearch$%'
+                     </isNotEmpty>
+                     <isNotEmpty property="cdGrpNmSearch">
+                     	and cd_grp_nm like '%$cdGrpNmSearch$%'
+                     </isNotEmpty>
+                     <isNotEmpty property="cdGrpCntSearch">
+                     	and cd_grp_cnts like '%$cdGrpCntSearch$%'
+                     </isNotEmpty>
+                     <isNotEmpty property="stDtSearch">
+                     	and date_format(lst_udt_dt,'%Y-%m-%d') between #stDtSearch# and #edDtSearch#
+                     </isNotEmpty>
+                   
+               ) A,
+               (
+                  select @RNUM := 0
+               ) B
+            order by
+                  lst_udt_dt desc
+            ) a      
+         ) A
+      where
+         1=1
+         limit #firstIndex#, #recordCountPerPage#
+   </select>
+   
+   <!-- 코드그룹관리 목록 개수조회 -->
+   <select id = "kr.co.mcmall.mcm.cmn.ccd.McmCmnCcd001.selectCdGrpListCnt" resultClass="int" parameterClass="McmCmnCcd001VO">
+   		select
+   			 count(1) as totcnt
+   		from
+   			 tc_symccd001
+   		where
+   			1=1
+   					and use_yn='Y'
+                     <isNotEmpty property="cdGrpIdSearch">
+                     	and cd_grp_id like '%$cdGrpIdSearch$%'
+                     </isNotEmpty>
+                     <isNotEmpty property="cdGrpNmSearch">
+                     	and cd_grp_nm like '%$cdGrpNmSearch$%'
+                     </isNotEmpty>
+                       <isNotEmpty property="cdGrpCntSearch">
+                     	and cd_grp_cnts like '%$cdGrpCntSearch$%'
+                     </isNotEmpty>
+                     <isNotEmpty property="stDtSearch">
+                     	and date_format(lst_udt_dt,'%Y-%m-%d') between #stDtSearch# and #edDtSearch#
+                     </isNotEmpty>
+   </select>
+   
+   <!-- 상세정보 -->
+   <select id = "kr.co.mcmall.mcm.cmn.ccd.McmCmnCcd001.selectCdGrpInfo" resultClass="egovMap" parameterClass="McmCmnCcd001VO">
+   		select
+   			 cd_grp_id
+   			,cd_grp_nm
+   			,cd_grp_cnts
+   			,lst_udt_id
+   			,date_format(lst_udt_dt,'%Y-%m-%d') lst_udt_dt
+   			,lst_udt_ip
+   			,use_yn
+   		from
+   			tc_symccd001
+   		where
+   			cd_grp_id = #cdGrpId#
+   </select>
+   
+   <!-- 코드 사용여부 -->
+   <update id="kr.co.mcmall.mcm.cmn.ccd.McmCmnCcd001.updateCdGrpUseYn" parameterClass="McmCmnCcd001VO">
+   		update
+   			tc_symccd001
+   		set
+   			use_yn = 'N'
+   		where
+   			cd_grp_id = #cdGrpId#
+   </update>
+   
+   <!-- 코드그룹 수정 -->
+   <update id="kr.co.mcmall.mcm.cmn.ccd.McmCmnCcd001.updateCdGrp" parameterClass="McmCmnCcd001VO">
+   		update
+   			 tc_symccd001
+   		set
+   			 cd_grp_nm = #cdGrpNm#
+   			,cd_grp_cnts = #cdGrpCnts#
+   			,lst_udt_dt = current_timestamp
+   		where
+   			 cd_grp_id = #cdGrpId#
+   </update>
+   
+   <!-- 코드그룹 등록 -->
+   <insert id="kr.co.mcmall.mcm.cmn.ccd.McmCmnCcd001.InsertCdGrp" parameterClass="McmCmnCcd001VO">
+   		insert into tc_symccd001
+   			(
+   				 cd_grp_id
+   				,cd_grp_nm
+   				,cd_grp_cnts
+   				,lst_udt_id
+   				,lst_udt_dt
+   				,lst_udt_ip
+   			)
+   		values
+   			(
+   				 #cdGrpId#
+   				,#cdGrpNm#
+   				,#cdGrpCnts#
+   				,ifnull(#lstUdtId#,'')
+   				,current_timestamp
+   				,ifnull(#lstUdtIp#,'') 
+   			)	
+   </insert>
+   
+   <!-- 공통코드관리 목록 -->
+   <select id="kr.co.mcmall.mcm.cmn.ccd.McmCmnCcd001.CommonCdList" resultClass="egovMap" parameterClass="McmCmnCcd001VO">
+   		select
+             		 cast(A.RN as char) as rn   
+                      ,A.cd_grp_id
+                      ,A.cd_grp_nm
+                      ,A.cd_grp_cnts
+                      ,A.cd
+                      ,A.cd_nm
+                      ,A.lst_udt_id
+                      ,date_format(A.lst_udt_dt, '%Y-%m-%d') as lst_udt_dt
+                      ,A.lst_udt_ip
+                      ,A.cd_etc
+                      ,A.use_yn
+      from 
+         (
+            select
+               @RNUM := @RNUM + 1 AS RN
+                      ,A.cd_grp_id
+                      ,A.cd_grp_nm
+                      ,A.cd_grp_cnts
+                      ,A.cd
+                      ,A.cd_nm
+                      ,A.lst_udt_id
+                      ,A.lst_udt_dt
+                      ,A.lst_udt_ip
+                      ,A.cd_etc
+                      ,A.use_yn
+            from
+            (
+            select
+                       A.cd_grp_id
+                      ,A.cd_grp_nm
+                      ,A.cd_grp_cnts
+                      ,A.cd
+                      ,A.cd_nm
+                      ,A.lst_udt_id
+                      ,A.lst_udt_dt
+                      ,A.lst_udt_ip
+                      ,A.cd_etc
+                      ,A.use_yn
+            from 
+               (
+                  select 
+                       a.cd_grp_id
+                      ,a.cd_grp_nm
+                      ,a.cd_grp_cnts
+                      ,b.cd
+                      ,b.cd_nm
+                      ,b.lst_udt_id
+                      ,b.lst_udt_dt
+                      ,b.lst_udt_ip
+                      ,b.cd_etc
+                      ,b.use_yn
+                  from
+                     tc_symccd001 a
+                     inner join tc_symccd002 b
+                     on a.cd_grp_id = b.cd_grp_id
+                  where
+                     1=1
+                     	and b.use_yn='Y'
+                     <isNotEmpty property="cdSearch">
+                     	and cd like '%$cdSearch$%'
+                     </isNotEmpty>
+                     <isNotEmpty property="cdGrpNm">
+                     	and a.cd_grp_nm = #cdGrpNm#
+                     </isNotEmpty>
+                     <isNotEmpty property="cdNmSearch">
+                     	and cd_nm like '%$cdNmSearch$%'
+                     </isNotEmpty>
+                     <isNotEmpty property="cdEtcSearch">
+                     	and cd_etc like '%$cdEtcSearch$%'
+                     </isNotEmpty>
+                     <isNotEmpty property="stDtSearch">
+                     	and date_format(b.lst_udt_dt,'%Y-%m-%d') between #stDtSearch# and #edDtSearch#
+                     </isNotEmpty>
+    
+               ) A,
+               (
+                  select @RNUM := 0
+               ) B
+            order by
+                  lst_udt_dt desc
+            ) a      
+         ) A
+      where
+         1=1
+         limit #firstIndex#, #recordCountPerPage#
+   </select>
+   
+   <!-- 공통코드관리 목록 개수조회 -->
+   <select id="kr.co.mcmall.mcm.cmn.ccd.McmCmnCcd001.CommonCdListCnt" resultClass="int" parameterClass="McmCmnCcd001VO">
+   		select
+   			 count(1) as totcnt
+   		from
+   			  tc_symccd001 a
+              inner join tc_symccd002 b
+              on a.cd_grp_id = b.cd_grp_id
+   		where
+   			1=1
+   					and b.use_yn='Y'
+   			       <isNotEmpty property="cdSearch">
+                     	and cd like '%$cdSearch$%'
+                     </isNotEmpty>
+                     <isNotEmpty property="cdGrpNm">
+                     	and a.cd_grp_nm = #cdGrpNm#
+                     </isNotEmpty>
+                     <isNotEmpty property="cdNmSearch">
+                     	and cd_nm like '%$cdNmSearch$%'
+                     </isNotEmpty>
+                  	<isNotEmpty property="cdEtcSearch">
+                     	and cd_etc like '%$cdEtcSearch$%'
+                     </isNotEmpty>
+                     <isNotEmpty property="stDtSearch">
+                     	and date_format(b.lst_udt_dt,'%Y-%m-%d') between #stDtSearch# and #edDtSearch#
+                     </isNotEmpty>
+   </select>
+   
+   <!-- 공통코드 상세정보 -->
+   <select id="kr.co.mcmall.mcm.cmn.ccd.McmCmnCcd001.CommonCdInfo" resultClass="egovMap" parameterClass="McmCmnCcd001VO">
+   	select  
+                       A.cd_grp_id
+                      ,A.cd_grp_nm
+                      ,A.cd_grp_cnts
+                      ,A.cd
+                      ,A.cd_nm
+                      ,A.lst_udt_id
+                      ,date_format(A.lst_udt_dt, '%Y-%m-%d') as lst_udt_dt
+                      ,A.lst_udt_ip
+                      ,A.cd_etc
+                      ,A.use_yn
+      from 
+         (
+            select
+                       A.cd_grp_id
+                      ,A.cd_grp_nm
+                      ,A.cd_grp_cnts
+                      ,A.cd
+                      ,A.cd_nm
+                      ,A.lst_udt_id
+                      ,A.lst_udt_dt
+                      ,A.lst_udt_ip
+                      ,A.cd_etc
+                      ,A.use_yn
+            from
+            (
+            select
+                       A.cd_grp_id
+                      ,A.cd_grp_nm
+                      ,A.cd_grp_cnts
+                      ,A.cd
+                      ,A.cd_nm
+                      ,A.lst_udt_id
+                      ,A.lst_udt_dt
+                      ,A.lst_udt_ip
+                      ,A.cd_etc
+                      ,A.use_yn
+            from 
+               (
+                  select 
+                       a.cd_grp_id
+                      ,a.cd_grp_nm
+                      ,a.cd_grp_cnts
+                      ,b.cd
+                      ,b.cd_nm
+                      ,b.lst_udt_id
+                      ,b.lst_udt_dt
+                      ,b.lst_udt_ip
+                      ,b.cd_etc
+                      ,b.use_yn
+                  from
+                     tc_symccd001 a
+                     inner join tc_symccd002 b
+                     on a.cd_grp_id = b.cd_grp_id
+                  where
+                     1=1
+                     and a.cd_grp_id = #cdGrpId#
+                     and cd=#cd#
+               
+    
+               ) A
+            ) a      
+         ) A
+      where
+         1=1
+         
+   </select>
+	
+	<!-- 코드삭제 use_yn 사용 -->   
+   <update id="kr.co.mcmall.mcm.cmn.ccd.McmCmnCcd001.CommonUseYnUpdate" parameterClass="McmCmnCcd001VO">
+   		update
+   			tc_symccd002
+   		set
+   			use_yn='N'
+   		where
+   			 cd_grp_id=#cdGrpId#
+   		and  cd=#cd#	
+   </update>
+   
+   <!-- 공통코드 수정 -->
+    <update id="kr.co.mcmall.mcm.cmn.ccd.McmCmnCcd001.CommonCdUpdate" parameterClass="McmCmnCcd001VO">
+   		update
+   			 tc_symccd002
+   		set
+   			 cd_nm = #cdNm#
+   			,cd_etc = #cdEtc#
+   			,lst_udt_dt = current_timestamp 
+   		where
+   			cd=#cd#
+   		and cd_grp_id = #cdGrpId#		 
+   </update>
+   
+   <!-- 공통코드 등록 -->
+   <insert id = "kr.co.mcmall.mcm.cmn.ccd.McmCmnCcd001.CommonCdInsert" parameterClass="McmCmnCcd001VO">
+   		insert into tc_symccd002
+   			(
+   				 cd_grp_id
+   				,cd
+   				,cd_nm
+   				,lst_udt_id
+   				,lst_udt_dt
+   				,lst_udt_ip
+   				,cd_etc
+   			)
+   		values
+   			(
+   				 #cdGrpId#
+   				,#cd#
+   				,#cdNm#
+   				,ifnull(#lstUdtId#,'')
+   				,current_timestamp
+   				,ifnull(#lstUdtIp#,'')
+   				,#cdEtc# 
+   			)	
+   </insert>
+   
+   <!-- 코드그룹 조회 -->
+   <select id="kr.co.mcmall.mcm.cmn.ccd.McmCmnCcd001.CdGrpSelect" resultClass="egovMap" parameterClass="McmCmnCcd001VO">
+   	select
+             		 cast(A.RN as char) as rn   
+	                ,A.cd_grp_id
+                    ,A.cd_grp_nm
+                    ,A.cd_grp_cnts
+                    ,A.lst_udt_id
+                    ,date_format(A.lst_udt_dt, '%Y-%m-%d') as lst_udt_dt
+                    ,A.lst_udt_ip
+                    ,A.use_yn
+      from 
+         (
+            select
+               @RNUM := @RNUM + 1 AS RN
+                    ,A.cd_grp_id
+                    ,A.cd_grp_nm
+                    ,A.cd_grp_cnts
+                    ,A.lst_udt_id
+                    ,A.lst_udt_dt
+                    ,A.lst_udt_ip
+                    ,A.use_yn
+            from
+            (
+            select
+                     A.cd_grp_id
+                    ,A.cd_grp_nm
+                    ,A.cd_grp_cnts
+                    ,A.lst_udt_id
+                    ,A.lst_udt_dt
+                    ,A.lst_udt_ip
+                    ,A.use_yn
+            from 
+               (
+                  select 
+                     cd_grp_id
+                    ,cd_grp_nm
+                    ,cd_grp_cnts
+                    ,lst_udt_id
+                    ,lst_udt_dt
+                    ,lst_udt_ip
+                    ,use_yn
+                  from
+                     tc_symccd001
+                  where
+                     1=1
+                     and use_yn = 'Y'
+        
+               ) A,
+               (
+                  select @RNUM := 0
+               ) B
+            order by
+                  lst_udt_dt desc
+            ) a      
+         ) A
+      where
+         1=1
+         
+   </select>
+   
+   	<!-- 코드 조회(상품등록 시) -->
+   <select id="kr.co.mcmall.mcm.cmn.ccd.McmCmnCcd001.selectCdInfoList" resultClass="egovMap" parameterClass="McmCmnCcd001VO">
+    		select
+			b.cd,
+			b.cd_nm
+		from
+			tc_symccd001 a, tc_symccd002 b
+			where a.cd_grp_id = b.cd_grp_id
+		and a.cd_grp_id = #cdGrpId#
+		and b.use_yn = 'Y'
+   </select>
+   
+   <!--코드그룹 중복체크 -->
+   <select id="kr.co.mcmall.mcm.cmn.ccd.McmCmnCcd001.selectMcmCmnCcd001CdGrpExists" resultClass="int" parameterClass="McmCmnCcd001VO">
+   		select
+			count(1) cnt   			 
+   		from
+   			tc_symccd001
+   		where
+   			cd_grp_id = #cdGrpId#
+   </select> 
+   
+   
+      <!--공통코드 중복체크 -->
+   <select id="kr.co.mcmall.mcm.cmn.ccd.McmCmnCcd001.selectMcmCmnCcd001CommonCdExists" resultClass="int" parameterClass="McmCmnCcd001VO">
+   		select
+			count(1) cnt   			 
+   		from
+   			tc_symccd002
+   		where
+   			cd=#cd#
+   </select>
+   <select id="kr.co.mcmall.mcm.cmn.ccd.McmCmnCcd001.selectMcmCmnCcd001CdList" resultClass="egovMap" parameterClass="McmCmnCcd001VO">
+   		select
+			b.cd,
+			b.cd_nm
+		from
+		tc_symccd001 a, tc_symccd002 b
+		where a.cd_grp_id = b.cd_grp_id
+		and a.cd_grp_id = #cdGrpId#
+		and b.use_yn = 'Y'
+   </select>
+   
+</sqlMap>

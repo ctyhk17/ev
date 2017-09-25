@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- 모바일 -->
+    
+    <meta property="og:title" content="MatchingFund_충주라이트월드"><!-- 공유할 글 제목 -->
+    <meta property="og:url" content="http://blog.acronym.co.kr/583"><!-- 1.실제 주소값 2.footer_box li a 안에서 실제 주소값 같이 입력 -->
+    <meta property="og:description" content="MatchingFund_충주라이트월드"><!-- 공유할 글의 내용중 일부.. -->
+    <meta property="og:image" content="../images/f.png"><!-- 공유할 글의 주요 이미지 -->
+    
+    <title>MC_Mall_b</title>
+    <script src="../../js/brochure/jquery-1.10.2.js"></script><!-- jquery-1.10.2.js -->
+    <link rel="stylesheet" href="../../css/brochure/brochure.css"> <!-- brochure.css -->
+    <script src="../../js/brochure/brochure.js"></script> <!-- brochure.js -->
+<!--  <script src="//developers.kakao.com/sdk/js/kakao.min.js"></script> 카카오톡모듈 -->
+    <script>
+        $(document).ready(function(){
+            
+             $("#on").click(function(){
+                $("#menu_m ul").slideToggle("slow");
+                 $("#one").toggleClass("one");
+                $("#two").toggleClass("two");
+                $("#three").toggleClass("three");
+            });
+            
+            $(".tab1").click(function() {	
+                $(this).addClass('main_tab_active');
+                $("div:not(.tab1)").removeClass('main_tab_active');
+            });
+            $(".tab2").click(function() {	
+                $(this).addClass('main_tab_active');
+                $("div:not(.tab2)").removeClass('main_tab_active');
+
+            });
+            $(".tab3").click(function() {	
+                $(this).addClass('main_tab_active');
+                $("div:not(.tab3)").removeClass('main_tab_active');
+            });
+            $(".tab4").click(function() {	
+                $(this).addClass('main_tab_active');
+                $("div:not(.tab4)").removeClass('main_tab_active');
+            });
+            $(".tab5").click(function() {	
+                $(this).addClass('main_tab_active');
+                $("div:not(.tab5)").removeClass('main_tab_active');
+            });
+        });
+        
+    function sharefacebook(url){
+        window.open("http://www.facebook.com/sharer/sharer.php?u=" + url);
+    } //End of facebook
+        
+    function sharetwitter(url, text){
+        window.open("http://twitter.com/intent/tweet?text=" + text + "&url=" + url);
+    } //End of twitter
+    
+    //<![CDATA[
+    Kakao.init('5b831b478f53ae5a107271b987ce8dbd');
+    Kakao.Link.createTalkLinkButton({
+        container: '#kakao-link-btn',
+        label: '썸네일 이미지 위에 뜰 텍스트 입니다.',
+        image: {
+            src: '썸네일 이미지 경로',
+            width: '300',
+            height: '200'
+        },
+        webButton: {
+            text: '트라이트라이',
+            url: 'http://www.mcfund.co.kr'
+        }
+    });
+    //]]>   
+    </script>
+</head><!-- End of head -->
+
+<body>
+<header>
+ 
+<div id="menu_m">
+        <div id="on">
+           <div id="one" class="first"></div>
+           <div id="two" class="second"></div>
+           <div id="three" class="third"></div>
+        </div>
+        <ul>
+            <li><a href="#">Home</a></li>
+<!--            <li><a href="#">Story</a></li>-->
+            <li><a href="#">Help</a></li>
+            <li><a href="#">로그인</a></li>
+            <li><a href="#">회원가입</a></li>
+        </ul>
+</div> 
+
+  <img src="../images/Web_1280_01_03.jpg" style="display:none;">
+   <div id="header_box">
+         <div class="back1">
+            <div class="story"><a href="../html/main_login.html">My Page</a></div> <!-- 추가 마이페이지버튼 -->
+            <div class="logo"><h2><a href="../main/main.html"><img src="../../image/brochure/w_logo.png"></a></h2></div>
+         </div>
+           <div class="back">
+            <ul class="footer_box">
+<!--            <li><a href=""><img src="../images/m.png" alt="매칭찬스" title="매칭찬스"></a></li>-->
+            <li><a href="javascript:sharetwitter('http://blog.acronym.co.kr/583','공유할 글 제목')"><img src="../../image/brochure/t.png" alt="트위터" title="트위터"></a></li>
+            <li><a href="javascript:sharefacebook('http://blog.acronym.co.kr/583')"><img src="../../image/brochure/f.png" alt="페이스북" title="페이스북"></a></li>
+            </ul>
+        </div>
+    </div>
+</header><!-- End of header -->   
+    
+<article>
+    <div id="content_box">
+        <div class="content_1">
+            
+            <div class="box_1">
+            <h1>충주 꾸찌뽕</h1>
+            <img src="../../image/brochure/dang_content1.jpg" alt=""> 
+            </div>
+            <div class="box_2">
+               <div class="box_2_mar">
+                    <h1>850,000<span>장</span></h1>
+                    <div class="back_gauge">
+                        <div class="gaugebar"></div>
+                        <div class="gaugebar_text">85%</div>
+                    </div>
+                    <p class="m_margin">(판매수량 : 580,000장 / 총판매수량 : 1,000,000장)</p>
+                    <ul class="box_2_ul">
+                        <li><b>판매가</b> : <span class="line-through">10,000</span><small>원</small></li>
+                        <li class="b_line"><b>회원가</b> : <span>10,000</span><small>원</small> <span class="position"><big><b>99%</b></big></span></li>
+                        <li><b>할인가</b> : <span>10,000</span><small>원</small></li>
+<!--
+                        <li class="select_box">
+                            <b>옵션 선택</b> 
+                            <select name="" id="">
+                                <option value="">선택하세요</option>    
+                            </select>
+                        </li>
+-->
+                         <li><b>수량</b> 
+                            <input type="text">
+                            <a href="#;" class="plus">+</a>
+                            <a href="#;" class="minus">-</a>
+                        </li>
+                        <div class="result">
+                            <h1>35,000</h1>
+                            <h1><small>원</small></h1>
+                        </div>
+                    </ul>
+                    <div class="titi">
+                    <a href="../html/sub_1.html" class="ti"><img src="../../image/brochure/dang_ticat.png" alt=""><h2>장바구니 담기</h2></a>
+                    <a href="../brochure/brochure_sub_1.html" class="ti_2"><h2>바로 구매</h2></a>
+                    </div>
+<!--
+                    <p>http://www.lightworld.com.kr</p>
+                    <p>http://www.mcbiz.co.kr</p>
+-->
+                </div>
+            </div>
+            
+        </div><!-- End of content_1 -->
+        
+        <div class="content_2">
+<!--
+            <div><h2><img src="../images/dang.png" alt="당당충주" title="당당충주" id="ps_1"></h2></div>
+            <div><h2><img src="../images/ytn.png" alt="YTN뉴스" title="YTN뉴스" id="ps_2"></h2></div>
+            <div><h2><img src="../images/lightworld.png" alt="라이트월드" title="라이트월드" id="ps_3"></h2></div>
+            <div><h2><img src="../images/matchingchance.png" alt="매칭찬스비즈" title="매칭찬스비즈" id="ps_4"></h2></div>
+-->
+        </div><!-- End of content_2 -->
+        
+        <div class="content_3">
+            <h3>TOTAL SHARE</h3>
+            <div class="line"></div>
+<!--
+            <div class="box_3">
+                 <div class="box_3_text" id="box_3_text1">
+                       안녕하세요. <br>
+                        대전광역시 유성구 가족모임 대표 전영철 입니다. <br>
+                        이번에 우리 유성구 가족들을 위하여 꾸지뽕즙을 판매하기로 하였습니다. <br>
+                        당뇨에 탁월한 효과가 있으며, 외에도 여러가지로 몸에 이로운 작용을 합니다. <br>
+                        많은 관심과 구매 부탁드리겠습니다.
+                 </div>
+            </div>
+-->
+<!--
+            <div id="iframe_0">
+             <iframe title="자연에서 숙성 된 꾸지뽕의 효능은?" width="100%" height="682" src="http://tv.kakao.com/embed/player/cliplink/303838054?service=kakao_tv" allowfullscreen frameborder="0" scrolling="no"></iframe>
+            </div>
+-->
+             <div id="box_3_con" class="box_3_con slider_0_1">
+                 <div class="box_3_img"><img src="../../image/brochure/dang_Web_1.jpg" alt=""></div>
+                 <div class="box_3_text" id="box_3_text2">
+                    <h2>남한강꾸지뽕협동조합</h2><br>
+                    <p>꾸지뽕나무는 뽕나무과 꾸지뽕나무속에 속하는 갈잎작은키나무~떨기나무이다. <br> 
+                    둥근 열매는 처음에 푸른색을 띠다가 붉은색으로 변하는데, 이 둥그스름한 취과열매는 <br>
+                    붉게 익으면 단맛이 나면서 먹을 수 있다. 개화기는 5~6월이고 결실기는 9월이다.</p> <br>
+                    
+                    <div class="box_3_con_hide" style="font-size:14px;"><!-- 모바일에서 hide pc에서 show-->
+
+                    <p>無방부제, 無착항료, 無감미료</p>
+                    <p>그 어떤 화학첨가물이나 첨가물없이 순수한 원료 100%</p>
+                    <p>재배, 채취, 건조, 보관, 제조까지 모든것을 직접 합니다.</p>
+                    </div>
+                    
+                    <p class="rel"><span class="slider_0">더보기 ▼</span></p>
+                    
+                </div>
+               </div>
+               
+
+               <div id="box_3_con" class="box_3_con">
+                  <div class="box_3_img"><img src="../../image/brochure/dang_Web_3.jpg" alt=""></div>
+                 <div class="box_3_text" id="box_3_text3">
+                    <h2>동의보감 속 꾸지뽕 이야기!!</h2><br>
+
+                    <p>동의보감에 꾸지뽕은 성질이 따듯하고 맛이 달며 독이 없다고 기록되어 있고
+                    혈액순환을 촉진해서 어혈을 푸는데 효능이 있다고 봅니다.</p>
+                    
+                    <p>한의학적으로 볼 때 꾸지뽕의 항어혈 작용 자체가 간 건강에 도움이 된다고 보는데, <br>
+                    실제로 경희대학교 의학영양학과의 연구에 따르면 산화적 스트레스에 의한 <br>
+                    간 손상으로부터 꾸지뽕 잎 추출물이 간세포 보호 효과를 보였고, <br>
+                    알코올로 유도된 간 손상에서도 간세포 보호활성을 보였습니다.</p>
+
+                    
+                    <div class="box_3_con_hide_1" style="font-size:14px;"><!-- 모바일에서 hide pc에서 show-->
+
+                        <p>이는 꾸지뽕잎에 함유된 신물영양소인 플라보노이드의 항산화 작용에 
+                        따른것으로 분석되었습니다.</p>
+                        <p>꾸지뽕은 특히 비타민A가 풍부한데, 비타민A는 항산화 능력이 뛰어나기 때문에
+                        간 기능을 활성화하고 이로서 간 건강에도 도움을 줄 수 있습니다.</p>
+                        
+                    </div>
+                    
+                    <p class="rel"><span class="slider_1">더보기 ▼</span></p>
+                </div>
+               </div>
+               
+
+                <div id="box_3_con" class="box_3_con">
+                 <div class="box_3_img"><img src="../../image/brochure/dang_Web_2.jpg" alt=""></div>
+                 <div class="box_3_text" id="box_3_text4">
+                     
+                    <h2>꾸지뽕에 함유된 가바 성분!!</h2><br>
+
+                    <p>꾸지뽕에는 '가바'라는 성분도 들어 있는데,
+                    가바는 포유류의 뇌 속에 존재하는 신경전달물질 중의 하나로 뇌혈류 개선, 
+                    기억력 개선 뿐만 아니라 혈액 내에서 중성지방을 줄이고 간 기능을 높이는데도 
+                    도움이 되는 성분입니다.</p>
+
+                    <p>일반 오디뽕잎의 4.6배, 녹차의 46배정도가 많이 들어 있어 혈당을 낮춰주고 
+                    인슐린을 생산하는 췌장의 부담을 줄여 준다고 합니다</p>
+                    
+                    <div class="box_3_con_hide_2" style="font-size:14px;"><!-- 모바일에서 hide pc에서 show-->
+                        
+                    <p>그외에도 꾸지뽕(구지뽕, 꾸지뽕) 효능으로는 미네랄이 풍부해서 체내 포도당 
+                    이용률을 높이고 인슐린 분비를 조절하여 혈당 조절에도 도움을 줍니다.</p>
+
+                    <p>생리 활성 물질 함량이 높으며 비타민 B1, B2, C가 풍부, 무기질 함량이 높고, 
+                    가바, 루틴 풍부하여 당뇨 및 고혈압에 도움을 준다고 합니다.
+                    고성군의 특화상품, 동의보감에도 알려져 있으며, 건강한 
+                    안심 먹거리로 알려져 있습니다.</p>
+                    </div>
+                    
+                    <p class="rel"><span class="slider_2">더보기 ▼</span></p>
+                </div>
+               </div>
+<!--
+               <div class="tab_cap">
+                   <div class="tab1 main_tab_active">임신성당뇨</div>
+                   <div class="tab2">당뇨</div>
+                   <div class="tab3">고혈압</div>
+                   <div class="tab4">소아당뇨</div>
+                   <div class="tab5">고지혈</div>
+               </div>
+-->
+               <div class="main_table_cap">
+                    <table>
+                        <tr>
+                            <td><a href="#;">천연 혼합 추출물을 유효성분으로 함유하는 당뇨합병증 및 혈관부종 예방 또는 치료용 약학적 조성물</a></td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                        </tr>
+                    </table>
+               </div>
+                <div class="main_table_cap" style="display:none;">
+                    <table>
+                        <tr>
+                            <td><a href="#;">천연 혼합 추출물을 유효성분으로 함유하는 당뇨합병증 및 혈관부종 예방 또는 치료용 약학적 조성물</a></td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                        </tr>
+                    </table>
+               </div>
+                <div class="main_table_cap" style="display:none;">
+                    <table>
+                        <tr>
+                            <td><a href="#;">천연 혼합 추출물을 유효성분으로 함유하는 당뇨합병증 및 혈관부종 예방 또는 치료용 약학적 조성물</a></td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                        </tr>
+                    </table>
+               </div>
+                <div class="main_table_cap" style="display:none;">
+                    <table>
+                        <tr>
+                            <td><a href="#">천연 혼합 추출물을 유효성분으로 함유하는 당뇨합병증 및 혈관부종 예방 또는 치료용 약학적 조성물</a></td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                        </tr>
+                    </table>
+               </div>
+                <div class="main_table_cap" style="display:none;">
+                    <table>
+                        <tr>
+                            <td><a href=";">천연 혼합 추출물을 유효성분으로 함유하는 당뇨합병증 및 혈관부종 예방 또는 치료용 약학적 조성물</a></td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                        </tr>
+                    </table>
+               </div>
+               
+        </div><!-- End of content_3 -->
+    </div><!-- End of content_box -->
+</article><!-- End of article -->
+    
+<footer>
+    <div id="footer_box">
+        <ul class="footer_box">
+<!--            <li><img src="../images/m.png" alt="매칭찬스" title="매칭찬스"></li>-->
+            <li><img src="../../image/brochure/t.png" alt="트위터" title="트위터"></li>
+            <li><img src="../../image/brochure/f.png" title="페이스북"></li>
+        </ul>
+    </div>
+</footer><!-- End of footer -->
+</body><!-- End of body -->
+
+</html>

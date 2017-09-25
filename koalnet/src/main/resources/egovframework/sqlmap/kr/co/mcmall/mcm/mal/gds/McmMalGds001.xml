@@ -1,0 +1,807 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+
+<sqlMap namespace="kr.co.mcmall.mcm.mal.gds.McmMalGds001">
+   
+   <typeAlias alias="McmMalGds001VO"  type="kr.co.mcmall.mcm.mal.gds.service.McmMalGds001VO" />
+   <typeAlias alias="int" type="java.lang.Integer" />
+   
+   <!-- 상품목록 조회 -->
+   <select id="kr.co.mcmall.mcm.mal.gds.McmMallGds001.selectGdsList" parameterClass="McmMalGds001VO" resultClass="egovMap">
+ 
+		select
+		      cast(A.RN as char) as rn   
+		    	,A.gds_id
+		    	,A.lcs_id
+		    	,A.gds_nm
+		    	,A.lst_udt_id
+		    	,A.lst_udt_ip
+		    	,A.gds_att_mn_img
+		    	,A.gds_att_sn_img 
+		    	,date_format(A.lst_udt_dt, '%Y-%m-%d') as lst_udt_dt
+		    	,A.gds_att_img_path 
+		    	,A.gds_use_yn
+		    	,A.use_yn
+		  from 
+		  (
+		        select
+		               @RNUM := @RNUM + 1 AS RN
+		            	,A.gds_id
+		            	,A.lcs_id
+		            	,A.gds_nm
+		            	,A.lst_udt_dt
+		            	,A.lst_udt_id
+		            	,A.lst_udt_ip
+		            	,A.gds_att_mn_img
+		            	,A.gds_att_sn_img
+		            	,A.gds_att_img_path
+		            	,A.gds_use_yn
+		            	,A.use_yn 
+		            from
+		            (
+		                select
+		                  	 A.gds_id
+		                  	,A.lcs_id
+		                  	,A.gds_nm
+		                  	,A.lst_udt_dt
+		                  	,A.lst_udt_id
+		                  	,A.lst_udt_ip
+		                  	,A.gds_att_mn_img
+		                  	,A.gds_att_sn_img
+		                  	,A.gds_att_img_path 
+		                  	,A.gds_use_yn
+		                  	,ifnull(A.use_yn,'N') use_yn
+		                  from 
+		                  (
+		                        select 
+		                          	 a.gds_id
+		                          	,a.lcs_id
+		                          	,a.gds_nm
+		                          	,a.lst_udt_dt
+		                          	,a.lst_udt_id
+		                          	,a.lst_udt_ip
+		                          	,a.gds_att_mn_img
+		                          	,a.gds_att_sn_img 
+		                          	,a.gds_att_img_path
+		                          	,a.gds_use_yn
+		                            	,ifnull(b.use_yn,'N') use_yn
+		                        from
+		                           tb_malgds001 a inner join
+		                            tb_malstr003 b on a.gds_id = b.gds_id
+		                        where
+		                           1=1
+		                           and a.gds_use_yn='Y'
+		                           and b.str_id='st00002'
+		                           union 
+			                           select 
+			                                 gds_id
+			                              	,lcs_id
+			                              	,gds_nm
+			                              	,lst_udt_dt
+			                              	,lst_udt_id
+			                              	,lst_udt_ip
+			                              	,gds_att_mn_img
+			                              	,gds_att_sn_img 
+			                              	,gds_att_img_path
+			                              	,gds_use_yn
+			                                ,null use_yn
+			                          from tb_malgds001
+			                          where gds_id not in 
+			                          (
+			                            select gds_id from  tb_malstr003 
+			                          )
+		                     ) A,
+		                     (
+		                        select @RNUM := 0
+		                     ) B
+		                     order by
+		                        lst_udt_dt desc
+		        ) a 
+		        where
+		        	1=1
+		         <isNotEmpty property="gdsIdSeach">
+                   	and gds_id like '%$gdsIdSeach$%'
+                 </isNotEmpty>
+                 <isNotEmpty property="gdsNmSeach">
+                 	and gds_nm like '%$gdsNmSeach$%'
+                 </isNotEmpty>
+                 <isNotEmpty property="stProdDt">
+                 	and date_format(a.lst_udt_dt,'%Y-%m-%d') between #stProdDt# and #endProdDt#
+                 </isNotEmpty>
+                 <isNotEmpty property="useYnSearch">
+                 	and b.use_yn = #useYnSearch#
+                 </isNotEmpty>
+		)A
+		where
+		         1=1
+		         limit #firstIndex#, #recordCountPerPage#
+   </select>
+   
+   <!-- 상품목록 페이징 -->
+   <select id = "kr.co.mcmall.mcm.mal.gds.McmMallGds001.selectGdsPaging" resultClass="int" parameterClass="McmMalGds001VO">
+		select
+				count(1) totcnt
+		  from 
+		  (
+		        select
+		               @RNUM := @RNUM + 1 AS RN
+		            	,A.gds_id
+		            	,A.lcs_id
+		            	,A.gds_nm
+		            	,A.lst_udt_dt
+		            	,A.lst_udt_id
+		            	,A.lst_udt_ip
+		            	,A.gds_att_mn_img
+		            	,A.gds_att_sn_img
+		            	,A.gds_att_img_path
+		            	,A.gds_use_yn
+		            	,A.use_yn 
+		            from
+		            (
+		                select
+		                  	 A.gds_id
+		                  	,A.lcs_id
+		                  	,A.gds_nm
+		                  	,A.lst_udt_dt
+		                  	,A.lst_udt_id
+		                  	,A.lst_udt_ip
+		                  	,A.gds_att_mn_img
+		                  	,A.gds_att_sn_img
+		                  	,A.gds_att_img_path 
+		                  	,A.gds_use_yn
+		                  	,ifnull(A.use_yn,'N') use_yn
+		                  from 
+		                  (
+		                        select 
+		                          	 a.gds_id
+		                          	,a.lcs_id
+		                          	,a.gds_nm
+		                          	,a.lst_udt_dt
+		                          	,a.lst_udt_id
+		                          	,a.lst_udt_ip
+		                          	,a.gds_att_mn_img
+		                          	,a.gds_att_sn_img 
+		                          	,a.gds_att_img_path
+		                          	,a.gds_use_yn
+		                            	,ifnull(b.use_yn,'N') use_yn
+		                        from
+		                           tb_malgds001 a inner join
+		                            tb_malstr003 b on a.gds_id = b.gds_id
+		                        where
+		                           1=1
+		                           and a.gds_use_yn='Y'
+		                           and b.str_id='st00002'
+		                           union 
+			                           select 
+			                                 gds_id
+			                              	,lcs_id
+			                              	,gds_nm
+			                              	,lst_udt_dt
+			                              	,lst_udt_id
+			                              	,lst_udt_ip
+			                              	,gds_att_mn_img
+			                              	,gds_att_sn_img 
+			                              	,gds_att_img_path
+			                              	,gds_use_yn
+			                                ,null use_yn
+			                          from tb_malgds001
+			                          where gds_id not in 
+			                          (
+			                            select gds_id from  tb_malstr003 
+			                          )
+		                     ) A,
+		                     (
+		                        select @RNUM := 0
+		                     ) B
+		                     
+		                     order by
+		                        lst_udt_dt desc
+		        ) a where 1=1
+		         <isNotEmpty property="gdsIdSeach">
+                   	and a.gds_id like '%$gdsIdSeach$%'
+                 </isNotEmpty>
+                 <isNotEmpty property="gdsNmSeach">
+                 	and a.gds_nm like '%$gdsNmSeach$%'
+                 </isNotEmpty>
+                 <isNotEmpty property="stProdDt">
+                 	and date_format(a.lst_udt_dt,'%Y-%m-%d') between #stProdDt# and #endProdDt#
+                 </isNotEmpty>
+                 <isNotEmpty property="useYnSearch">
+                 	and a.use_yn = #useYnSearch#
+                 </isNotEmpty>
+		)A
+   </select>
+   
+   <!-- 상품테이블 insert -->
+   <insert id = "kr.co.mcmall.mcm.mal.gds.McmMallGds001.insertProd" parameterClass="McmMalGds001VO">
+   		<selectKey keyProperty="gdsId" resultClass="String" >
+			select nextval('seq_gds_id')
+		</selectKey>
+   
+   		insert into	tb_malgds001(
+   		     gds_id
+			,gds_nm
+			,lst_udt_dt
+			,gds_att_sn_img
+			,lst_udt_id
+			,lst_udt_ip
+			,gds_att_mn_img
+			,lcs_id
+			,gds_att_img_path
+			,gds_att_sn_img_path
+			)
+   		values(
+   		     #gdsId#
+   			,ifnull(#gdsNm#,'')
+   			,current_timestamp
+   			,ifnull(#gdsAttSnImg#,'')
+   			,ifnull(#lstUdtId#,'')
+   			,ifnull(#lstUdtIp#,'')
+   			,ifnull(#gdsAttMnImg#,'')
+   			,ifnull(#lcsId#,'')
+   			,ifnull(#gdsAttImgPath#,'')
+   			,ifnull(#gdsAttSnImgPath#,'')
+   			) 
+   </insert>
+   
+   <!-- 상품 가격등록 -->
+  	<insert id="kr.co.mcmall.mcm.mal.gds.McmMallGds001.insertProdPaySet" parameterClass="McmMalGds001VO">
+  		insert into tb_malgds003(
+  			 gds_id
+  			,gds_env_div_cd
+  			,gds_env_cnts
+  			,gds_env_val
+  			,lst_udt_id
+  			,lst_udt_dt
+  			,lst_udt_ip)
+  		values(
+  			 #gdsId#
+  			,'GDS001001'
+  			,'회원판매가'
+  			,ifnull(#gds001001#,'')
+  			,ifnull(#lstUdtId#,'')
+  			,current_timestamp
+   			,ifnull(#lstUdtIp#,'')
+   			) 
+  	</insert>
+  	
+  	   <!-- 상품 수량등록 -->
+  	<insert id="kr.co.mcmall.mcm.mal.gds.McmMallGds001.insertProdCntSet" parameterClass="McmMalGds001VO">
+  		insert into tb_malgds003(
+  		 	 gds_id
+  			,gds_env_div_cd
+  			,gds_env_cnts
+  			,gds_env_val
+  			,lst_udt_id
+  			,lst_udt_dt
+  			,lst_udt_ip)
+  		values(
+  			 #gdsId#
+  			,'GDS001002'
+  			,'상품수량'
+  			,ifnull(#gds001002#,'')
+  			,ifnull(#lstUdtId#,'')
+  			,current_timestamp
+   			,ifnull(#lstUdtIp#,'')
+   			) 
+  	</insert>
+  	
+  	<!-- 상세설명 등록 -->
+  	<insert id="kr.co.mcmall.mcm.mal.gds.McmMallGds001.insertProdDetailSet" parameterClass="McmMalGds001VO">
+  		insert into tb_malgds002(
+  			 gds_id
+  			,seq_no
+  			,gds_cnts
+  			,gds_att_img
+  			,lst_udt_id
+  			,lst_udt_dt
+  			,lst_udt_ip
+  			,gds_att_img_path
+  		)
+  		values
+  			(
+  			  #gdsId#
+  			 , (select seq_no from (select ifnull(max(cast(seq_no as unsigned)), 0)+1 as seq_no from tb_malgds002 where gds_id = #gdsId#) a)
+  			 ,ifnull(#gdsCnts#,'')
+  			 ,ifnull(#gdsAttImg#,'')
+  			 ,ifnull(#lstUdtId#,'')
+  			 ,current_timestamp
+  			 ,ifnull(#lstUdtIp#,'')
+  			 ,ifnull(#gdsAttImgPath#,'')
+  			)
+  	</insert>
+  	
+  	<!-- 키워드 등록 -->
+  	<insert id="kr.co.mcmall.mcm.mal.gds.McmMallGds001.insertKeywordSet" parameterClass="McmMalGds001VO">
+  		insert into tb_malgds004
+	  		(
+	  			 gds_id
+	  			,seq_no
+	  			,kwd_nm
+	  			,kwd_stt_cd
+	  			,kwd_rss_url
+	  			,lst_udt_id
+	  			,lst_udt_dt
+	  			,lst_udt_ip
+	  		)
+	  	values
+	  		(
+	  			 #gdsId#
+	  			,(select seq_no from (select ifnull(max(cast(seq_no as unsigned)), 0)+1 as seq_no from tb_malgds004 where gds_id = #gdsId#) a)
+	  			,ifnull(#kwdNm#,'')
+	  			,'GDS002001'
+	  			,ifnull(#kwdRssUrl#,'')
+	  			,ifnull(#lstUdtId#,'')
+	  			,current_timestamp
+	  			,ifnull(#lstUdtIp#,'')
+	  		)	
+  	</insert>
+  	
+  	<!-- 키워드 목록 -->
+  	<select id="kr.co.mcmall.mcm.mal.gds.McmMallGds001.selectKeywordList" resultClass="egovMap" parameterClass="McmMalGds001VO">
+  		select
+	  			 gds_id
+	  			,seq_no
+	  			,kwd_nm
+	  			,kwd_stt_cd
+	  			,kwd_rss_url
+	  			,lst_udt_id
+	  			,date_format(lst_udt_dt, '%Y-%m-%d') as lst_udt_dt 
+	  			,lst_udt_ip
+  		from
+				tb_malgds004
+  		where
+  			1=1
+  	</select>
+  	
+  	<!-- 키워드 삭제 -->
+  	<delete id="kr.co.mcmall.mcm.mal.gds.McmMallGds001.deleteKeyword" parameterClass="McmMalGds001VO">
+  		delete
+  		from
+  			tb_malgds004
+  		where
+  			seq_no=#seqNo#
+  	</delete>
+  	
+  	<!-- 상품수정 -->
+  	<update id = "kr.co.mcmall.mcm.mal.gds.McmMallGds001.updateProd" parameterClass="McmMalGds001VO">
+  		update
+  			 tb_malgds001
+  		set
+  			 gds_nm = #gdsNm#
+  			,gds_att_sn_img = #gdsAttSnImg#
+  			,gds_att_sn_img_path = #gdsAttSnImgPath#
+  			,gds_att_img_path= #gdsAttImgPath#
+  			,gds_att_mn_img = #gdsAttMnImg#
+  		where
+  			gds_id=#gdsId#
+  	</update>
+  	
+  	<!-- 가격수정 -->
+  	<update id="kr.co.mcmall.mcm.mal.gds.McmMallGds001.updatePay" parameterClass="McmMalGds001VO">
+  		update
+  			 tb_malgds003
+  		set
+  			 gds_env_val=#gds001001#
+  			,lst_udt_dt=current_timestamp
+  		where
+  			gds_id=#gdsId#
+  		and gds_env_div_cd ='GDS001001'
+  	</update>
+  	
+  	<!-- 개수 수정 -->
+  	 <update id="kr.co.mcmall.mcm.mal.gds.McmMallGds001.updateCnt" parameterClass="McmMalGds001VO">
+  		update
+  			 tb_malgds003
+  		set
+  			 gds_env_val=#gds001002#
+  			,lst_udt_dt=current_timestamp
+  		where
+  			gds_id=#gdsId#
+		and gds_env_div_cd ='GDS001002'
+  	</update>
+  	
+  	<!-- 상세설명 수정 -->
+  	<update id="kr.co.mcmall.mcm.mal.gds.McmMallGds001.updateDetail" parameterClass="McmMalGds001VO">
+  		update
+  			 tb_malgds002
+  		set
+  			 gds_cnts=#gdsCnts#
+  			,gds_att_img=#gdsAttImg#
+  			,gds_att_img_path = #gdsAttImgPath#
+  			,lst_udt_dt=current_timestamp
+  		where
+  			 gds_id=#gdsId#
+  		 and seq_no=#seqNo#
+  	</update>
+  	
+  	<!-- 상세설명 정보 -->
+  	<select id="kr.co.mcmall.mcm.mal.gds.McmMallGds001.selectDetail" parameterClass="McmMalGds001VO" resultClass="egovMap">
+  		select
+  			 seq_no
+  			,gds_id 
+  			,gds_cnts
+  			,gds_att_img
+  			,gds_att_img_path
+  		from
+  			tb_malgds002
+  		where
+  			gds_id=#gdsId#
+  	</select>
+  	
+  	<!-- 사업자ID 조회 -->
+  	<select id="kr.co.mcmall.mcm.mal.gds.McmMallGds001.selectLcsId" parameterClass="McmMalGds001VO" resultClass="egovMap">
+  		select
+  			lcs_id
+  		from
+  			tb_malbiz001
+  		where
+  			usr_id=#usrId#
+  	</select>
+  	
+  	<!-- 상품설정 조회 -->
+  		<select id="kr.co.mcmall.mcm.mal.gdsMcmMallGds001.selectProdSetInfo" parameterClass="McmMalGds001VO" resultClass="egovMap">
+					select 
+			     a.gds_id
+			    ,a.gds_nm
+			    ,a.lcs_id
+			    ,a.gds_pay
+			    ,a.gds_cnt
+			    ,a.gds_att_sn_img
+		        ,a.gds_att_sn_img_path
+		        ,a.gds_att_mn_img
+			    ,a.gds_att_img_path
+	            ,a.gds_dc_yn
+	            ,a.gds_dc_price
+              ,a.gds_ge_price
+              ,a.gds_ctgr_id
+              ,(select cd_nm from tc_symccd002 where cd = a.gds_ctgr_id ) as gds_ctgr_nm
+				from
+				(
+				  select 
+				     a.gds_id
+				    ,a.gds_nm
+				    ,a.lcs_id
+				    ,a.gds_pay
+				    ,b.gds_cnt
+				    ,a.gds_att_sn_img
+				    ,a.gds_att_img_path
+            		,a.gds_att_mn_img
+       				,a.gds_att_sn_img_path
+		            ,c.gds_dc_yn
+		            ,d.gds_dc_price
+                ,e.gds_ge_price
+                ,f.gds_ctgr_id
+				  from
+				  (
+				  select 
+				       a.gds_id
+				      ,a.gds_nm
+				      ,a.lcs_id
+				      ,gds_env_val gds_pay
+				      ,a.gds_att_sn_img
+				      ,a.gds_att_img_path
+              ,a.gds_att_mn_img
+     		      ,a.gds_att_sn_img_path
+              
+				  from tb_malgds001 a, tb_malgds003 b
+				  where a.gds_use_yn = 'Y'
+				    and  a.gds_id = b.gds_id
+				    and b.gds_env_div_cd = 'GDS001001'
+				  ) a,
+				  (
+				  select 
+				       a.gds_id
+				      ,gds_env_val gds_cnt
+				   from tb_malgds001 a, tb_malgds003 b
+				  where a.gds_use_yn = 'Y'
+				    and  a.gds_id = b.gds_id
+				    and b.gds_env_div_cd = 'GDS001002'
+				  ) b,
+           (
+				  select 
+				       a.gds_id
+				      ,gds_env_val gds_dc_yn
+				   from tb_malgds001 a, tb_malgds003 b
+				  where a.gds_use_yn = 'Y'
+				    and  a.gds_id = b.gds_id
+				    and b.gds_env_div_cd = 'GDS001004'
+				  ) c,
+           (
+				  select 
+				       a.gds_id
+				      ,gds_env_val gds_dc_price
+				   from tb_malgds001 a, tb_malgds003 b
+				  where a.gds_use_yn = 'Y'
+				    and  a.gds_id = b.gds_id
+				    and b.gds_env_div_cd = 'GDS001005'
+				  ) d,
+            (
+				  select 
+				       a.gds_id
+				      ,gds_env_val gds_ge_price
+				   from tb_malgds001 a, tb_malgds003 b
+				  where a.gds_use_yn = 'Y'
+				    and  a.gds_id = b.gds_id
+				    and b.gds_env_div_cd = 'GDS001003'
+				  ) e,
+           (
+				  select 
+				       a.gds_id
+				      ,b.gds_ctgr_id gds_ctgr_id
+				   from tb_malgds001 a, tb_malgds005 b
+				  where 
+				    a.gds_id = b.gds_id				    
+				  ) f
+          
+		          where a.gds_id = b.gds_id
+		          and a.gds_id = c.gds_id
+		          and a.gds_id = d.gds_id
+		          and b.gds_id = c.gds_id
+		          and c.gds_id = d.gds_id
+		          and d.gds_id = e.gds_id
+		          and e.gds_id = f.gds_id
+				) a
+				where a.gds_id = #gdsId#
+
+
+  	</select>
+  	
+  	
+  	<!-- 키워드 정보조회 -->
+  	<select id="kr.co.mcmall.mcm.mal.gdsMcmMallGds001.selectKeywordInfo"  parameterClass="McmMalGds001VO" resultClass="egovMap">
+  		select
+  			 gds_id
+  			,kwd_nm
+  			,kwd_stt_cd
+  			,kwd_rss_url
+  			,lst_udt_dt
+  			,seq_no
+  		from
+  			tb_malgds004
+  		where
+  			gds_id=#gdsId#
+  	</select>
+  	
+  	<!-- 키워드 수정 -->
+  	<update id="kr.co.mcmall.mcm.mal.gdsMcmMallGds001.updateKeyword" parameterClass="McmMalGds001VO">
+  		update
+  			 tb_malgds004
+  		set
+  			 kwd_nm=#kwdNm#
+  			,kwd_rss_url=ifnull(#kwdRssUrl#,'')
+  			,lst_udt_dt=current_timestamp
+  			,kwd_stt_cd='GDS002001'
+  		where
+  			gds_id=#gdsId#
+  		and seq_no=#seqNo#	
+  	</update>
+	
+	<!-- 상품 사용여부(삭제) -->
+	<update id="kr.co.mcmall.mcm.mal.gdsMcmMallGds001.updateProdYnInfo" parameterClass="McmMalGds001VO">
+		update
+			tb_malgds001
+		set
+			gds_use_yn=#gdsUseYn#
+		<iterate prepend="where gds_id in" property="checkGdsId" open="(" close=")" conjunction=",">
+			#checkGdsId[]#
+		</iterate>
+		
+	</update>
+	
+	<!-- 이미지 다운로드 -->
+	<select id="kr.co.mcmall.mcm.mal.gdsMcmMallGds001.selectImgInfo" parameterClass="java.util.HashMap" resultClass="egovMap">
+		select
+			 gds_id
+			,gds_att_mn_img
+			,gds_att_sn_img
+			,gds_att_img_path
+			,gds_att_sn_img_path
+		from
+			tb_malgds001
+		where
+			1=1
+		and gds_id=#gdsId#
+	</select>
+	
+	<!-- 상세설명 이미지 -->
+	<select id="kr.co.mcmall.mcm.mal.gdsMcmMallGds001.selectImgDetailInfo" parameterClass="java.util.HashMap" resultClass="egovMap">
+		select 
+               gds_id
+              ,seq_no
+              ,gds_att_img
+              ,gds_att_img_path
+        from
+          		 tb_malgds002
+        where	
+        		 1=1
+         and 	gds_id=#gdsId#
+         and 	seq_no =#seqNo#
+	</select>
+	
+	<!-- 상점등록 -->
+	<insert id="kr.co.mcmall.mcm.mal.gdsMcmMallGds001.insertMalGds001Prod" parameterClass="McmMalGds001VO">
+		insert into tb_malstr003
+			(
+				 str_id
+				,gds_id
+				,lst_udt_id
+				,lst_udt_dt
+				,lst_udt_ip
+			)
+		values
+			(
+				 #strId#
+				,#gdsId#
+				,ifnull(#lstUdtId#,'')
+				,current_timestamp
+				,ifnull(#lstUdtIp#,'') 
+			)
+	</insert>
+	
+	<!-- 상품올리기 -->
+	<update id="kr.co.mcmall.mcm.mal.gdsMcmMallGds001.updateProdUp" parameterClass="McmMalGds001VO" >
+		update
+			 tb_malstr003
+		set
+			use_yn = 'Y'
+		<iterate prepend="where gds_id in" property="checkGdsId" open="(" close=")" conjunction=",">
+			#checkGdsId[]#
+		</iterate>
+		and str_id=#strId#
+	</update>
+	
+	<!-- 상품내리기 -->
+	<update id="kr.co.mcmall.mcm.mal.gdsMcmMallGds001.updateProdDown" parameterClass="McmMalGds001VO">
+		update
+			tb_malstr003
+		set
+			use_yn = 'N'
+		<iterate prepend="where gds_id in" property="checkGdsId" open="(" close=")" conjunction=",">
+			#checkGdsId[]#
+		</iterate>
+		and str_id=#strId#
+	</update>
+	
+	<!-- 할인판매여부 -->
+  	<insert id="kr.co.mcmall.mcm.mal.gds.McmMallGds001.insertProdDcYn" parameterClass="McmMalGds001VO">
+  		insert into tb_malgds003(
+  		 	 gds_id
+  			,gds_env_div_cd
+  			,gds_env_cnts
+  			,gds_env_val
+  			,lst_udt_id
+  			,lst_udt_dt
+  			,lst_udt_ip)
+  		values(
+  			 #gdsId#
+  			,'GDS001004'
+  			,'할인판매여부'
+  			,#gds001004#
+  			,ifnull(#lstUdtId#,'')
+  			,current_timestamp
+   			,ifnull(#lstUdtIp#,'')
+   			) 
+  	</insert>
+  	
+	<!-- 할인판매가 -->
+  	<insert id="kr.co.mcmall.mcm.mal.gds.McmMallGds001.insertProdDcPrice" parameterClass="McmMalGds001VO">
+  		insert into tb_malgds003(
+  		 	 gds_id
+  			,gds_env_div_cd
+  			,gds_env_cnts
+  			,gds_env_val
+  			,lst_udt_id
+  			,lst_udt_dt
+  			,lst_udt_ip)
+  		values(
+  			 #gdsId#
+  			,'GDS001005'
+  			,'할인판매가'
+  			,ifnull(#gds001005#,'')
+  			,ifnull(#lstUdtId#,'')
+  			,current_timestamp
+   			,ifnull(#lstUdtIp#,'')
+   			) 
+  	</insert>
+  	
+  	<!-- 일반 판매가 -->
+  	<insert id="kr.co.mcmall.mcm.mal.gds.McmMallGds001.insertProdGePrice" parameterClass="McmMalGds001VO">
+  		insert into tb_malgds003(
+  		 	 gds_id
+  			,gds_env_div_cd
+  			,gds_env_cnts
+  			,gds_env_val
+  			,lst_udt_id
+  			,lst_udt_dt
+  			,lst_udt_ip)
+  		values(
+  			 #gdsId#
+  			,'GDS001003'
+  			,'할인판매가'
+  			,ifnull(#gds001003#,'')
+  			,ifnull(#lstUdtId#,'')
+  			,current_timestamp
+   			,ifnull(#lstUdtIp#,'')
+   			) 
+  	</insert>
+  	
+  	
+  	<!-- 할인여부 수정 -->
+  	<update id="kr.co.mcmall.mcm.mal.gds.McmMallGds001.updateProdDcYn" parameterClass="McmMalGds001VO">
+  		update
+  			 tb_malgds003
+  		set
+  			 gds_env_val=#gds001004#
+  			,lst_udt_dt=current_timestamp
+  		where
+  			gds_id=#gdsId#
+		and gds_env_div_cd ='GDS001004'
+  	</update>
+  	
+  	<!-- 일반판매가 수정 -->
+  	<update id="kr.co.mcmall.mcm.mal.gds.McmMallGds001.updateProdGePrice" parameterClass="McmMalGds001VO">
+  		update
+  			 tb_malgds003
+  		set
+  			 gds_env_val=#gds001003#
+  			,lst_udt_dt=current_timestamp
+  		where
+  			gds_id=#gdsId#
+		and gds_env_div_cd ='GDS001003'
+  	</update>
+  	
+  	<!-- 할인판매가 수정 -->
+  	<update id="kr.co.mcmall.mcm.mal.gds.McmMallGds001.updateProdDcPrice" parameterClass="McmMalGds001VO">
+  		update
+  			 tb_malgds003
+  		set
+  			 gds_env_val=ifnull(#gds001005#,'')
+  			,lst_udt_dt=current_timestamp
+  		where
+  			gds_id=#gdsId#
+		and gds_env_div_cd ='GDS001005'
+  	</update>
+  	
+  	<!-- 카테고리 등록 -->
+  	<insert id="kr.co.mcmall.mcm.mal.gds.McmMallGds001.insertCate" parameterClass="McmMalGds001VO">
+  		insert into tb_malgds005
+  			(
+  				 gds_id
+  				,gds_ctgr_id
+  				,lst_udt_id
+  				,lst_udt_dt
+  				,lst_udt_ip 
+  			)
+  		values
+  			(
+  				 #gdsId#
+  				,#cd#
+  				,ifnull(#lstUdtId#,'')
+  				,current_timestamp
+  				,ifnull(#lstUdtIp#,'') 
+  			)	
+  	</insert>
+  	
+  	<!-- 카테고리 수정 -->
+  	<update id="kr.co.mcmall.mcm.mal.gds.McmMallGds001.updateCate" parameterClass="McmMalGds001VO">
+  		update
+  			 tb_malgds005
+  		set
+  			 gds_ctgr_id = #cd#
+  			,lst_udt_dt = current_timestamp
+  		where
+  			 gds_id=#gdsId#
+  	</update>
+  	
+  	<select id="kr.co.mcmall.mcm.mal.gds.McmMallGds001.selectKwdNmInfo" resultClass="egovMap" parameterClass="McmMalGds001VO">
+  		select
+  			 kwd_nm
+  			,seq_no 
+  		from
+  			tb_malgds004
+  		where
+  			gds_id = #gdsId# and seq_no=#seqNo#
+  	</select>
+</sqlMap>

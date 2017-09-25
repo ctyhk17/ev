@@ -1,0 +1,540 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+
+<sqlMap namespace="kr.co.mcmall.mcm.cmn.ath.McmCmnAth002">
+   
+   <!-- ddCmt002VO -->
+   <typeAlias  alias="mcmCmnAth002VO" type="kr.co.mcmall.mcm.cmn.ath.service.McmCmnAth002VO"/>
+   <typeAlias alias="int" type="java.lang.Integer" />
+   
+   <select id = "kr.co.mcmall.mcm.cmn.ath.McmCmnAth002.selectMcmCmnAth002M01List" resultClass="egovMap" parameterClass="mcmCmnAth002VO">
+	select
+			  cast(a.rn as char) as rn	
+			, a.usr_id
+			, a.usr_pwd 
+			, a.usr_nm
+			, a.tel_no
+			, a.email_addr
+			, date_format(a.join_dt, '%Y-%m-%d') as join_dt 
+			, if(ifnull(a.use_yn, 'N') = 'Y', '예', '아니오') as use_yn
+			, if(ifnull(a.fee_pay_yn, 'N') = 'Y', '예', '아니오') as fee_pay_yn
+			, a.lst_udt_id
+			, a.lst_udt_dt
+			, a.lst_udt_ip
+     	    , a.str_id
+     	    , a.ath_cd
+		from 
+		(
+			select
+				  @rnum := @rnum + 1 as rn
+				, a.usr_id
+				, a.usr_pwd 
+				, a.usr_nm
+				, a.tel_no
+				, a.email_addr
+				, a.join_dt
+				, a.use_yn
+				, a.fee_pay_yn
+				, a.lst_udt_id
+				, a.lst_udt_dt
+				, a.lst_udt_ip
+       		    , a.str_id
+       		    , a.ath_cd
+			from
+			(
+				select
+					  a.usr_id
+					, a.usr_pwd 
+					, a.usr_nm
+					, a.tel_no
+					, a.email_addr
+					, a.join_dt
+					, a.use_yn
+					, a.fee_pay_yn
+					, a.lst_udt_id
+					, a.lst_udt_dt
+					, a.lst_udt_ip
+        		    , a.str_id
+        		    , a.ath_cd
+				from 
+				(
+					select 
+						  a.usr_id
+						, a.usr_pwd 
+						, a.usr_nm
+						, a.tel_no
+						, a.email_addr
+						, a.join_dt
+						, a.use_yn
+						, a.fee_pay_yn
+						, a.lst_udt_id
+						, a.lst_udt_dt
+						, a.lst_udt_ip
+     	                , b.str_id
+     	                , c.ath_cd
+					from
+						tb_cmnusr001 a, tb_malstr004 b, tb_cmnath002 c
+					where
+						1=1 and a.usr_id=b.usr_id and a.usr_id=c.usr_id
+						and b.str_id='ST00002'
+						<isNotEmpty property="searchUsrId">
+							and a.usr_id like '%$searchUsrId$%'
+						</isNotEmpty> 
+						
+						
+						<isNotEmpty property="searchUsrNm">
+							and a.usr_nm like '%$searchUsrNm$%'
+						</isNotEmpty>
+						
+						<isNotEmpty property="athCd">
+							and c.ath_cd = #athCd#
+						</isNotEmpty>
+						
+						<isNotEmpty property="searchTelNo">
+							and a.tel_no like '%$searchTelNo$%'
+						</isNotEmpty>
+						
+						<isNotEmpty property="searchEmailAddr">
+							and a.email_addr like '%$searchEmailAddr$%'
+						</isNotEmpty>
+						
+						<isNotEmpty property="searchUseYn">
+							and a.use_yn = #searchUseYn#
+						</isNotEmpty>
+						
+						<isNotEmpty property="searchFeePayYn">
+							and a.fee_pay_yn = #searchFeePayYn#
+						</isNotEmpty>
+						
+						<isNotEmpty property="searchJoinDtFrom">
+							<isNotEmpty property="searchJoinDtTo">
+								and date_format(a.join_dt, '%Y-%m-%d')  between #searchJoinDtFrom# and #searchJoinDtTo#	
+							</isNotEmpty>
+							<isEmpty property="searchJoinDtTo">
+								and date_format(a.join_dt, '%Y-%m-%d') <![CDATA[>=]]>   #searchJoinDtFrom#
+							</isEmpty>
+						</isNotEmpty>
+						
+						<isEmpty property="searchJoinDtFrom">
+							<isNotEmpty property="searchJoinDtTo">
+								and date_format(a.join_dt, '%Y-%m-%d') <![CDATA[<=]]>   #searchJoinDtTo#
+							</isNotEmpty>
+						</isEmpty>
+						
+							
+					) a,
+					(
+						select @rnum := 0
+					) b
+					order by
+						a.join_dt desc	
+				) a
+			) a
+		where
+			1=1	
+      limit #firstIndex#, #recordCountPerPage#
+   
+   </select>
+   
+   <select id = "kr.co.mcmall.mcm.cmn.ath.McmCmnAth002.selectMcmCmnAth002M01TotCnt" resultClass="int" parameterClass="mcmCmnAth002VO">
+ 		select 
+			  count(1) as totcnt
+		from
+			tb_cmnusr001 a, tb_malstr004 b,tb_cmnath002 c						
+		where
+			1=1 and a.usr_id=b.usr_id and a.usr_id=c.usr_id and b.str_id='ST00002'
+			<isNotEmpty property="searchUsrId">
+				and a.usr_id like '%$searchUsrId$%'
+			</isNotEmpty> 
+
+			<isNotEmpty property="athCd">
+				and c.ath_cd = #athCd#
+			</isNotEmpty>
+			
+			<isNotEmpty property="searchUsrNm">
+				and a.usr_nm like '%$searchUsrNm$%'
+			</isNotEmpty>
+			
+			<isNotEmpty property="searchTelNo">
+				and a.tel_no like '%$searchTelNo$%'
+			</isNotEmpty>
+			
+			
+			<isNotEmpty property="searchEmailAddr">
+				and a.email_addr like '%$searchEmailAddr$%'
+			</isNotEmpty>
+			
+			<isNotEmpty property="searchUseYn">
+				and a.use_yn = #searchUseYn#
+			</isNotEmpty>
+			
+			<isNotEmpty property="searchFeePayYn">
+				and a.fee_pay_yn = #searchFeePayYn#
+			</isNotEmpty>
+			
+			<isNotEmpty property="searchJoinDtFrom">
+				<isNotEmpty property="searchJoinDtTo">
+					and date_format(a.join_dt, '%Y-%m-%d')  between #searchJoinDtFrom# and #searchJoinDtTo#	
+				</isNotEmpty>
+				<isEmpty property="searchJoinDtTo">
+					and date_format(a.join_dt, '%Y-%m-%d') <![CDATA[>=]]>   #searchJoinDtFrom#
+				</isEmpty>
+			</isNotEmpty>
+			
+			<isEmpty property="searchJoinDtFrom">
+				<isNotEmpty property="searchJoinDtTo">
+					and date_format(a.join_dt, '%Y-%m-%d') <![CDATA[<=]]>   #searchJoinDtTo#
+				</isNotEmpty>
+			</isEmpty>
+   </select>
+   
+   <select id = "kr.co.mcmall.mcm.cmn.ath.McmCmnAth002.selectMcmCmnAth002M01Info" resultClass="egovMap" parameterClass="mcmCmnAth002VO">
+		select 
+			  a.usr_id
+			, a.usr_pwd 
+			, a.usr_nm
+			, a.tel_no
+			, a.email_addr
+			, date_format(a.join_dt, '%Y-%m-%d') as join_dt 
+			, ifnull(a.use_yn, 'N') as use_yn
+			, if(ifnull(a.use_yn, 'N') = 'Y', '예', '아니오') as use_yn_mask
+			, ifnull(a.fee_pay_yn, 'N') as fee_pay_yn
+			, if(ifnull(a.fee_pay_yn, 'N') = 'Y', '예', '아니오') as fee_pay_yn_mask
+			, a.lst_udt_id
+			, a.lst_udt_dt
+			, a.lst_udt_ip	  
+		from
+			tb_cmnusr001 a
+		where
+			usr_id  = #usrId#
+	</select>
+	
+	<select id="kr.co.mcmall.mcm.cmn.ath.McmCmnAth002.selectMcmCmnAth002M01AthList" resultClass="egovMap" parameterClass="mcmCmnAth002VO">
+		select 
+		     a.ath_cd
+		    ,a.ath_cnts
+		    ,a.lst_udt_id
+		    ,a.lst_udt_dt
+		    ,a.lst_udt_ip
+		from
+		    tb_cmnath001 a
+	</select>
+	
+	<update id="kr.co.mcmall.mcm.cmn.ath.McmCmnAth002.updateMcmCmnAth002M01Ath" parameterClass="mcmCmnAth002VO">
+		insert into 
+		    tb_cmnath002(
+		      ath_cd
+		    , str_id
+		    , usr_id
+		    , lst_udt_id
+		    , lst_udt_dt
+		    , lst_udt_ip
+		    )
+		values
+		(
+		     ifnull(#athCd#, '')
+		    ,ifnull(#strId#, '')
+		    ,ifnull(#usrId#, '')
+		    ,ifnull(#lstUdtId#, '')
+		    ,current_timestamp()
+		    ,ifnull(#lstUdtIp#, '')
+		    ) on duplicate key update ath_cd=#athCd#
+	
+	</update>
+	
+	<select id = "kr.co.mcmall.mcm.cmn.ath.McmCmnAth002.selectMcmCmnAth002M01usrAthList" resultClass="egovMap" parameterClass="mcmCmnAth002VO">
+	select 
+		  a.ath_cd
+		, a.ath_cnts
+		, b.usr_id 
+	from 
+		  tb_cmnath001 a
+		, tb_cmnath002 b 
+	where a.ath_cd = b.ath_cd 
+      and b.usr_id=#usrId#
+	
+	</select>
+	
+	<delete id="kr.co.mcmall.mcm.cmn.ath.McmCmnAth002.deleteMcmCmnAth002M05Ath" parameterClass="mcmCmnAth002VO">
+	delete from
+		tb_cmnath002
+	where
+		 ath_cd=#athCd# and
+		 usr_id=#usrId# and
+		 str_id=#strId#
+	</delete>
+	
+	<insert id="kr.co.mcmall.mcm.cmn.ath.McmCmnAth002.insertMcmCmnAth002M01NewAthCd" parameterClass="mcmCmnAth002VO">
+			insert into tb_cmnath001 (
+			   ath_cd
+			  ,ath_cnts
+		      , lst_udt_id
+		      , lst_udt_dt
+		      , lst_udt_ip
+			) values (
+			   nextval('seq_cmn_no')
+			  ,#athCntsAdd#
+			  ,ifnull(#lstUdtId#, '')
+		      ,current_timestamp()
+		      ,ifnull(#lstUdtIp#, '')
+		 	)
+	</insert>
+	<update id="kr.co.mcmall.mcm.cmn.ath.McmCmnAth002.updateMcmCmnAth002M01AthModify" parameterClass="mcmCmnAth002VO">
+		 	update
+		 		tb_cmnath001
+		 	set
+		 		ath_cd = #athCd#
+		 	   ,ath_cnts = #athCntsModify#
+		 	   ,lst_udt_id=ifnull(#lstUdtId#,'')
+		       ,lst_udt_dt=current_timestamp()
+		       ,lst_udt_ip=ifnull(#lstUdtIp#,'')
+		 	where
+				ath_cd = #athCd#	
+	</update>
+	
+	<insert id="kr.co.mcmall.mcm.cmn.ath.McmCmnAth002.insertMcmCmnAth002P01CP" parameterClass="mcmCmnAth002VO">
+			insert into tb_cmnath002(
+			   ath_cd
+			  ,str_id
+			  ,usr_id
+			  ,lst_udt_id
+			  ,lst_udt_dt
+			  ,lst_udt_ip
+			) values (
+			<iterate property="usrIdList" conjunction="),(">
+			   #usrIdList[].athCd#
+			  ,#usrIdList[].strId#
+			  ,#usrIdList[].usrId#
+		 	  ,ifnull(#lstUdtId#,'')
+		      ,current_timestamp()
+		      ,ifnull(#lstUdtIp#,'') 
+		    </iterate>
+			)
+	
+	
+	</insert>
+	
+	<select id = "kr.co.mcmall.mcm.cmn.ath.McmCmnAth002.selectMcmCmnAth002P01List" resultClass="egovMap" parameterClass="mcmCmnAth002VO">
+	select
+			  cast(a.rn as char) as rn	
+			, a.usr_id
+			, a.usr_pwd 
+			, a.usr_nm
+			, a.tel_no
+			, a.email_addr
+			, date_format(a.join_dt, '%Y-%m-%d') as join_dt 
+			, if(ifnull(a.use_yn, 'N') = 'Y', '예', '아니오') as use_yn
+			, if(ifnull(a.fee_pay_yn, 'N') = 'Y', '예', '아니오') as fee_pay_yn
+			, a.lst_udt_id
+			, a.lst_udt_dt
+			, a.lst_udt_ip
+     	    , a.str_id
+     	    
+		from 
+		(
+			select
+				  @rnum := @rnum + 1 as rn
+				, a.usr_id
+				, a.usr_pwd 
+				, a.usr_nm
+				, a.tel_no
+				, a.email_addr
+				, a.join_dt
+				, a.use_yn
+				, a.fee_pay_yn
+				, a.lst_udt_id
+				, a.lst_udt_dt
+				, a.lst_udt_ip
+       		    , a.str_id
+       		    
+			from
+			(
+				select
+					  a.usr_id
+					, a.usr_pwd 
+					, a.usr_nm
+					, a.tel_no
+					, a.email_addr
+					, a.join_dt
+					, a.use_yn
+					, a.fee_pay_yn
+					, a.lst_udt_id
+					, a.lst_udt_dt
+					, a.lst_udt_ip
+        		    , a.str_id
+        		    
+				from 
+				(
+					select 
+						  a.usr_id
+						, a.usr_pwd 
+						, a.usr_nm
+						, a.tel_no
+						, a.email_addr
+						, a.join_dt
+						, a.use_yn
+						, a.fee_pay_yn
+						, a.lst_udt_id
+						, a.lst_udt_dt
+						, a.lst_udt_ip
+     	                , b.str_id
+					from
+						tb_cmnusr001 a, tb_malstr004 b
+					where
+						1=1 and a.usr_id=b.usr_id
+						<isNotEmpty property="searchUsrId">
+							and a.usr_id like '%$searchUsrId$%'
+						</isNotEmpty> 
+						
+						
+						<isNotEmpty property="searchUsrNm">
+							and a.usr_nm like '%$searchUsrNm$%'
+						</isNotEmpty>
+						
+						<isNotEmpty property="searchTelNo">
+							and a.tel_no like '%$searchTelNo$%'
+						</isNotEmpty>
+						
+						<isNotEmpty property="searchEmailAddr">
+							and a.email_addr like '%$searchEmailAddr$%'
+						</isNotEmpty>
+						
+						<isNotEmpty property="searchUseYn">
+							and a.use_yn = #searchUseYn#
+						</isNotEmpty>
+						
+						<isNotEmpty property="searchFeePayYn">
+							and a.fee_pay_yn = #searchFeePayYn#
+						</isNotEmpty>
+						
+						<isNotEmpty property="searchJoinDtFrom">
+							<isNotEmpty property="searchJoinDtTo">
+								and date_format(a.join_dt, '%Y-%m-%d')  between #searchJoinDtFrom# and #searchJoinDtTo#	
+							</isNotEmpty>
+							<isEmpty property="searchJoinDtTo">
+								and date_format(a.join_dt, '%Y-%m-%d') <![CDATA[>=]]>   #searchJoinDtFrom#
+							</isEmpty>
+						</isNotEmpty>
+						
+						<isEmpty property="searchJoinDtFrom">
+							<isNotEmpty property="searchJoinDtTo">
+								and date_format(a.join_dt, '%Y-%m-%d') <![CDATA[<=]]>   #searchJoinDtTo#
+							</isNotEmpty>
+						</isEmpty>
+						
+							
+					) a,
+					(
+						select @rnum := 0
+					) b
+					order by
+						a.join_dt desc	
+				) a
+			) a
+		where
+			1=1	
+      limit #firstIndex#, #recordCountPerPage#
+   
+   </select>
+   
+   <select id = "kr.co.mcmall.mcm.cmn.ath.McmCmnAth002.selectMcmCmnAth002P01TotCnt" resultClass="int" parameterClass="mcmCmnAth002VO">
+ 		select 
+			  count(1) as totcnt
+		from
+			tb_cmnusr001 a, tb_malstr004 b					
+		where
+			1=1 and a.usr_id = b.usr_id
+			
+			<isNotEmpty property="searchUsrId">
+				and a.usr_id like '%$searchUsrId$%'
+			</isNotEmpty> 
+
+			
+			<isNotEmpty property="searchUsrNm">
+				and a.usr_nm like '%$searchUsrNm$%'
+			</isNotEmpty>
+			
+			<isNotEmpty property="searchTelNo">
+				and a.tel_no like '%$searchTelNo$%'
+			</isNotEmpty>
+			
+			
+			<isNotEmpty property="searchEmailAddr">
+				and a.email_addr like '%$searchEmailAddr$%'
+			</isNotEmpty>
+			
+			<isNotEmpty property="searchUseYn">
+				and a.use_yn = #searchUseYn#
+			</isNotEmpty>
+			
+			<isNotEmpty property="searchFeePayYn">
+				and a.fee_pay_yn = #searchFeePayYn#
+			</isNotEmpty>
+			
+			<isNotEmpty property="searchJoinDtFrom">
+				<isNotEmpty property="searchJoinDtTo">
+					and date_format(a.join_dt, '%Y-%m-%d')  between #searchJoinDtFrom# and #searchJoinDtTo#	
+				</isNotEmpty>
+				<isEmpty property="searchJoinDtTo">
+					and date_format(a.join_dt, '%Y-%m-%d') <![CDATA[>=]]>   #searchJoinDtFrom#
+				</isEmpty>
+			</isNotEmpty>
+			
+			<isEmpty property="searchJoinDtFrom">
+				<isNotEmpty property="searchJoinDtTo">
+					and date_format(a.join_dt, '%Y-%m-%d') <![CDATA[<=]]>   #searchJoinDtTo#
+				</isNotEmpty>
+			</isEmpty>
+   </select>
+   <insert id="kr.co.mcmall.mcm.cmn.ath.McmCmnAth002.insertMcmCmnAth002P02CP" parameterClass="mcmCmnAth002VO">
+   
+		   	insert into tb_malbiz001
+		   	(
+				   str_id
+				  ,lcs_id
+				  ,usr_id
+				  ,up_lcs_id
+				  ,lcs_div_cd
+			      ,lst_udt_id
+			      ,lst_udt_dt
+			      ,lst_udt_ip				  
+			) values( 
+			<iterate property="usrIdList" conjunction="),(">
+			   #usrIdList[].strId#
+			  ,nextval('seq_lcs_id')
+			  ,#usrIdList[].usrId#
+			  ,ifnull(#upLcsId#,'')
+			  ,'CMN001003'
+		 	  ,ifnull(#lstUdtId#,'')
+		      ,current_timestamp()
+		      ,ifnull(#lstUdtIp#,'') 
+		    </iterate>			  
+			)
+		
+   
+   </insert>
+   
+   <select id="kr.co.mcmall.mcm.cmn.ath.McmCmnAth002.selectMcmCmnAth002FindLcsCd" resultClass="int" parameterClass="mcmCmnAth002VO">
+ 	  select count(1) from tb_malbiz001
+	 	  <iterate prepend="WHERE USR_ID IN" property="usrIdArray" open="(" close=")" conjunction=","> 
+	 		  #usrIdArray[]#
+		  </iterate>
+	  </select>
+</sqlMap>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

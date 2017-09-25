@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+
+<sqlMap namespace="kr.co.mcmall.mcm.mal.str.McmMalStr001">
+   
+   <!-- ddCmt001VO -->
+   <typeAlias  alias="mcmMalStr001VO" type="kr.co.mcmall.mcm.mal.str.service.McmMalStr001VO"/>
+   <typeAlias alias="int" type="java.lang.Integer" />
+   
+   <select id="kr.co.mcmall.mcm.mal.str.McmMalStr001.selectMcmMalStr001M01List" resultClass="egovMap" parameterClass="mcmMalStr001VO">
+ select
+			       cast(a.rn as char) as rn
+                    , a.strId2
+                    , a.str_cnts
+                    , a.str_dm
+                    , a.str_nm
+                    , a.lst_udt_id
+                    , a.lst_udt_dt
+                    , a.lst_udt_ip 
+					from 
+					(
+		      select
+		       @rnum := @rnum +1 as rn
+                    , a.strId2
+                    , a.str_cnts
+                    , a.str_dm
+                    , a.str_nm
+                    , a.lst_udt_id
+                    , a.lst_udt_dt
+                    , a.lst_udt_ip 
+		      from
+		      (      
+		          select
+                      a.strId2
+                    , a.str_cnts
+                    , a.str_dm
+                    , a.str_nm
+                    , a.lst_udt_id
+                    , a.lst_udt_dt
+                    , a.lst_udt_ip 
+					    from
+					    (
+					      select
+                      a.str_id as strId2
+                    , a.str_cnts
+                    , a.str_dm
+                    , a.str_nm
+                    , a.lst_udt_id
+                    , a.lst_udt_dt
+                    , a.lst_udt_ip 
+					      from
+					        tb_malstr001 a
+					      where 
+                  1=1	
+		           	        <isNotEmpty property="searchStrId">
+					      		and str_id=#searchStrId#
+					      	</isNotEmpty>      	
+		              
+					    ) a,
+					    (
+					    	select @rnum := 0
+					    ) b
+					    
+		            order by
+		          
+					          strId2 desc
+		                )a
+					 ) a
+				    where 
+				    		1=1
+           limit #firstIndex#, #recordCountPerPage#
+   </select>
+     <select id="kr.co.mcmall.mcm.mal.str.McmMalStr001.selectMcmMalStr001M01Paging" resultClass="int" parameterClass="mcmMalStr001VO">
+             select count(1) as totcnt, str_id as strId2 from
+          	  tb_malstr001 where 1=1
+          	  				<isNotEmpty property="searchStrId">
+					      		and str_id=#searchStrId#
+					      	</isNotEmpty>
+					      	
+   </select>
+   
+      <select id="kr.co.mcmall.mcm.mal.str.McmMalStr001.selectMcmMalStr001M01StrList" parameterClass="mcmMalStr001VO" resultClass="egovMap">
+		select
+			str_id as strId2
+		   ,str_cnts
+		   ,str_nm
+		from
+			tb_malstr001
+			where 1=1
+
+   </select>
+   <select id="kr.co.mcmall.mcm.mal.str.McmMalStr001.selectMcmMalStr001M02Info" parameterClass="mcmMalStr001VO" resultClass="egovMap">
+	  select 
+		     a.str_id
+		    ,a.str_nm
+		    ,a.str_cnts
+		    ,a.str_phn_cnts
+		    ,a.str_phn_val
+            ,a.str_email_cnts
+            ,a.str_email_val
+            ,a.str_fax_cnts
+            ,a.str_fax_val
+            ,a.str_bank_cnts
+            ,a.str_bank_val
+            ,a.str_acc_cnts
+            ,a.str_acc_val
+            ,a.str_accnm_cnts
+            ,a.str_accnm_val            
+				from
+				(
+				  select             
+				     a.str_id
+				    ,a.str_nm
+				    ,a.str_cnts
+				    ,a.str_phn_cnts
+				    ,a.str_phn_val
+		            ,b.str_email_cnts
+		            ,b.str_email_val
+		            ,c.str_fax_cnts
+		            ,c.str_fax_val
+		            ,d.str_bank_cnts
+		            ,d.str_bank_val
+		            ,e.str_acc_cnts
+		            ,e.str_acc_val
+		            ,f.str_accnm_cnts
+		            ,f.str_accnm_val
+				  from
+				  (
+				  select 
+				       a.str_id
+				      ,b.str_nm 
+				      ,b.str_cnts
+				      ,a.str_env_div_cd as str_phn_cd
+				      ,a.str_env_cnts as str_phn_cnts
+				      ,a.str_env_val as str_phn_val
+              from tb_malstr002 a, tb_malstr001 b
+				  where
+				    a.str_id = b.str_id
+				    and a.str_env_div_cd = 'STR001001'
+				  ) a,               
+				  (
+				  select 
+				       a.str_id
+				      ,str_env_val as str_email_val
+              ,str_env_div_cd as str_email_cd
+              ,str_env_cnts as str_email_cnts
+				   from tb_malstr002 a, tb_malstr001 b
+				  where  a.str_id = b.str_id
+				   and a.str_env_div_cd = 'STR001002'
+				  ) b,               
+           (
+				  select 
+				       a.str_id
+				      ,str_env_val as str_fax_val
+              ,str_env_div_cd as str_fax_cd
+              ,str_env_cnts as str_fax_cnts
+				   from tb_malstr002 a, tb_malstr001 b
+				  where  a.str_id = b.str_id
+				   and a.str_env_div_cd = 'STR001003'
+				  ) c,
+           (
+				 select 
+				       a.str_id
+				      ,str_env_val as str_bank_val
+              ,str_env_div_cd as str_bank_cd
+              ,str_env_cnts as str_bank_cnts
+				   from tb_malstr002 a, tb_malstr001 b
+				  where  a.str_id = b.str_id
+				   and a.str_env_div_cd = 'STR001004'
+				  ) d,
+            (
+				  select 
+				       a.str_id
+				      ,str_env_val as str_acc_val
+              ,str_env_div_cd as str_acc_cd
+              ,str_env_cnts as str_acc_cnts
+				   from tb_malstr002 a, tb_malstr001 b
+				  where  a.str_id = b.str_id
+				   and a.str_env_div_cd = 'STR001005'
+				  ) e,
+          ( select 
+				       a.str_id
+				      ,str_env_val as str_accnm_val
+              ,str_env_div_cd str_accnm_cd
+              ,str_env_cnts as str_accnm_cnts
+				   from tb_malstr002 a, tb_malstr001 b
+				  where  a.str_id = b.str_id
+				   and a.str_env_div_cd = 'STR001006'
+				  ) f
+          
+          
+          where a.str_id = b.str_id
+          and a.str_id = c.str_id
+          and a.str_id = d.str_id
+          and b.str_id = c.str_id
+          and c.str_id = d.str_id
+          and d.str_id = e.str_id
+          and e.str_id = f.str_id
+				) a
+				where a.str_id = #strId#
+				group by str_id
+   </select>
+   
+   <update id="kr.co.mcmall.mcm.mal.str.McmMalStr001.updateMcmMalStr001M03UP" parameterClass="mcmMalStr001VO">
+	   update tb_malstr001
+	        set 
+	           str_cnts = #strCnts#
+	          ,str_nm = #strNm#
+	          ,lst_udt_dt=current_timestamp()
+	        where str_id=#strId#
+   </update>
+   
+   <update id="kr.co.mcmall.mcm.mal.str.McmMalStr001.updateMcmMalStr001M04UP" parameterClass="mcmMalStr001VO">
+     update tb_malstr002
+        set 
+           str_env_val = #strPhnVal#
+           ,lst_udt_dt=current_timestamp()
+        where str_env_div_cd='STR001001'
+   </update>
+   <update id="kr.co.mcmall.mcm.mal.str.McmMalStr001.updateMcmMalStr001M05UP" parameterClass="mcmMalStr001VO">
+   update tb_malstr002
+        set 
+           str_env_val = #strEmailVal#
+           ,lst_udt_dt=current_timestamp()
+           
+        where str_env_div_cd='STR001002'
+   </update>
+   <update id="kr.co.mcmall.mcm.mal.str.McmMalStr001.updateMcmMalStr001M06UP" parameterClass="mcmMalStr001VO">
+      update tb_malstr002
+        set 
+           str_env_val = #strFaxVal#
+           ,lst_udt_dt=current_timestamp()
+        where str_env_div_cd='STR001003'
+   </update>
+   <update id="kr.co.mcmall.mcm.mal.str.McmMalStr001.updateMcmMalStr001M07UP" parameterClass="mcmMalStr001VO">
+      update tb_malstr002
+        set 
+           str_env_val = #strBankVal#
+           ,lst_udt_dt=current_timestamp()
+        where str_env_div_cd='STR001004'   
+   </update>
+   <update id="kr.co.mcmall.mcm.mal.str.McmMalStr001.updateMcmMalStr001M08UP" parameterClass="mcmMalStr001VO">
+         update tb_malstr002
+        set 
+            str_env_val = #strAccVal#
+           ,lst_udt_dt=current_timestamp()
+        where str_env_div_cd='STR001005'   
+   </update>
+   <update id="kr.co.mcmall.mcm.mal.str.McmMalStr001.updateMcmMalStr001M09UP" parameterClass="mcmMalStr001VO">
+         update tb_malstr002
+        set 
+            str_env_val = #strAccnmVal#
+           ,lst_udt_dt=current_timestamp()
+        where str_env_div_cd='STR001006'     
+   </update>
+</sqlMap>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

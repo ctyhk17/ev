@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+
+<sqlMap namespace="kr.co.mcmall.mcm.shp.ord.McmShpOrd004">
+
+	<typeAlias  alias="mcmShpOrd004VO" type="kr.co.mcmall.mcm.shp.ord.service.McmShpOrd004VO"/>
+	
+	
+		
+	
+	<select id="kr.co.mcmall.mcm.shp.ord.McmShpOrd004.selectShpOrdList" resultClass="egovMap" parameterClass="mcmShpOrd004VO">
+			select
+			   cast(a.rn as char) as rn
+			  ,a.str_id
+			  ,a.str_nm 
+			  ,a.usr_id
+			  ,a.usr_nm
+			  ,a.ord_no
+			  ,a.ord_amt
+			  ,a.ord_dt
+			from
+			(
+			  select
+			    @rnum := @rnum + 1 as rn
+			    ,a.str_id
+			    ,a.str_nm 
+			    ,a.usr_id
+			    ,a.usr_nm
+			    ,a.ord_no
+			    ,a.ord_amt
+			    ,date_format(a.ord_dt,'%Y-%m-%d %T') as ord_dt
+			  from
+				  (  
+				    select
+				       a.str_id
+				      ,b.str_nm 
+				      ,a.usr_id
+				      ,c.usr_nm
+				      ,a.ord_no
+				      ,a.ord_amt
+				      ,d.ord_dt
+				    from
+				    ( 
+				      select
+				         a.str_id
+				        ,a.usr_id
+				        ,a.ord_no
+				        ,sum(a.ord_amt) ord_amt
+				      from
+				      (  
+				        select
+				           a.str_id
+				          ,a.lcs_id 
+				          ,a.usr_id
+				          ,a.ord_no
+				          ,b.gds_id
+				          ,b.ord_cnt*b.ord_amt ord_amt
+				        from tb_shpord001 a, tb_shpord002 b
+				        where a.ord_no = b.ord_no
+				        <!-- and a.usr_id = #usrId# -->
+				      )a
+				      where 1=1
+				      group by a.str_id
+				              ,a.usr_id
+				              ,a.ord_no
+				    )a , tb_malstr001 b, tb_cmnusr001 c, tb_shpord001 d
+				    where a.str_id = b.str_id
+				      and a.usr_id = c.usr_id
+				      and a.ord_no = d.ord_no
+			       <isNotEmpty property="stOrdDt" prepend="AND">
+	           		 DATE_FORMAT(d.ord_dt,'%Y-%m-%d') between #stOrdDt# and #endOrdDt#
+	           	  </isNotEmpty>
+	           	    <isNotEmpty property="scOrdNo" prepend="AND">
+	           	    d.ord_no like '%$scOrdNo$%'
+	           	  </isNotEmpty>
+	           	    <isNotEmpty property="scStrId" prepend="AND">
+	           		 a.str_id = #scStrId#
+	           	  </isNotEmpty>
+	           	    <isNotEmpty property="scUsrNm" prepend="AND">
+	           	    c.usr_nm like '%$scUsrNm$%'
+	           	  </isNotEmpty>
+	           	    <isNotEmpty property="scUsrId" prepend="AND">
+	           	    a.usr_id like '%$scUsrId$%'
+	           	  </isNotEmpty>
+	           	    <isNotEmpty property="stOrdAmt" prepend="AND">
+	           		 a.ord_amt between #stOrdAmt# and #endOrdAmt#
+	           	  </isNotEmpty>
+				  ) a,
+				  (
+				    SELECT @rnum := 0
+				  ) c
+			  order by rn desc, ord_dt desc
+			) a where 1=1
+			    limit #firstIndex#, #recordCountPerPage#
+			
+			
+	</select>
+	
+	<select id="kr.co.mcmall.mcm.shp.ord.McmShpOrd004.selectShpOrdCnt" resultClass="int" parameterClass="mcmShpOrd004VO">
+			select
+			      count(1) totCnt
+			    from
+			    ( 
+			      select
+			         a.str_id
+			        ,a.usr_id
+			        ,a.ord_no
+			        ,sum(a.ord_amt) ord_amt
+			      from
+			      (  
+			        select
+			           a.str_id
+			          ,a.lcs_id 
+			          ,a.usr_id
+			          ,a.ord_no
+			          ,b.gds_id
+			          ,b.ord_cnt*b.ord_amt ord_amt
+			        from tb_shpord001 a, tb_shpord002 b
+			        where a.ord_no = b.ord_no
+			        <!-- and a.usr_id = #usrId# -->
+			      )a
+			      where 1=1
+			      group by a.str_id
+			              ,a.usr_id
+			              ,a.ord_no
+			    )a , tb_malstr001 b, tb_cmnusr001 c, tb_shpord001 d
+			    where a.str_id = b.str_id
+			      and a.usr_id = c.usr_id
+			      and a.ord_no = d.ord_no
+       	          <isNotEmpty property="stOrdDt" prepend="AND">
+	           		 DATE_FORMAT(d.ord_dt,'%Y-%m-%d') between #stOrdDt# and #endOrdDt#
+	           	  </isNotEmpty>
+	           	    <isNotEmpty property="scOrdNo" prepend="AND">
+	           	    d.ord_no like '%$scOrdNo$%'
+	           	  </isNotEmpty>
+	           	    <isNotEmpty property="scStrId" prepend="AND">
+	           		 a.str_id = #scStrId#
+	           	  </isNotEmpty>
+	           	    <isNotEmpty property="scUsrNm" prepend="AND">
+	           	    c.usr_nm like '%$scUsrNm$%'
+	           	  </isNotEmpty>
+	           	    <isNotEmpty property="scUsrId" prepend="AND">
+	           	    a.usr_id like '%$scUsrId$%'
+	           	  </isNotEmpty>
+	           	    <isNotEmpty property="stOrdAmt" prepend="AND">
+	           		 a.ord_amt between #stOrdAmt# and #endOrdAmt#
+	           	  </isNotEmpty>
+	</select>
+	
+	<select id="kr.co.mcmall.mcm.shp.ord.McmShpOrd004.selectShpOrdDetail" resultClass="egovMap" parameterClass="mcmShpOrd004VO">
+		select
+			  cast(a.rn as char) as rn
+			  ,a.str_id
+			  ,a.str_nm
+			  ,a.usr_id
+			  ,a.usr_nm
+			  ,a.ord_no
+			  ,a.lcs_id
+			  ,a.ord_dt
+	          ,a.ord_cnt
+	          ,a.ord_amt
+	          ,a.gds_id
+	          ,a.gds_nm
+				from
+				(
+				  select
+				    @rnum := @rnum + 1 as rn 
+				    ,a.str_id
+				    ,b.str_nm
+				    ,a.usr_id
+				    ,a.usr_nm
+				    ,a.ord_no
+				    ,a.lcs_id
+		            ,a.ord_cnt
+		            ,a.ord_amt
+		            ,a.gds_id
+		            ,c.gds_nm
+				    ,DATE_FORMAT(a.ord_dt,'%Y-%m-%d %T') as ord_dt
+				  from
+				  (
+				    select 
+				       a.str_id
+				      ,a.ord_no
+				      ,a.lcs_id
+				      ,a.usr_id
+				      ,d.usr_nm
+		              ,b.ord_cnt
+		              ,b.ord_amt
+				      ,a.ord_dt
+              		  ,b.gds_id
+				    from
+				    tb_shpord001 a, tb_shpord002 b, tb_malstr004 c, tb_cmnusr001 d
+				    where a.ord_no = b.ord_no
+				      and a.usr_id = b.usr_id
+				      and a.str_id = b.str_id
+				       and b.str_id = c.str_id
+				      and a.usr_id = c.usr_id
+				      and a.usr_id = d.usr_id
+				      <!-- and a.usr_id = #usrId# -->  
+				  )a, tb_malstr001 b, tb_malgds001 c,
+				  (
+				      SELECT @rnum := 0
+				   ) d
+				  where a.str_id = b.str_id
+            and a.gds_id = c.gds_id
+            and a.ord_no = #ordNo#
+            <!-- and a.usr_id = #usrId# -->
+            and a.str_id = #strId#
+          	<isNotEmpty property="stOrdDt" prepend="AND">
+           		 DATE_FORMAT(d.ord_dt,'%Y-%m-%d') between #stOrdDt# and #endOrdDt#
+           	  </isNotEmpty>
+		  order by rn desc, a.ord_dt desc
+		)a where 1=1
+  		   limit #firstIndex#, #recordCountPerPage#
+	</select>
+	<select id="kr.co.mcmall.mcm.shp.ord.McmShpOrd004.selectShpOrdDetailCnt" resultClass="int" parameterClass="mcmShpOrd004VO">
+				select
+				    count(1) totCnt
+				  from
+				  (
+				    select 
+				       a.str_id
+				      ,a.ord_no
+				      ,a.lcs_id
+				      ,a.usr_id
+				      ,d.usr_nm
+		              ,b.ord_cnt
+		              ,b.ord_amt
+				      ,a.ord_dt
+	           		  ,b.gds_id
+				    from
+				    tb_shpord001 a, tb_shpord002 b, tb_malstr004 c, tb_cmnusr001 d
+				    where a.ord_no = b.ord_no
+				      and a.usr_id = b.usr_id
+				      and a.str_id = b.str_id
+				      and a.usr_id = c.usr_id
+				      and a.usr_id = d.usr_id
+				      <!-- and a.usr_id = #usrId# -->  
+				  )a, tb_malstr001 b, tb_malgds001 c,
+				  (
+				      SELECT @rnum := 0
+				   ) d
+				  where a.str_id = b.str_id
+			         and a.gds_id = c.gds_id
+			         and a.ord_no = #ordNo#
+			         <!-- and a.usr_id = #usrId# -->
+			         and a.str_id = #strId#
+			       	<isNotEmpty property="stOrdDt" prepend="AND">
+	        		 date_format(d.ord_dt,'%Y-%m-%d') between #stOrdDt# and #endOrdDt#
+	        	    </isNotEmpty>
+		
+	</select>
+
+		
+</sqlMap>

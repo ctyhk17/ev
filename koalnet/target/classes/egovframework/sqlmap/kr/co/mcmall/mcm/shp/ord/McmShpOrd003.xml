@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+
+<sqlMap namespace="kr.co.mcmall.mcm.shp.ord.McmShpOrd002">
+
+	<typeAlias  alias="mcmShpOrd003VO" type="kr.co.mcmall.mcm.shp.ord.service.McmShpOrd003VO"/>
+	
+	
+		
+	
+	<select id="kr.co.mcmall.mcm.shp.ord.McmShpOrd003.selectShpOrdWishList" resultClass="egovMap" parameterClass="mcmShpOrd003VO">
+			select
+			     cast(a.rn as char) as rn
+			    ,a.crt_id
+			    ,a.str_id
+			    ,a.str_nm
+			    ,a.usr_id
+			    ,a.usr_nm
+			    ,a.gds_id
+			    ,a.gds_nm
+			    ,a.ord_cnt
+  				,a.ord_amt
+	            ,a.pusr_id
+	            ,a.gds_gnr_amt
+	            ,a.gds_mb_amt
+	            ,a.lcs_id
+	            ,a.sal_rt
+	            ,a.ord_amt_sum
+			from
+			(
+					  select
+					    @rnum := @rnum + 1 as rn
+					    ,a.crt_id
+					    ,a.str_id
+					    ,a.str_nm
+					    ,a.usr_id
+					    ,a.usr_nm
+					    ,a.gds_id
+					    ,a.gds_nm
+					    ,a.ord_cnt
+  						,a.ord_amt
+		                ,a.pusr_id
+		                ,a.gds_gnr_amt
+		                ,a.gds_mb_amt
+		                ,a.lcs_id
+		                ,a.sal_rt
+		                ,a.ord_amt_sum
+					  from
+					  (
+						    select
+						         a.str_id
+						        ,a.crt_id
+						        ,a.str_nm
+						        ,a.usr_id
+						        ,b.usr_nm
+						        ,a.gds_id
+						        ,a.gds_nm
+						        ,a.ord_cnt
+							    ,a.ord_amt
+			                    ,(select usr_id from tb_cmnusr001 b where a.pusr_id = b.usr_id) pusr_id
+			                    ,a.gds_gnr_amt
+			                    ,a.gds_mb_amt
+			                    , case
+                		        	when a.gds_sale_yn = 'N' then cast(round((a.gds_gnr_amt -a.gds_mb_amt)/a.gds_gnr_amt*100, 0) as char)
+                		        	else cast(round((a.gds_gnr_amt -a.gds_sale_amt)/a.gds_gnr_amt*100, 0) as char)
+                		    	   end  as sal_rt
+                    			,a.lcs_id
+                    			,a.ord_amt_sum
+						    from
+						    (
+							      select
+							         a.str_id
+							       	,a.crt_id
+							        ,a.str_nm
+							        ,a.usr_id
+							        ,a.gds_id
+							        ,a.ord_cnt
+							        ,a.ord_amt
+							        ,cast(ifnull(a.ord_cnt,0)*ifnull(a.ord_amt,0) as char) ord_amt_sum
+							        ,b.gds_nm
+			                        ,c.lcs_id
+			                        ,ifnull((select usr_id from tb_malbiz001 a where a.lcs_id = c.lcs_id),'') pusr_id
+			                        ,ifnull((select gds_env_val from tb_malgds003 ma where ma.gds_id = a.gds_id and ma.gds_env_div_cd = 'GDS001003'),0) gds_gnr_amt  
+			                        ,ifnull((select gds_env_val from tb_malgds003 ma where ma.gds_id = a.gds_id and ma.gds_env_div_cd = 'GDS001001'),0) gds_mb_amt
+			                        ,ifnull((select gds_env_val from tb_malgds003 ma where ma.gds_id = a.gds_id and ma.gds_env_div_cd = 'GDS001004'),'N') gds_sale_yn
+			                        ,ifnull((select gds_env_val from tb_malgds003 ma where ma.gds_id = a.gds_id and ma.gds_env_div_cd = 'GDS001005'),0) gds_sale_amt
+							      from
+							      (
+							      select 
+							           a.str_id
+							          ,a.crt_id
+							          ,b.str_nm
+							          ,a.usr_id
+							          ,a.gds_id
+							          ,a.ord_cnt
+							          ,a.ord_amt
+							        from
+							      tb_shpcrt001 a, tb_malstr001 b
+							      where 1=1 
+							        and a.str_id = b.str_id
+							        and a.crt_ord_yn = 'N'
+							      	and a.crt_del_yn = 'N'
+							    )a, tb_malgds001 b , tb_malbiz001 c
+							    where a.gds_id = b.gds_id
+                    and b.lcs_id = c.lcs_id
+							    )a, tb_cmnusr001 b
+							    where a.usr_id = b.usr_id
+							      and a.usr_id =#usrId#
+							      <isNotEmpty property="checkCrtId">
+							      	  <iterate prepend="and a.crt_id in" property="checkCrtId" open="(" close=")" conjunction=","> 
+								 		  #checkCrtId[]#
+									  </iterate>
+							      </isNotEmpty>
+			  )a,  
+			  (
+			    SELECT @rnum := 0
+			  ) b
+			)a where 1=1
+			order by a.rn desc
+			<isNotEqual property="firstIndex" compareValue="1">
+			 	limit #firstIndex#, #recordCountPerPage#
+			 </isNotEqual>
+	</select>
+	
+	<select id="kr.co.mcmall.mcm.shp.ord.McmShpOrd003.selectShpOrdWishCnt" resultClass="int" parameterClass="mcmShpOrd003VO">
+			select
+		      count(1) totCnt
+		    from
+		    (
+			      select
+			         a.str_id
+			        ,a.str_nm
+			        ,a.usr_id
+			        ,a.gds_id
+			        ,b.gds_nm
+			      from
+			      (
+			      select 
+			           a.str_id
+			          ,b.str_nm
+			          ,a.usr_id
+			          ,a.gds_id
+			        from
+			      tb_shpcrt001 a, tb_malstr001 b
+			      where 1=1 
+			        and a.str_id = b.str_id
+			        and a.crt_ord_yn = 'N'
+					and a.crt_del_yn = 'N'
+			    )a, tb_malgds001 b
+			    where a.gds_id = b.gds_id
+			    )a, tb_cmnusr001 b
+			    where a.usr_id = b.usr_id
+			      and a.usr_id =#usrId#
+	</select>
+	
+	
+	<insert id="kr.co.mcmall.mcm.shp.ord.McmShpOrd003.insertShpOrdWishGoods" parameterClass="mcmShpOrd003VO">
+		<selectKey keyProperty="crtId" resultClass="String" >
+			select nextval('seq_crt_no')
+		</selectKey>
+	
+		insert into tb_shpcrt001
+			(
+			  crt_id 
+			, str_id
+			, gds_id
+			, usr_id
+			, lcs_id
+			, ord_cnt
+			, ord_amt
+			, lst_udt_id
+			, lst_udt_dt
+			, lst_udt_ip ) 
+			values
+			(
+			 #crtId#
+		   , #strId#
+		   , #gdsId#
+		   , #usrId#
+		   , #lcsId#
+		   , #ordCnt#
+		   , #ordAmt#
+		   , nullif(#lstUdtId#,'')
+		   , current_timestamp()
+		   , nullif(#lstUdtIp#,'')
+		   )
+	</insert>
+	
+	<select id="kr.co.mcmall.mcm.shp.ord.McmShpOrd003.selectShpOrdWishTot" resultClass="egovMap" parameterClass="mcmShpOrd003VO">
+		 select
+		     b.usr_nm
+		    ,cast(round(sum(a.ord_amt_sum), 0) as char) ord_amt_sum
+		from
+		(
+		    select
+		     	 a.crt_id
+		      ,a.usr_id
+		      ,cast(ifnull(a.ord_cnt,0)*ifnull(a.ord_amt,0) as char) ord_amt_sum
+		      ,ifnull((select gds_env_val from tb_malgds003 ma where ma.gds_id = a.gds_id and ma.gds_env_div_cd = 'GDS001005'),0) gds_sale_amt
+		    from
+		    (
+		    select 
+		         a.str_id
+		        ,a.crt_id
+		        ,b.str_nm
+		        ,a.usr_id
+		        ,a.gds_id
+		        ,a.ord_cnt
+		        ,a.ord_amt
+		      from
+		    tb_shpcrt001 a, tb_malstr001 b
+		    where 1=1 
+		      and a.str_id = b.str_id
+		  )a, tb_malgds001 b , tb_malbiz001 c
+		  where a.gds_id = b.gds_id
+		    and b.lcs_id = c.lcs_id
+		  )a, tb_cmnusr001 b
+		  where a.usr_id = b.usr_id
+		    and a.usr_id =#usrId#
+		    <isNotEmpty property="checkCrtId">
+	      	  <iterate prepend="and a.crt_id in" property="checkCrtId" open="(" close=")" conjunction=","> 
+		 		  #checkCrtId[]#
+			  </iterate>
+	      </isNotEmpty>
+		
+	</select>
+	<select id="kr.co.mcmall.mcm.shp.ord.McmShpOrd003.selectShpOrdWishExists" parameterClass="mcmShpOrd003VO" resultClass="egovMap">
+	
+		select 
+		    crt_id
+		  , gds_id 
+		  , ord_cnt
+		  , ord_amt
+		from tb_shpcrt001
+		where gds_id = #gdsId#
+		and usr_id = #usrId#
+		and crt_ord_yn = 'N'
+		and crt_del_yn = 'N'
+	
+	</select>
+	
+	<update id="kr.co.mcmall.mcm.shp.ord.McmShpOrd003.updateShpOrdWishGoods" parameterClass="mcmShpOrd003VO">
+			update 
+				   tb_shpcrt001 
+			   set
+				   lcs_id = nullif(#lcsId#,'')
+				  ,ord_cnt = nullif(#ordCnt#,'0')
+			where 
+			    crt_id = #crtId#
+			and gds_id = #gdsId#
+			and usr_id = #usrId#
+			and crt_ord_yn = 'N'
+			and crt_del_yn = 'N'
+								
+	</update>
+	<update id="kr.co.mcmall.mcm.shp.ord.McmShpOrd003.deleteShpOrdWishGoods" parameterClass="mcmShpOrd003VO">
+		update 
+				   tb_shpcrt001 
+			   set
+				   crt_del_yn = 'Y'
+	      	  <iterate prepend="where crt_id in" property="checkCrtId" open="(" close=")" conjunction=","> 
+		 		  #checkCrtId[]#
+			  </iterate>
+	      
+		
+	</update>
+	
+	<update id="kr.co.mcmall.mcm.shp.ord.McmShpOrd003.updateShpOrdCplt" parameterClass="mcmShpOrd003VO">
+		update 
+				   tb_shpcrt001 
+			   set
+				   crt_ord_yn = 'Y'
+	      	  <iterate prepend="where crt_id in" property="checkCrtId" open="(" close=")" conjunction=","> 
+		 		  #checkCrtId[]#
+			  </iterate>
+	      
+		
+	</update>
+	
+		
+</sqlMap>

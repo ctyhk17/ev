@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+
+<sqlMap namespace="kr.co.mcmall.mcm.mal.biz.McmMalBiz002">
+   
+   <!-- ddCmt001VO -->
+   <typeAlias  alias="mcmMalBiz002VO" type="kr.co.mcmall.mcm.mal.biz.service.McmMalBiz002VO"/>
+   <typeAlias alias="int" type="java.lang.Integer" />
+   
+   <select id="kr.co.mcmall.mcm.mal.biz.McmMalBiz002.selectMcmMalBiz002M01List" resultClass="egovMap" parameterClass="mcmMalBiz002VO">
+			select
+	       cast(a.rn as char) as rn
+                ,case when length(a.note)>30 then concat(substr(a.note,1,15),'...')
+                		           		 else a.note end as note
+                ,case when length(a.itr_cnts)>30 then concat(substr(a.itr_cnts,1,15),'...')
+                		           		 else a.itr_cnts end as itr_cnts
+                ,a.lcs_id
+                ,a.seq_no
+                ,a.usr_id
+                ,a.gds_id
+                ,a.gds_nm
+                ,a.str_id
+                ,a.str_nm             
+			from 
+			(
+      select
+       @rnum := @rnum +1 as rn
+                ,case when length(a.note)>30 then concat(substr(a.note,1,15),'...')
+                		           		 else a.note end as note
+                ,case when length(a.itr_cnts)>30 then concat(substr(a.itr_cnts,1,15),'...')
+                		           		 else a.itr_cnts end as itr_cnts
+                ,a.lcs_id
+                ,a.seq_no
+                ,a.usr_id
+                ,a.gds_id
+                ,a.gds_nm
+                ,a.str_id
+                ,a.str_nm
+                
+      from
+      (      
+          select
+                case when length(a.note)>30 then concat(substr(a.note,1,15),'...')
+                		           		 else a.note end as note
+                ,case when length(a.itr_cnts)>30 then concat(substr(a.itr_cnts,1,15),'...')
+                		           		 else a.itr_cnts end as itr_cnts
+                ,a.lcs_id
+                ,a.seq_no
+                ,a.usr_id
+                ,a.gds_id
+                ,a.gds_nm
+                ,a.str_id
+                ,a.str_nm
+			    from
+			    (
+    			     select
+                 case when length(a.note)>30 then concat(substr(a.note,1,15),'...')
+                		           		 else a.note end as note
+                ,case when length(a.itr_cnts)>30 then concat(substr(a.itr_cnts,1,15),'...')
+                		           		 else a.itr_cnts end as itr_cnts
+                ,a.seq_no		           		 
+                ,b.lcs_id
+                ,b.usr_id
+                ,c.gds_id
+                ,c.gds_nm
+                ,d.str_id
+                ,d.str_nm
+                from
+                tb_malbiz002 a, tb_malbiz001 b, tb_malgds001 c, tb_malstr001 d
+                where
+                a.lcs_id=b.lcs_id and
+                a.gds_id=c.gds_id and
+                a.str_id=d.str_id and b.usr_id=#usrId#
+				and d.str_id=#strId#	             	        	
+					      	 <isNotEmpty property="searchUsrId">
+    					      		and b.usr_id=#searchUsrId#
+    					      	</isNotEmpty>
+    					      	<isNotEmpty property="searchStrId">
+    					      		and d.str_id=#searchStrId#
+    					      	</isNotEmpty>
+    					      	<isNotEmpty property="searchGdsId">
+    					      		and c.gds_id=#searchGdsId#
+    					      	</isNotEmpty>		
+    					      	<isNotEmpty property="searchLcsId">
+    					      		and b.lcs_id=#searchLcsId#
+    					      	</isNotEmpty>	
+			    ) a,
+			    (
+			    	select @rnum := 0
+			    ) b
+			    
+            order by
+          
+			          a.seq_No desc
+                )a
+			 ) a
+		    where 
+		    		1=1
+           limit #firstIndex#, #recordCountPerPage#
+   </select>
+  
+   <select id="kr.co.mcmall.mcm.mal.biz.McmMalBiz002.selectMcmMalBiz002M01Info" resultClass="egovMap" parameterClass="mcmMalBiz002VO">
+        select 
+   			 a.lcs_id
+   			,a.str_id
+   			,a.gds_id
+   			,a.seq_no
+   			,a.itr_cnts
+   			,a.brc_url_addr
+   			,a.note
+	        ,b.usr_id
+	        ,c.gds_nm
+   	    from 
+   	    	 tb_malbiz002 a, tb_malbiz001 b, tb_malgds001 c
+   	    where 
+   	    	 a.lcs_id = b.lcs_id and b.lcs_id=c.lcs_id and a.gds_id=c.gds_id and seq_no=#seqNo#
+   	    	 and b.str_id=#strId#
+   			
+   </select>
+   <update id="kr.co.mcmall.mcm.mal.biz.McmMalBiz002.updateMcmMalBiz002M01InfoProc" parameterClass="mcmMalBiz002VO">
+ 			insert into tb_malbiz002(gds_id,str_id, lcs_id, seq_no, itr_cnts, note,lst_udt_id ,lst_udt_dt ,lst_udt_ip) values(#gdsId#,#strId#,#lcsId#,#seqNo#, #itrCnts#, #note#
+            ,nullif(#lstUdtId#, '')  ,current_timestamp() ,nullif(#lstUdtIp#, '')	 )
+           	on duplicate key 
+          	update itr_cnts = #itrCnts#, note=#note#
+   </update>
+   <select id="kr.co.mcmall.mcm.mal.biz.McmMalBiz002.selectMcmMalBiz002M01Paging" resultClass="int" parameterClass="mcmMalBiz002VO">
+             select count(1) as totcnt  from
+                tb_malbiz002 a, tb_malbiz001 b, tb_malgds001 c, tb_malstr001 d
+                where
+                a.lcs_id=b.lcs_id and
+                a.gds_id=c.gds_id and
+                a.str_id=d.str_id and b.usr_id=#usrId#
+                and d.str_id=#strId#
+					      	 <isNotEmpty property="searchUsrId">
+    					      		and b.usr_id=#searchUsrId#
+    					      	</isNotEmpty>
+    					      	<isNotEmpty property="searchStrId">
+    					      		and d.str_id=#searchStrId#
+    					      	</isNotEmpty>
+    					      	<isNotEmpty property="searchGdsId">
+    					      		and c.gds_id=#searchGdsId#
+    					      	</isNotEmpty>		
+    					      	<isNotEmpty property="searchLcsId">
+    					      		and b.lcs_id=#searchLcsId#
+    					      	</isNotEmpty>		
+   </select>
+   <delete id="kr.co.mcmall.mcm.mal.biz.McmMalBiz002.deleteMcmMalBiz002M04DP" parameterClass="mcmMalBiz002VO">
+   		delete from tb_malbiz002 where seq_no=#seqNo#
+   </delete>
+   <insert id="kr.co.mcmall.mcm.mal.biz.McmMalBiz002.insertMcmMalBiz002M03CP" parameterClass="mcmMalBiz002VO">
+    		<selectKey resultClass="String" keyProperty="seqNo">
+   				select nextval('seq_pr_no')
+   			</selectKey>
+   		insert into tb_malbiz002(
+		   lcs_id
+		  ,str_id
+		  ,gds_id
+		  ,seq_no
+		  ,itr_cnts
+		  ,brc_url_addr
+		  ,lst_udt_id
+		  ,lst_udt_dt
+		  ,lst_udt_ip
+		  ,note
+		) VALUES (
+		   nullif(#lcsId#,'')
+		  ,nullif(#strId#,'')
+		  ,nullif(#gdsId#,'')
+		  ,nullif(#seqNo#,'')
+		  ,nullif(#itrCnts#,'')
+		  ,nullif(#brcUrlAddr#,'')
+	      ,nullif(#lstUdtId#, '')
+	      ,current_timestamp()
+	      ,nullif(#lstUdtIp#, '')	 
+		  ,nullif(#note#,'') 
+		)
+		
+   </insert>
+    <select id="kr.co.mcmall.mcm.mal.biz.McmMalBiz002.selectMcmMalStr002M01List" parameterClass="mcmMalBiz002VO" resultClass="egovMap">
+   		select 
+		      str_id
+		    , str_cnts
+		    , str_dm
+		    , str_nm
+		    , lst_udt_id
+		    , lst_udt_dt
+		    , lst_udt_ip 
+		from 
+		      tb_malstr001
+		where 
+			  1=1 and
+			  str_id=#strId#
+   </select>
+   <select id="kr.co.mcmall.mcm.mal.biz.McmMalBiz002.selectMcmMalGds002M01List" parameterClass="mcmMalBiz002VO" resultClass="egovMap">
+		select 
+		 		  a.gds_id
+		 		, a.lcs_id
+		 		, a.gds_nm
+		 		, b.usr_id
+		from 
+			    tb_malgds001 a, tb_malbiz001 b
+		where 
+				1=1 and a.lcs_id=b.lcs_id and usr_id=#usrId#
+				and b.str_id=#strId#
+				
+   </select>
+   
+   <select id="kr.co.mcmall.mcm.mal.biz.McmMalBiz002.selectMcmMalBiz002lcsId" resultClass="egovMap"  parameterClass="mcmMalBiz002VO">
+        select 
+        		a.str_id
+        	  , a.lcs_id
+        	  , a.usr_id
+        	   
+        from 
+        		tb_malbiz001 a 
+        where 
+        	    a.usr_id=#usrId# 
+        	    and a.str_id=#strId#
+        
+        		
+   </select>
+</sqlMap>
